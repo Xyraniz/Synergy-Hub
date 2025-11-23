@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "last_updated": "2025-11-23",
+  "games": {
+    "1240123653": {
+      "name": "Zombie Attack",
+      "scripts": [
+        {
+          "name": "Synergy Hub - Zombie Attack",
+          "description": "Script completo con auto farm, esp, BigHead y más funciones.",
+          "source": "loadstring(game:HttpGet('https://raw.githubusercontent.com/Xyraniz/Synergy-Hub/main/Scripts/Games/Zombie%20Attack.lua'))()"
+        }
+      ]
+    }
+  }
+}
