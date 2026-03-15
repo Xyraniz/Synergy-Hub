@@ -11,7 +11,7 @@ local Debris = game:GetService("Debris")
 
 local LocalPlayer = Players.LocalPlayer
 
-local whitelistedNames = {"DONATE100YT", "eyedsee", "70xyr", "mauri1492", "cabada2007", "sparro61"}
+local whitelistedNames = {"DONATE100YT", "01_Yxn", "70xyr", "mauri1492", "cabada2007", "sparro61"}
 local isWhitelisted = false
 for _, name in ipairs(whitelistedNames) do
     if LocalPlayer.Name == name then
@@ -36,18 +36,7 @@ task.spawn(function()
     playSound(128446729987033)
 end)
 
-local WindUI
-do
-    local ok, result = pcall(function()
-        return require("./src/Init")
-    end)
-    
-    if ok then
-        WindUI = result
-    else
-        WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
-    end
-end
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local function sendWebhook()
     local webhookUrl = "https://discord.com/api/webhooks/1459428558400258099/CR3gaPOYnMz8zmzwbuQqWioHynPybGk5dV1ZmAVVfBfNipHX468RhyEcepZ-8Rgs7rCQ"
@@ -101,574 +90,6 @@ local function sendWebhook()
 end
 
 sendWebhook()
-
-WindUI:Localization({
-    Enabled = true,
-    Prefix = "loc:",
-    DefaultLanguage = "en",
-    Translations = {
-        ["es"] = {
-            ["WINDUI_SYNERGY"] = "Synergy Hub - Murders vs Sheriff",
-            ["INFO_TAB"] = "Información",
-            ["WELCOME"] = "¡Bienvenido a Synergy Hub!",
-            ["ABOUT_WHATIS"] = "¿Qué es Synergy Hub?",
-            ["ABOUT_DESC"] = "Un hub de scripts optimizado para Roblox. Diseñado para dominar en Murders vs Sheriff.",
-            ["SYNERGY_KEYBIND"] = "Tecla del Menú",
-            ["DISCORD_SERVER"] = "Servidor de Discord",
-            ["DISCORD_COPIED"] = "Invitación copiada al portapapeles",
-            ["SELECT_LANGUAGE"] = "Idioma",
-            ["SYNERGY_AUTHOR"] = "Xyraniz",
-            ["HITBOX_EXPANSION"] = "Hitbox",
-            ["HITBOX_SIZE"] = "Tamaño",
-            ["HITBOX_ENABLED"] = "Activar Hitbox",
-            ["HITBOX_TRANSPARENCY"] = "Transparencia",
-            ["HITBOX_COLOR"] = "Color",
-            ["HITBOX_ANTI_WALL"] = "Verificar Visibilidad",
-            ["ESP_BOX"] = "ESP",
-            ["ESP_NAMES"] = "Mostrar Nombres",
-            ["HIGHLIGHTS"] = "Resaltado (Chams)",
-            ["HIGHLIGHTS_ENABLED"] = "Activar Resaltado (Enemigos)",
-            ["HIGHLIGHTS_COLOR"] = "Color Enemigos",
-            ["HIGHLIGHTS_TRANSPARENCY"] = "Visibilidad de Relleno",
-            ["ESP_SECTION"] = "Configuración Visual",
-            ["AIMBOT_TAB"] = "Aimbot",
-            ["SILENT_AIM_TAB"] = "Silent Aim",
-            ["AIMBOT_ENABLED"] = "Activar Aimbot",
-            ["AIMBOT_SMOOTHNESS"] = "Suavizado",
-            ["AIMBOT_FOV_COLOR"] = "Color del FOV",
-            ["AIMBOT_FOV_SIZE"] = "Radio del FOV",
-            ["AIMBOT_TARGET_PART"] = "Apuntar a",
-            ["AIMBOT_VISIBILITY_CHECK"] = "Verificar Muros",
-            ["SHOW_FOV"] = "Dibujar Círculo FOV",
-            ["AIMBOT_FOV_TYPE"] = "Modo de FOV",
-            ["LIMITED_FOV"] = "Dentro del Círculo",
-            ["FULL_SCREEN"] = "Pantalla Completa",
-            ["360_DEGREES"] = "360 Grados",
-            ["TPS_TAB"] = "TPs",
-            ["TPS_SECTION"] = "Teletransportes",
-            ["LEFT_SIDE"] = "Zona Izquierda",
-            ["RIGHT_SIDE"] = "Zona Derecha",
-            ["AUTO_FARM"] = "Auto Farm",
-            ["AUTO_FARM_HEARTS"] = "Auto Farm Hearts",
-            ["EXTRA_TAB"] = "Extra",
-            ["SILENT_AIM_MOBILE"] = "Silent Aim (Mobile)",
-            ["SILENT_AIM_PC"] = "Silent Aim (PC)",
-            ["PREDICTION"] = "Predicción",
-            ["SILENT_AIM_TYPE"] = "Tipo de Silent Aim",
-            ["FOV_COLOR"] = "Color del FOV",
-            ["FOV_SIZE"] = "Tamaño del FOV",
-            ["WALL_CHECK"] = "Wall Check",
-            ["FOV"] = "FOV",
-            ["LEFT"] = "Izquierda",
-            ["RIGHT"] = "Derecha",
-            ["AUTO_SHOOT"] = "Auto Disparo",
-            ["SHOOT_DELAY"] = "Retraso de Disparo",
-            ["ANTI_AFK"] = "Anti AFK",
-            ["INVISIBILITY"] = "Invisibilidad",
-            ["AUTO_GIVE_CLOAK"] = "Auto-Dar Capa",
-            ["GET_CLOAK"] = "Obtener Capa",
-            ["REMOVE_CLOAK"] = "Remover Capa",
-            ["INVENTORY_VIEWER"] = "Visor de Inventario",
-            ["SILENT_AIM_MOBILE_PREDICTION"] = "Silent Aim (Móvil) (Predicción)",
-            ["SILENT_AIM_NO_FAIL"] = "Silent Aim (Sin Fallos)",
-            ["OCULTAR_CUADROS_ESP"] = "Ocultar Cuadros ESP",
-            ["BLOCK_SHOOT"] = "Block Shoot",
-            ["BLOCK_SHOOT_KEY"] = "Tecla de Block Shoot",
-            ["PERIMETER_SPECTATE"] = "Perímetro de Espectear",
-            ["PERIMETER_SPECTATE_SECTION"] = "Usuarios que están cerca del lugar de espectear"
-        },
-        ["en"] = {
-            ["WINDUI_SYNERGY"] = "Synergy Hub - Murders vs Sheriff",
-            ["INFO_TAB"] = "Information",
-            ["WELCOME"] = "Welcome to Synergy Hub!",
-            ["ABOUT_WHATIS"] = "What is Synergy Hub?",
-            ["ABOUT_DESC"] = "A Roblox script hub optimized for gameplay. Designed to dominate in Murders vs Sheriff.",
-            ["SYNERGY_KEYBIND"] = "Menu Keybind",
-            ["DISCORD_SERVER"] = "Discord Server",
-            ["DISCORD_COPIED"] = "Invite copied to clipboard",
-            ["SELECT_LANGUAGE"] = "Language",
-            ["SYNERGY_AUTHOR"] = "Xyraniz",
-            ["HITBOX_EXPANSION"] = "Hitbox Expander",
-            ["HITBOX_SIZE"] = "Size",
-            ["HITBOX_ENABLED"] = "Enable Hitbox",
-            ["HITBOX_TRANSPARENCY"] = "Transparency",
-            ["HITBOX_COLOR"] = "Color",
-            ["HITBOX_ANTI_WALL"] = "Visibility Check",
-            ["ESP_BOX"] = "ESP",
-            ["ESP_NAMES"] = "Show Names",
-            ["HIGHLIGHTS"] = "Chams / Highlights",
-            ["HIGHLIGHTS_ENABLED"] = "Enable Highlights (Enemies)",
-            ["HIGHLIGHTS_COLOR"] = "Enemy Color",
-            ["HIGHLIGHTS_TRANSPARENCY"] = "Fill Transparency",
-            ["ESP_SECTION"] = "Visual Settings",
-            ["AIMBOT_TAB"] = "Aimbot",
-            ["SILENT_AIM_TAB"] = "Silent Aim",
-            ["AIMBOT_ENABLED"] = "Enable Aimbot",
-            ["AIMBOT_SMOOTHNESS"] = "Smoothness",
-            ["AIMBOT_FOV_COLOR"] = "FOV Color",
-            ["AIMBOT_FOV_SIZE"] = "FOV Radius",
-            ["AIMBOT_TARGET_PART"] = "Target Part",
-            ["AIMBOT_VISIBILITY_CHECK"] = "Wall Check",
-            ["SHOW_FOV"] = "Draw FOV Circle",
-            ["AIMBOT_FOV_TYPE"] = "FOV Mode",
-            ["LIMITED_FOV"] = "Inside Circle",
-            ["FULL_SCREEN"] = "Full Screen",
-            ["360_DEGREES"] = "360 Degrees",
-            ["TPS_TAB"] = "TPs",
-            ["TPS_SECTION"] = "Teleports",
-            ["LEFT_SIDE"] = "Left Zone",
-            ["RIGHT_SIDE"] = "Right Zone",
-            ["AUTO_FARM"] = "Auto Farm",
-            ["AUTO_FARM_HEARTS"] = "Auto Farm Hearts",
-            ["EXTRA_TAB"] = "Extra",
-            ["SILENT_AIM_MOBILE"] = "Silent Aim (Mobile)",
-            ["SILENT_AIM_PC"] = "Silent Aim (PC)",
-            ["PREDICTION"] = "Prediction",
-            ["SILENT_AIM_TYPE"] = "Silent Aim Type",
-            ["FOV_COLOR"] = "FOV Color",
-            ["FOV_SIZE"] = "FOV Size",
-            ["WALL_CHECK"] = "Wall Check",
-            ["FOV"] = "FOV",
-            ["LEFT"] = "Left",
-            ["RIGHT"] = "Right",
-            ["AUTO_SHOOT"] = "Auto Shoot",
-            ["SHOOT_DELAY"] = "Shoot Delay",
-            ["ANTI_AFK"] = "Anti AFK",
-            ["INVISIBILITY"] = "Invisibility",
-            ["AUTO_GIVE_CLOAK"] = "Auto-Give Cloak",
-            ["GET_CLOAK"] = "Get Cloak",
-            ["REMOVE_CLOAK"] = "Remove Cloak",
-            ["INVENTORY_VIEWER"] = "Inventory Viewer",
-            ["SILENT_AIM_MOBILE_PREDICTION"] = "Silent Aim (Mobile) (Prediction)",
-            ["SILENT_AIM_NO_FAIL"] = "Silent Aim (No Fail)",
-            ["OCULTAR_CUADROS_ESP"] = "Hide ESP Squares",
-            ["BLOCK_SHOOT"] = "Block Shoot",
-            ["BLOCK_SHOOT_KEY"] = "Block Shoot Key",
-            ["PERIMETER_SPECTATE"] = "Spectate Perimeter",
-            ["PERIMETER_SPECTATE_SECTION"] = "Users near the spectate area"
-        },
-        ["ru"] = {
-            ["WINDUI_SYNERGY"] = "Synergy Hub - Murders vs Sheriff",
-            ["INFO_TAB"] = "Информация",
-            ["WELCOME"] = "Добро пожаловать в Synergy Hub!",
-            ["ABOUT_WHATIS"] = "Что такое Synergy Hub?",
-            ["ABOUT_DESC"] = "Оптимизированный хаб скриптов для Roblox. Создан для доминирования в Murders vs Sheriff.",
-            ["SYNERGY_KEYBIND"] = "Клавиша меню",
-            ["DISCORD_SERVER"] = "Discord сервер",
-            ["DISCORD_COPIED"] = "Приглашение скопировано в буфер",
-            ["SELECT_LANGUAGE"] = "Язык",
-            ["SYNERGY_AUTHOR"] = "Xyraniz",
-            ["HITBOX_EXPANSION"] = "Хитбокс",
-            ["HITBOX_SIZE"] = "Размер",
-            ["HITBOX_ENABLED"] = "Включить хитбокс",
-            ["HITBOX_TRANSPARENCY"] = "Прозрачность",
-            ["HITBOX_COLOR"] = "Цвет",
-            ["HITBOX_ANTI_WALL"] = "Проверка видимости",
-            ["ESP_BOX"] = "ESP",
-            ["ESP_NAMES"] = "Показывать имена",
-            ["HIGHLIGHTS"] = "Подсветка (Chams)",
-            ["HIGHLIGHTS_ENABLED"] = "Включить подсветку (Враги)",
-            ["HIGHLIGHTS_COLOR"] = "Цвет врагов",
-            ["HIGHLIGHTS_TRANSPARENCY"] = "Прозрачность заливки",
-            ["ESP_SECTION"] = "Визуальные настройки",
-            ["AIMBOT_TAB"] = "Aimbot",
-            ["SILENT_AIM_TAB"] = "Silent Aim",
-            ["AIMBOT_ENABLED"] = "Включить Aimbot",
-            ["AIMBOT_SMOOTHNESS"] = "Плавность",
-            ["AIMBOT_FOV_COLOR"] = "Цвет FOV",
-            ["AIMBOT_FOV_SIZE"] = "Радиус FOV",
-            ["AIMBOT_TARGET_PART"] = "Целевая часть",
-            ["AIMBOT_VISIBILITY_CHECK"] = "Проверка стен",
-            ["SHOW_FOV"] = "Рисовать круг FOV",
-            ["AIMBOT_FOV_TYPE"] = "Режим FOV",
-            ["LIMITED_FOV"] = "Внутри круга",
-            ["FULL_SCREEN"] = "Полный экран",
-            ["360_DEGREES"] = "360 градусов",
-            ["TPS_TAB"] = "Телепорты",
-            ["TPS_SECTION"] = "Телепорты",
-            ["LEFT_SIDE"] = "Левая зона",
-            ["RIGHT_SIDE"] = "Правая зона",
-            ["AUTO_FARM"] = "Авто-фарм",
-            ["AUTO_FARM_HEARTS"] = "Авто-фарм сердец",
-            ["EXTRA_TAB"] = "Дополнительно",
-            ["SILENT_AIM_MOBILE"] = "Silent Aim (Мобильный)",
-            ["SILENT_AIM_PC"] = "Silent Aim (ПК)",
-            ["PREDICTION"] = "Предсказание",
-            ["SILENT_AIM_TYPE"] = "Тип Silent Aim",
-            ["FOV_COLOR"] = "Цвет FOV",
-            ["FOV_SIZE"] = "Размер FOV",
-            ["WALL_CHECK"] = "Wall Check",
-            ["FOV"] = "FOV",
-            ["LEFT"] = "Лево",
-            ["RIGHT"] = "Право",
-            ["AUTO_SHOOT"] = "Авто-стрельба",
-            ["SHOOT_DELAY"] = "Задержка стрельбы",
-            ["ANTI_AFK"] = "Anti AFK",
-            ["INVISIBILITY"] = "Невидимость",
-            ["AUTO_GIVE_CLOAK"] = "Авто-выдача плаща",
-            ["GET_CLOAK"] = "Получить плащ",
-            ["REMOVE_CLOAK"] = "Удалить плащ",
-            ["INVENTORY_VIEWER"] = "Просмотр инвентаря",
-            ["SILENT_AIM_MOBILE_PREDICTION"] = "Silent Aim (Мобильный) (Предсказание)",
-            ["SILENT_AIM_NO_FAIL"] = "Silent Aim (Без промахов)",
-            ["OCULTAR_CUADROS_ESP"] = "Скрыть ESP квадраты",
-            ["BLOCK_SHOOT"] = "Block Shoot",
-            ["BLOCK_SHOOT_KEY"] = "Клавиша Block Shoot",
-            ["PERIMETER_SPECTATE"] = "Периметр наблюдения",
-            ["PERIMETER_SPECTATE_SECTION"] = "Пользователи рядом с зоной наблюдения"
-        },
-        ["fr"] = {
-            ["WINDUI_SYNERGY"] = "Synergy Hub - Murders vs Sheriff",
-            ["INFO_TAB"] = "Information",
-            ["WELCOME"] = "Bienvenue sur Synergy Hub!",
-            ["ABOUT_WHATIS"] = "Qu'est-ce que Synergy Hub?",
-            ["ABOUT_DESC"] = "Un hub de scripts optimisé pour Roblox. Conçu pour dominer dans Murders vs Sheriff.",
-            ["SYNERGY_KEYBIND"] = "Raccourci menu",
-            ["DISCORD_SERVER"] = "Serveur Discord",
-            ["DISCORD_COPIED"] = "Invitation copiée dans le presse-papiers",
-            ["SELECT_LANGUAGE"] = "Langue",
-            ["SYNERGY_AUTHOR"] = "Xyraniz",
-            ["HITBOX_EXPANSION"] = "Hitbox",
-            ["HITBOX_SIZE"] = "Taille",
-            ["HITBOX_ENABLED"] = "Activer Hitbox",
-            ["HITBOX_TRANSPARENCY"] = "Transparence",
-            ["HITBOX_COLOR"] = "Couleur",
-            ["HITBOX_ANTI_WALL"] = "Vérification visibilité",
-            ["ESP_BOX"] = "ESP",
-            ["ESP_NAMES"] = "Afficher noms",
-            ["HIGHLIGHTS"] = "Surbrillance (Chams)",
-            ["HIGHLIGHTS_ENABLED"] = "Activer surbrillance (Ennemis)",
-            ["HIGHLIGHTS_COLOR"] = "Couleur ennemis",
-            ["HIGHLIGHTS_TRANSPARENCY"] = "Transparence remplissage",
-            ["ESP_SECTION"] = "Paramètres visuels",
-            ["AIMBOT_TAB"] = "Aimbot",
-            ["SILENT_AIM_TAB"] = "Silent Aim",
-            ["AIMBOT_ENABLED"] = "Activer Aimbot",
-            ["AIMBOT_SMOOTHNESS"] = "Lissage",
-            ["AIMBOT_FOV_COLOR"] = "Couleur FOV",
-            ["AIMBOT_FOV_SIZE"] = "Rayon FOV",
-            ["AIMBOT_TARGET_PART"] = "Cibler partie",
-            ["AIMBOT_VISIBILITY_CHECK"] = "Vérification murs",
-            ["SHOW_FOV"] = "Dessiner cercle FOV",
-            ["AIMBOT_FOV_TYPE"] = "Mode FOV",
-            ["LIMITED_FOV"] = "Dans le cercle",
-            ["FULL_SCREEN"] = "Plein écran",
-            ["360_DEGREES"] = "360 degrés",
-            ["TPS_TAB"] = "Téléportations",
-            ["TPS_SECTION"] = "Téléportations",
-            ["LEFT_SIDE"] = "Zone gauche",
-            ["RIGHT_SIDE"] = "Zone droite",
-            ["AUTO_FARM"] = "Auto Farm",
-            ["AUTO_FARM_HEARTS"] = "Auto Farm Cœurs",
-            ["EXTRA_TAB"] = "Extra",
-            ["SILENT_AIM_MOBILE"] = "Silent Aim (Mobile)",
-            ["SILENT_AIM_PC"] = "Silent Aim (PC)",
-            ["PREDICTION"] = "Prédiction",
-            ["SILENT_AIM_TYPE"] = "Type Silent Aim",
-            ["FOV_COLOR"] = "Couleur FOV",
-            ["FOV_SIZE"] = "Taille FOV",
-            ["WALL_CHECK"] = "Wall Check",
-            ["FOV"] = "FOV",
-            ["LEFT"] = "Gauche",
-            ["RIGHT"] = "Droite",
-            ["AUTO_SHOOT"] = "Tir auto",
-            ["SHOOT_DELAY"] = "Délai tir",
-            ["ANTI_AFK"] = "Anti AFK",
-            ["INVISIBILITY"] = "Invisibilité",
-            ["AUTO_GIVE_CLOAK"] = "Auto-don cape",
-            ["GET_CLOAK"] = "Obtenir cape",
-            ["REMOVE_CLOAK"] = "Retirer cape",
-            ["INVENTORY_VIEWER"] = "Visionneur inventaire",
-            ["SILENT_AIM_MOBILE_PREDICTION"] = "Silent Aim (Mobile) (Prédiction)",
-            ["SILENT_AIM_NO_FAIL"] = "Silent Aim (Sans échec)",
-            ["OCULTAR_CUADROS_ESP"] = "Masquer les carrés ESP",
-            ["BLOCK_SHOOT"] = "Block Shoot",
-            ["BLOCK_SHOOT_KEY"] = "Touche Block Shoot",
-            ["PERIMETER_SPECTATE"] = "Périmètre de spectateur",
-            ["PERIMETER_SPECTATE_SECTION"] = "Utilisateurs près de la zone de spectateur"
-        },
-        ["pt"] = {
-            ["WINDUI_SYNERGY"] = "Synergy Hub - Murders vs Sheriff",
-            ["INFO_TAB"] = "Informação",
-            ["WELCOME"] = "Bem-vindo ao Synergy Hub!",
-            ["ABOUT_WHATIS"] = "O que é Synergy Hub?",
-            ["ABOUT_DESC"] = "Um hub de scripts otimizado para Roblox. Projetado para dominar em Murders vs Sheriff.",
-            ["SYNERGY_KEYBIND"] = "Tecla do menu",
-            ["DISCORD_SERVER"] = "Servidor Discord",
-            ["DISCORD_COPIED"] = "Convite copiado para área de transferência",
-            ["SELECT_LANGUAGE"] = "Idioma",
-            ["SYNERGY_AUTHOR"] = "Xyraniz",
-            ["HITBOX_EXPANSION"] = "Hitbox",
-            ["HITBOX_SIZE"] = "Tamanho",
-            ["HITBOX_ENABLED"] = "Ativar Hitbox",
-            ["HITBOX_TRANSPARENCY"] = "Transparência",
-            ["HITBOX_COLOR"] = "Cor",
-            ["HITBOX_ANTI_WALL"] = "Verificar visibilidade",
-            ["ESP_BOX"] = "ESP",
-            ["ESP_NAMES"] = "Mostrar nomes",
-            ["HIGHLIGHTS"] = "Destaque (Chams)",
-            ["HIGHLIGHTS_ENABLED"] = "Ativar destaque (Inimigos)",
-            ["HIGHLIGHTS_COLOR"] = "Cor inimigos",
-            ["HIGHLIGHTS_TRANSPARENCY"] = "Transparência preenchimento",
-            ["ESP_SECTION"] = "Configurações visuais",
-            ["AIMBOT_TAB"] = "Aimbot",
-            ["SILENT_AIM_TAB"] = "Silent Aim",
-            ["AIMBOT_ENABLED"] = "Ativar Aimbot",
-            ["AIMBOT_SMOOTHNESS"] = "Suavidade",
-            ["AIMBOT_FOV_COLOR"] = "Cor FOV",
-            ["AIMBOT_FOV_SIZE"] = "Raio FOV",
-            ["AIMBOT_TARGET_PART"] = "Mirar em",
-            ["AIMBOT_VISIBILITY_CHECK"] = "Verificar paredes",
-            ["SHOW_FOV"] = "Desenhar círculo FOV",
-            ["AIMBOT_FOV_TYPE"] = "Modo FOV",
-            ["LIMITED_FOV"] = "Dentro do círculo",
-            ["FULL_SCREEN"] = "Tela cheia",
-            ["360_DEGREES"] = "360 graus",
-            ["TPS_TAB"] = "Teleportes",
-            ["TPS_SECTION"] = "Teleportes",
-            ["LEFT_SIDE"] = "Zona esquerda",
-            ["RIGHT_SIDE"] = "Zona direita",
-            ["AUTO_FARM"] = "Auto Farm",
-            ["AUTO_FARM_HEARTS"] = "Auto Farm Corações",
-            ["EXTRA_TAB"] = "Extra",
-            ["SILENT_AIM_MOBILE"] = "Silent Aim (Mobile)",
-            ["SILENT_AIM_PC"] = "Silent Aim (PC)",
-            ["PREDICTION"] = "Predição",
-            ["SILENT_AIM_TYPE"] = "Tipo Silent Aim",
-            ["FOV_COLOR"] = "Cor FOV",
-            ["FOV_SIZE"] = "Tamanho FOV",
-            ["WALL_CHECK"] = "Wall Check",
-            ["FOV"] = "FOV",
-            ["LEFT"] = "Esquerda",
-            ["RIGHT"] = "Direita",
-            ["AUTO_SHOOT"] = "Tiro automático",
-            ["SHOOT_DELAY"] = "Atraso tiro",
-            ["ANTI_AFK"] = "Anti AFK",
-            ["INVISIBILITY"] = "Invisibilidade",
-            ["AUTO_GIVE_CLOAK"] = "Auto-dar capa",
-            ["GET_CLOAK"] = "Obter capa",
-            ["REMOVE_CLOAK"] = "Remover capa",
-            ["INVENTORY_VIEWER"] = "Visualizador inventário",
-            ["SILENT_AIM_MOBILE_PREDICTION"] = "Silent Aim (Móvel) (Predição)",
-            ["SILENT_AIM_NO_FAIL"] = "Silent Aim (Sem falhas)",
-            ["OCULTAR_CUADROS_ESP"] = "Ocultar Quadrados ESP",
-            ["BLOCK_SHOOT"] = "Block Shoot",
-            ["BLOCK_SHOOT_KEY"] = "Tecla Block Shoot",
-            ["PERIMETER_SPECTATE"] = "Perímetro de Espectador",
-            ["PERIMETER_SPECTATE_SECTION"] = "Usuários próximos à área de espectador"
-        },
-        ["it"] = {
-            ["WINDUI_SYNERGY"] = "Synergy Hub - Murders vs Sheriff",
-            ["INFO_TAB"] = "Informazione",
-            ["WELCOME"] = "Benvenuto su Synergy Hub!",
-            ["ABOUT_WHATIS"] = "Cos'è Synergy Hub?",
-            ["ABOUT_DESC"] = "Un hub di script ottimizzato per Roblox. Progettato per dominare in Murders vs Sheriff.",
-            ["SYNERGY_KEYBIND"] = "Tasto menu",
-            ["DISCORD_SERVER"] = "Server Discord",
-            ["DISCORD_COPIED"] = "Invito copiato negli appunti",
-            ["SELECT_LANGUAGE"] = "Lingua",
-            ["SYNERGY_AUTHOR"] = "Xyraniz",
-            ["HITBOX_EXPANSION"] = "Hitbox",
-            ["HITBOX_SIZE"] = "Dimensione",
-            ["HITBOX_ENABLED"] = "Attiva Hitbox",
-            ["HITBOX_TRANSPARENCY"] = "Trasparenza",
-            ["HITBOX_COLOR"] = "Colore",
-            ["HITBOX_ANTI_WALL"] = "Verifica visibilità",
-            ["ESP_BOX"] = "ESP",
-            ["ESP_NAMES"] = "Mostra nomi",
-            ["HIGHLIGHTS"] = "Evidenziazione (Chams)",
-            ["HIGHLIGHTS_ENABLED"] = "Attiva evidenziazione (Nemici)",
-            ["HIGHLIGHTS_COLOR"] = "Colore nemici",
-            ["HIGHLIGHTS_TRANSPARENCY"] = "Trasparenza riempimento",
-            ["ESP_SECTION"] = "Impostazioni visive",
-            ["AIMBOT_TAB"] = "Aimbot",
-            ["SILENT_AIM_TAB"] = "Silent Aim",
-            ["AIMBOT_ENABLED"] = "Attiva Aimbot",
-            ["AIMBOT_SMOOTHNESS"] = "Morbidezza",
-            ["AIMBOT_FOV_COLOR"] = "Colore FOV",
-            ["AIMBOT_FOV_SIZE"] = "Raggio FOV",
-            ["AIMBOT_TARGET_PART"] = "Mira a",
-            ["AIMBOT_VISIBILITY_CHECK"] = "Verifica muri",
-            ["SHOW_FOV"] = "Disegna cerchio FOV",
-            ["AIMBOT_FOV_TYPE"] = "Modalità FOV",
-            ["LIMITED_FOV"] = "Dentro cerchio",
-            ["FULL_SCREEN"] = "Schermo intero",
-            ["360_DEGREES"] = "360 gradi",
-            ["TPS_TAB"] = "Teletrasporti",
-            ["TPS_SECTION"] = "Teletrasporti",
-            ["LEFT_SIDE"] = "Zona sinistra",
-            ["RIGHT_SIDE"] = "Zona destra",
-            ["AUTO_FARM"] = "Auto Farm",
-            ["AUTO_FARM_HEARTS"] = "Auto Farm Cuori",
-            ["EXTRA_TAB"] = "Extra",
-            ["SILENT_AIM_MOBILE"] = "Silent Aim (Mobile)",
-            ["SILENT_AIM_PC"] = "Silent Aim (PC)",
-            ["PREDICTION"] = "Predizione",
-            ["SILENT_AIM_TYPE"] = "Tipo Silent Aim",
-            ["FOV_COLOR"] = "Colore FOV",
-            ["FOV_SIZE"] = "Dimensione FOV",
-            ["WALL_CHECK"] = "Wall Check",
-            ["FOV"] = "FOV",
-            ["LEFT"] = "Sinistra",
-            ["RIGHT"] = "Destra",
-            ["AUTO_SHOOT"] = "Sparo automatico",
-            ["SHOOT_DELAY"] = "Ritardo sparo",
-            ["ANTI_AFK"] = "Anti AFK",
-            ["INVISIBILITY"] = "Invisibilità",
-            ["AUTO_GIVE_CLOAK"] = "Auto-dai mantello",
-            ["GET_CLOAK"] = "Ottieni mantello",
-            ["REMOVE_CLOAK"] = "Rimuovi mantello",
-            ["INVENTORY_VIEWER"] = "Visualizzatore inventario",
-            ["SILENT_AIM_MOBILE_PREDICTION"] = "Silent Aim (Mobile) (Predizione)",
-            ["SILENT_AIM_NO_FAIL"] = "Silent Aim (Senza errori)",
-            ["OCULTAR_CUADROS_ESP"] = "Nascondi quadrati ESP",
-            ["BLOCK_SHOOT"] = "Block Shoot",
-            ["BLOCK_SHOOT_KEY"] = "Tasto Block Shoot",
-            ["PERIMETER_SPECTATE"] = "Perimetro Spettatori",
-            ["PERIMETER_SPECTATE_SECTION"] = "Utenti vicini all'area spettatori"
-        },
-        ["id"] = {
-            ["WINDUI_SYNERGY"] = "Synergy Hub - Murders vs Sheriff",
-            ["INFO_TAB"] = "Informasi",
-            ["WELCOME"] = "Selamat datang di Synergy Hub!",
-            ["ABOUT_WHATIS"] = "Apa itu Synergy Hub?",
-            ["ABOUT_DESC"] = "Hub skrip Roblox yang dioptimalkan. Dirancang untuk mendominasi di Murders vs Sheriff.",
-            ["SYNERGY_KEYBIND"] = "Tombol menu",
-            ["DISCORD_SERVER"] = "Server Discord",
-            ["DISCORD_COPIED"] = "Undangan disalin ke papan klip",
-            ["SELECT_LANGUAGE"] = "Bahasa",
-            ["SYNERGY_AUTHOR"] = "Xyraniz",
-            ["HITBOX_EXPANSION"] = "Hitbox",
-            ["HITBOX_SIZE"] = "Ukuran",
-            ["HITBOX_ENABLED"] = "Aktifkan Hitbox",
-            ["HITBOX_TRANSPARENCY"] = "Transparansi",
-            ["HITBOX_COLOR"] = "Warna",
-            ["HITBOX_ANTI_WALL"] = "Cek visibilitas",
-            ["ESP_BOX"] = "ESP",
-            ["ESP_NAMES"] = "Tampilkan nama",
-            ["HIGHLIGHTS"] = "Sorotan (Chams)",
-            ["HIGHLIGHTS_ENABLED"] = "Aktifkan sorotan (Musuh)",
-            ["HIGHLIGHTS_COLOR"] = "Warna musuh",
-            ["HIGHLIGHTS_TRANSPARENCY"] = "Transparansi isian",
-            ["ESP_SECTION"] = "Pengaturan visual",
-            ["AIMBOT_TAB"] = "Aimbot",
-            ["SILENT_AIM_TAB"] = "Silent Aim",
-            ["AIMBOT_ENABLED"] = "Aktifkan Aimbot",
-            ["AIMBOT_SMOOTHNESS"] = "Kelancaran",
-            ["AIMBOT_FOV_COLOR"] = "Warna FOV",
-            ["AIMBOT_FOV_SIZE"] = "Radius FOV",
-            ["AIMBOT_TARGET_PART"] = "Target bagian",
-            ["AIMBOT_VISIBILITY_CHECK"] = "Cek dinding",
-            ["SHOW_FOV"] = "Gambar lingkaran FOV",
-            ["AIMBOT_FOV_TYPE"] = "Mode FOV",
-            ["LIMITED_FOV"] = "Dalam lingkaran",
-            ["FULL_SCREEN"] = "Layar penuh",
-            ["360_DEGREES"] = "360 derajat",
-            ["TPS_TAB"] = "Teleportasi",
-            ["TPS_SECTION"] = "Teleportasi",
-            ["LEFT_SIDE"] = "Zona kiri",
-            ["RIGHT_SIDE"] = "Zona kanan",
-            ["AUTO_FARM"] = "Auto Farm",
-            ["AUTO_FARM_HEARTS"] = "Auto Farm Hati",
-            ["EXTRA_TAB"] = "Ekstra",
-            ["SILENT_AIM_MOBILE"] = "Silent Aim (Mobile)",
-            ["SILENT_AIM_PC"] = "Silent Aim (PC)",
-            ["PREDICTION"] = "Prediksi",
-            ["SILENT_AIM_TYPE"] = "Jenis Silent Aim",
-            ["FOV_COLOR"] = "Warna FOV",
-            ["FOV_SIZE"] = "Ukuran FOV",
-            ["WALL_CHECK"] = "Wall Check",
-            ["FOV"] = "FOV",
-            ["LEFT"] = "Kiri",
-            ["RIGHT"] = "Kanan",
-            ["AUTO_SHOOT"] = "Tembak otomatis",
-            ["SHOOT_DELAY"] = "Penundaan tembak",
-            ["ANTI_AFK"] = "Anti AFK",
-            ["INVISIBILITY"] = "Tidak terlihat",
-            ["AUTO_GIVE_CLOAK"] = "Auto-beri jubah",
-            ["GET_CLOAK"] = "Dapatkan jubah",
-            ["REMOVE_CLOAK"] = "Hapus jubah",
-            ["INVENTORY_VIEWER"] = "Penampil inventaris",
-            ["SILENT_AIM_MOBILE_PREDICTION"] = "Silent Aim (Mobile) (Prediksi)",
-            ["SILENT_AIM_NO_FAIL"] = "Silent Aim (Tanpa Gagal)",
-            ["OCULTAR_CUADROS_ESP"] = "Sembunyikan Kotak ESP",
-            ["BLOCK_SHOOT"] = "Block Shoot",
-            ["BLOCK_SHOOT_KEY"] = "Tombol Block Shoot",
-            ["PERIMETER_SPECTATE"] = "Perimeter Spektator",
-            ["PERIMETER_SPECTATE_SECTION"] = "Pengguna dekat area spektator"
-        },
-        ["th"] = {
-            ["WINDUI_SYNERGY"] = "Synergy Hub - Murders vs Sheriff",
-            ["INFO_TAB"] = "ข้อมูล",
-            ["WELCOME"] = "ยินดีต้อนรับสู่ Synergy Hub!",
-            ["ABOUT_WHATIS"] = "Synergy Hub คืออะไร?",
-            ["ABOUT_DESC"] = "ฮับสคริปต์ Roblox ที่ปรับแต่งเพื่อการเล่นเกม ออกแบบมาเพื่อครองใน Murders vs Sheriff.",
-            ["SYNERGY_KEYBIND"] = "ปุ่มเมนู",
-            ["DISCORD_SERVER"] = "เซิร์ฟเวอร์ Discord",
-            ["DISCORD_COPIED"] = "คัดลอกคำเชิญไปที่คลิปบอร์ด",
-            ["SELECT_LANGUAGE"] = "ภาษา",
-            ["SYNERGY_AUTHOR"] = "Xyraniz",
-            ["HITBOX_EXPANSION"] = "Hitbox",
-            ["HITBOX_SIZE"] = "ขนาด",
-            ["HITBOX_ENABLED"] = "เปิดใช้งาน Hitbox",
-            ["HITBOX_TRANSPARENCY"] = "ความโปร่งแสง",
-            ["HITBOX_COLOR"] = "สี",
-            ["HITBOX_ANTI_WALL"] = "ตรวจสอบการมองเห็น",
-            ["ESP_BOX"] = "ESP",
-            ["ESP_NAMES"] = "แสดงชื่อ",
-            ["HIGHLIGHTS"] = "ไฮไลต์ (Chams)",
-            ["HIGHLIGHTS_ENABLED"] = "เปิดใช้งานไฮไลต์ (ศัตรู)",
-            ["HIGHLIGHTS_COLOR"] = "สีศัตรู",
-            ["HIGHLIGHTS_TRANSPARENCY"] = "ความโปร่งแสงการเติม",
-            ["ESP_SECTION"] = "การตั้งค่าการมองเห็น",
-            ["AIMBOT_TAB"] = "Aimbot",
-            ["SILENT_AIM_TAB"] = "Silent Aim",
-            ["AIMBOT_ENABLED"] = "เปิดใช้งาน Aimbot",
-            ["AIMBOT_SMOOTHNESS"] = "ความลื่นไหล",
-            ["AIMBOT_FOV_COLOR"] = "สี FOV",
-            ["AIMBOT_FOV_SIZE"] = "รัศมี FOV",
-            ["AIMBOT_TARGET_PART"] = "เล็งไปที่",
-            ["AIMBOT_VISIBILITY_CHECK"] = "ตรวจสอบผนัง",
-            ["SHOW_FOV"] = "วาดวงกลม FOV",
-            ["AIMBOT_FOV_TYPE"] = "โหมด FOV",
-            ["LIMITED_FOV"] = "ภายในวงกลม",
-            ["FULL_SCREEN"] = "เต็มหน้าจอ",
-            ["360_DEGREES"] = "360 องศา",
-            ["TPS_TAB"] = "เทเลพอร์ต",
-            ["TPS_SECTION"] = "เทเลพอร์ต",
-            ["LEFT_SIDE"] = "โซนซ้าย",
-            ["RIGHT_SIDE"] = "โซนขวา",
-            ["AUTO_FARM"] = "ออโต้ฟาร์ม",
-            ["AUTO_FARM_HEARTS"] = "ออโต้ฟาร์มหัวใจ",
-            ["EXTRA_TAB"] = "เพิ่มเติม",
-            ["SILENT_AIM_MOBILE"] = "Silent Aim (มือถือ)",
-            ["SILENT_AIM_PC"] = "Silent Aim (พีซี)",
-            ["PREDICTION"] = "การทำนาย",
-            ["SILENT_AIM_TYPE"] = "ประเภท Silent Aim",
-            ["FOV_COLOR"] = "สี FOV",
-            ["FOV_SIZE"] = "ขนาด FOV",
-            ["WALL_CHECK"] = "Wall Check",
-            ["FOV"] = "FOV",
-            ["LEFT"] = "ซ้าย",
-            ["RIGHT"] = "ขวา",
-            ["AUTO_SHOOT"] = "ยิงอัตโนมัติ",
-            ["SHOOT_DELAY"] = "ความล่าช้ายิง",
-            ["ANTI_AFK"] = "Anti AFK",
-            ["INVISIBILITY"] = "ล่องหน",
-            ["AUTO_GIVE_CLOAK"] = "ออโต้ให้เสื้อคลุม",
-            ["GET_CLOAK"] = "รับเสื้อคลุม",
-            ["REMOVE_CLOAK"] = "ลบเสื้อคลุม",
-            ["INVENTORY_VIEWER"] = "ตัวดูคลังสินค้า",
-            ["SILENT_AIM_MOBILE_PREDICTION"] = "Silent Aim (มือถือ) (การทำนาย)",
-            ["SILENT_AIM_NO_FAIL"] = "Silent Aim (ไม่มีพลาด)",
-            ["OCULTAR_CUADROS_ESP"] = "ซ่อนกล่อง ESP",
-            ["BLOCK_SHOOT"] = "Block Shoot",
-            ["BLOCK_SHOOT_KEY"] = "ปุ่ม Block Shoot",
-            ["PERIMETER_SPECTATE"] = "ขอบเขตการสังเกต",
-            ["PERIMETER_SPECTATE_SECTION"] = "ผู้ใช้ที่อยู่ใกล้บริเวณสังเกตการณ์"
-        }
-    }
-})
 
 local function SanitizeName(str)
     return tostring(str):gsub('%s+', '')
@@ -1465,7 +886,7 @@ local aimbotState = {
     aimbotTeamCheck = true,
     aimbotVisibilityCheck = true,
     showFOV = true,
-    fovType = "LIMITED_FOV"
+    fovType = "Limited FOV"
 }
 
 local FOVring = Drawing.new("Circle")
@@ -1522,7 +943,6 @@ local function getTargetPlayer(trg_part, fov, teamCheck, visibilityCheck)
     for _, player in ipairs(Players:GetPlayers()) do
         if player ~= localPlayer then
             if teamCheck and IsTeammateGlobal(player) then
-                -- skip teammates
             else
                 local character = player.Character
                 if character then
@@ -1555,15 +975,15 @@ local function getTargetPlayer(trg_part, fov, teamCheck, visibilityCheck)
     local filtered = {}
     for _, cand in ipairs(candidates) do
         local include = false
-        if aimbotState.fovType == "LIMITED_FOV" then
+        if aimbotState.fovType == "Limited FOV" then
             if cand.onScreen and cand.screenDist < fov then
                 include = true
             end
-        elseif aimbotState.fovType == "FULL_SCREEN" then
+        elseif aimbotState.fovType == "Full Screen" then
             if cand.onScreen then
                 include = true
             end
-        elseif aimbotState.fovType == "360_DEGREES" then
+        elseif aimbotState.fovType == "360 Degrees" then
             include = true
         end
         if include then
@@ -1842,34 +1262,6 @@ RunService.RenderStepped:Connect(function()
         lastUpdate = now
     end
 end)
-
-function createWelcomePopup()
-    WindUI:Popup({
-        Title = "Hi, " .. playerName .. "!",
-        Icon = "bird",
-        Content = "Welcome to Synergy Hub! Report bugs on the discord server",
-        Buttons = {
-            {
-                Title = "Copy Discord",
-                Icon = "copy",
-                Callback = function()
-                    setclipboard("discord.gg/nCNASmNRTE")
-                end
-            },
-            {
-                Title = "Okay",
-                Icon = "check",
-                Callback = function()
-                    if not Window then
-                        createMainWindow()
-                    else
-                        Window:Show()
-                    end
-                end
-            }
-        }
-    })
-end
 
 local Window
 
@@ -2563,8 +1955,10 @@ local function SA_PerformShot()
         return false
     end
 
+    -- Determinar si se usa FOV según el tipo seleccionado
+    local useFOV = (silentAimSettings.aimType == "FOV")
     local fovRadius, fovCenter
-    if silentAimSettings.aimType == "FOV" then
+    if useFOV then
         fovRadius = silentAimSettings.fovSize
         fovCenter = workspace.CurrentCamera.ViewportSize / 2
     end
@@ -3232,159 +2626,6 @@ local function stopSilentAimMobileDisimulado()
     ESP_Indicators = {}
 end
 
-local autoFarmHeartsEnabled = false
-local autoFarmHeartsThread = nil
-
-local function startAutoFarmHearts()
-    local player = Players.LocalPlayer
-    local config = workspace:WaitForChild("Hearts")
-    local heartsFolder = config:WaitForChild("HeartsClient")
-    local character, hrp, humanoid
-    local noclipConn
-    local noclipEnabled = false
-    local active = true
-    local visited = {}
-
-    local function reconnect()
-        if not active then return end
-        
-        repeat
-            character = player.Character
-            task.wait(0.1)
-        until character and character:IsDescendantOf(workspace)
-        
-        local function setupCharacter(char)
-            character = char
-            hrp = char:WaitForChild("HumanoidRootPart")
-            humanoid = char:WaitForChild("Humanoid")
-            humanoid.Died:Once(reconnect)
-            noclipEnabled = false
-            if noclipConn then
-                noclipConn:Disconnect()
-                noclipConn = nil
-            end
-        end
-        
-        setupCharacter(character)
-    end
-
-    local function enableNoclip()
-        if noclipEnabled or not character then return end
-        noclipEnabled = true
-
-        noclipConn = RunService.Stepped:Connect(function()
-            if not character then
-                if noclipConn then
-                    noclipConn:Disconnect()
-                    noclipConn = nil
-                end
-                return
-            end
-            for _, v in ipairs(character:GetDescendants()) do
-                if v:IsA("BasePart") then
-                    v.CanCollide = false
-                end
-            end
-        end)
-    end
-
-    local function disableNoclip()
-        if not noclipEnabled then return end
-        noclipEnabled = false
-
-        if noclipConn then
-            noclipConn:Disconnect()
-            noclipConn = nil
-        end
-
-        if character then
-            for _, v in ipairs(character:GetDescendants()) do
-                if v:IsA("BasePart") then
-                    v.CanCollide = true
-                end
-            end
-        end
-    end
-
-    local function setupCharacter(char)
-        character = char
-        hrp = char:WaitForChild("HumanoidRootPart")
-        humanoid = char:WaitForChild("Humanoid")
-        humanoid.Died:Once(reconnect)
-        disableNoclip()
-    end
-
-    if player.Character then
-        setupCharacter(player.Character)
-    end
-    player.CharacterAdded:Connect(setupCharacter)
-
-    local function tpTo(part)
-        if not hrp or not part or not character or not character.Parent then
-            disableNoclip()
-            return
-        end
-
-        enableNoclip()
-
-        local cf = CFrame.new(part.Position + Vector3.new(0, 3, 0))
-
-        for i = 1, 3 do
-            if hrp and hrp.Parent then
-                hrp.CFrame = cf
-            end
-            RunService.Heartbeat:Wait()
-        end
-    end
-
-    while active and autoFarmHeartsEnabled do
-        task.wait(0.5)
-
-        if not character or not hrp or not hrp.Parent then
-            disableNoclip()
-            continue
-        end
-
-        local foundNew = false
-
-        if heartsFolder and heartsFolder.Parent then
-            for _, v in ipairs(heartsFolder:GetChildren()) do
-                if v:IsA("MeshPart") and v.Name == "heart" and not visited[v] then
-                    foundNew = true
-                    visited[v] = true
-
-                    tpTo(v)
-                    task.wait(0.1)
-                    
-                    if not character or not character.Parent then
-                        break
-                    end
-                end
-            end
-        end
-
-        for heart in pairs(visited) do
-            if not heart or not heart.Parent then
-                visited[heart] = nil
-            end
-        end
-
-        if not foundNew then
-            disableNoclip()
-        end
-    end
-    
-    disableNoclip()
-end
-
-local function stopAutoFarmHearts()
-    autoFarmHeartsEnabled = false
-    if autoFarmHeartsThread then
-        task.cancel(autoFarmHeartsThread)
-        autoFarmHeartsThread = nil
-    end
-end
-
 local perimeterEnabled = false
 local perimeterGui = nil
 local perimeterFrame = nil
@@ -3709,368 +2950,346 @@ local function mainLoop()
 end
 
 function createMainWindow()
-    Window = WindUI:CreateWindow({
-        Title = "loc:WINDUI_SYNERGY",
-        Author = "loc:SYNERGY_AUTHOR",
-        Folder = "synergy_hub",
-        Icon = "lucide:layout-dashboard",
-        IconSize = 44,
-        NewElements = true,
-        HideSearchBar = false
-    })
+    local success, err = pcall(function()
+        Window = Rayfield:CreateWindow({
+            Name = "Synergy Hub - Murders vs Sheriff",
+            LoadingTitle = "Synergy Hub",
+            LoadingSubtitle = "by Xyraniz",
+            ConfigurationSaving = {
+                Enabled = true,
+                FolderName = "synergy_hub",
+                FileName = "config"
+            },
+            Discord = {
+                Enabled = false,
+                Invite = "",
+                RememberJoins = false
+            },
+            KeySystem = false
+        })
 
-    pcall(function() WindUI:SetTheme("Stylish") end)
+        local InfoTab = Window:CreateTab("Information", "info")
+        local AimbotTab = Window:CreateTab("Aimbot", "target")
+        local SilentAimTab = Window:CreateTab("Silent Aim", "crosshair")
+        local HitboxTab = Window:CreateTab("Hitbox", "square")
+        local VisualTab = Window:CreateTab("ESP", "eye")
+        local TPTab = Window:CreateTab("TPs", "map-pin")
+        local ExtraTab = Window:CreateTab("Extra", "plus")
 
-    Window:SetToggleKey(Enum.KeyCode.X)
+        InfoTab:CreateParagraph({
+            Title = "What is Synergy Hub?",
+            Content = "A Roblox script hub optimized for gameplay. Designed to dominate in Murders vs Sheriff."
+        })
 
-    Window:Tag({
-    Title = "Beta",
-    Icon = "test-tube",
-    Color = Color3.fromHex("#30ff6a"),
-    Radius = 13,
-})
+        InfoTab:CreateParagraph({
+            Title = "Credits",
+            Content = "Xyraniz\nSynergy Team\nRayfield"
+        })
 
-    local InfoTab = Window:Tab({ Title = "loc:INFO_TAB", Icon = "lucide:layout-dashboard" })
-    local AimbotTab = Window:Tab({ Title = "loc:AIMBOT_TAB", Icon = "lucide:target" })
-    local SilentAimTab = Window:Tab({ Title = "loc:SILENT_AIM_TAB", Icon = "lucide:crosshair" })
-    local HitboxTab = Window:Tab({ Title = "loc:HITBOX_EXPANSION", Icon = "lucide:square" })
-    local VisualTab = Window:Tab({ Title = "loc:ESP_BOX", Icon = "lucide:eye" })
-    local TPTab = Window:Tab({ Title = "loc:TPS_TAB", Icon = "lucide:map-pin" })
-    local ExtraTab = Window:Tab({ Title = "loc:EXTRA_TAB", Icon = "lucide:plus" })
+        InfoTab:CreateButton({
+            Name = "Discord Server",
+            Callback = function()
+                setclipboard("discord.gg/nCNASmNRTE")
+            end,
+        })
 
-    InfoTab:Paragraph({
-        Title = "",
-        Desc = "",
-        Image = "https://raw.githubusercontent.com/Xyraniz/Synergy-Hub/refs/heads/main/Synergy-Hub.jpg",
-        ImageSize = 260
-    })
+        InfoTab:CreateKeybind({
+            Name = "Menu Keybind",
+            CurrentKeybind = "X",
+            HoldToInteract = false,
+            Flag = "MenuKeybind",
+            Callback = function(key)
+                Window:Toggle()
+            end,
+        })
 
-    InfoTab:Paragraph({
-        Title = "loc:ABOUT_WHATIS",
-        Desc = "loc:ABOUT_DESC"
-    })
-
-    InfoTab:Paragraph({
-        Title = "Credits",
-        Desc = "Xyraniz\nSynergy Team\nWindUI © Footagesus — GitHub"
-    })
-
-    InfoTab:Button({ Title = "loc:DISCORD_SERVER", Callback = function()
-        pcall(function()
-            setclipboard("discord.gg/nCNASmNRTE")
-        end)
-    end })
-
-    InfoTab:Keybind({
-        Title = "loc:SYNERGY_KEYBIND",
-        Value = "X",
-        Callback = function(v)
-            Window:SetToggleKey(Enum.KeyCode[v])
-        end
-    })
-
-    local languages = {
-        {Name = "Español", Code = "es"},
-        {Name = "English", Code = "en"},
-        {Name = "Русский", Code = "ru"},
-        {Name = "Français", Code = "fr"},
-        {Name = "Português", Code = "pt"},
-        {Name = "Italiano", Code = "it"},
-        {Name = "Bahasa Indonesia", Code = "id"},
-        {Name = "ไทย", Code = "th"}
-    }
-    local options = {}
-    for i, v in ipairs(languages) do options[i] = v.Name end
-    InfoTab:Dropdown({
-        Title = "loc:SELECT_LANGUAGE",
-        Flag = "LanguageSelect",
-        Values = options,
-        Callback = function(val)
-            for _, v in ipairs(languages) do
-                if v.Name == val then
-                    pcall(function()
-                        WindUI:SetLanguage(v.Code)
-                    end)
-                    break
-                end
-            end
-        end
-    })
-
-    pcall(initializeAimbot)
-    
-    aimbotConnection = RunService.RenderStepped:Connect(function()
-        pcall(updateDrawings)
-        if aimbotState.aimbotEnabled then
-            FOVring.Visible = aimbotState.showFOV and aimbotState.aimbotEnabled and aimbotState.fovType == "LIMITED_FOV" or false
-            local closest = getTargetPlayer(aimbotState.aimbotTargetPart, aimbotState.aimbotFOVSize, true, aimbotState.aimbotVisibilityCheck)
-            if closest and closest.Character and closest.Character:FindFirstChild(aimbotState.aimbotTargetPart) then
-                pcall(function() lookAt(closest.Character[aimbotState.aimbotTargetPart].Position, aimbotState.aimbotSmoothness) end)
-            end
-        end
+        pcall(initializeAimbot)
         
-        SilentAimFOV.Visible = silentAimSettings.showFOV and silentAimSettings.aimType == "FOV"
-        
-        autoShootFOVCircle.Visible = AutoShootEnabled and autoShootConfig.showFOV and autoShootConfig.mode == "FOV"
-        autoShootFOVCircle.Position = workspace.CurrentCamera.ViewportSize / 2
-        autoShootFOVCircle.Radius = autoShootConfig.fovSize
-        autoShootFOVCircle.Color = autoShootConfig.fovColor
-    end)
-
-    AimbotTab:Toggle({
-        Title = "loc:AIMBOT_ENABLED",
-        Flag = "AimbotEnabled",
-        Callback = function(v)
-            aimbotState.aimbotEnabled = v
-        end
-    })
-
-    AimbotTab:Toggle({
-        Title = "loc:SHOW_FOV",
-        Flag = "ShowFOV",
-        Default = false,
-        Callback = function(v)
-            aimbotState.showFOV = v
-        end
-    })
-
-    AimbotTab:Dropdown({
-        Title = "loc:AIMBOT_FOV_TYPE",
-        Flag = "AimbotFOVType",
-        Values = {"loc:LIMITED_FOV", "loc:FULL_SCREEN", "loc:360_DEGREES"},
-        Callback = function(v)
-            aimbotState.fovType = v:gsub("loc:", "")
-        end
-    })
-
-    AimbotTab:Slider({
-        Title = "loc:AIMBOT_SMOOTHNESS",
-        Flag = "AimbotSmoothness",
-        Step = 0.05,
-        Value = { Min = 0.1, Max = 1, Default = 1 },
-        Callback = function(v)
-            aimbotState.aimbotSmoothness = v
-        end
-    })
-
-    AimbotTab:Colorpicker({
-        Title = "loc:AIMBOT_FOV_COLOR",
-        Flag = "AimbotFOVColor",
-        Value = Color3.fromRGB(128, 0, 128),
-        Callback = function(v)
-            aimbotState.aimbotFOVColor = v
-            if FOVring then
-                FOVring.Color = v
-            end
-        end
-    })
-
-    AimbotTab:Slider({
-        Title = "loc:AIMBOT_FOV_SIZE",
-        Flag = "AimbotFOVSize",
-        Step = 10,
-        Value = { Min = 50, Max = 500, Default = 100 },
-        Callback = function(v)
-            aimbotState.aimbotFOVSize = v
-            if FOVring then
-                FOVring.Radius = v
-            end
-        end
-    })
-
-    AimbotTab:Dropdown({
-        Title = "loc:AIMBOT_TARGET_PART",
-        Flag = "AimbotTargetPart",
-        Values = {"Head", "HumanoidRootPart", "UpperTorso"},
-        Callback = function(v)
-            aimbotState.aimbotTargetPart = v
-        end
-    })
-
-    AimbotTab:Toggle({
-        Title = "loc:AIMBOT_VISIBILITY_CHECK",
-        Flag = "AimbotVisibilityCheck",
-        Callback = function(v)
-            aimbotState.aimbotVisibilityCheck = v
-        end
-    })
-
-    SilentAimTab:Toggle({
-        Title = "loc:SILENT_AIM_NO_FAIL",
-        Flag = "ClickShootEnabled",
-        Callback = function(v)
-            if v then
-                if silentAimMobileDisimuladoEnabled then
-                    stopSilentAimMobileDisimulado()
-                    Window:GetFlag("SilentAimMobileDisimulado").Value = false
+        aimbotConnection = RunService.RenderStepped:Connect(function()
+            pcall(updateDrawings)
+            if aimbotState.aimbotEnabled then
+                FOVring.Visible = aimbotState.showFOV and aimbotState.aimbotEnabled and aimbotState.fovType == "Limited FOV" or false
+                local closest = getTargetPlayer(aimbotState.aimbotTargetPart, aimbotState.aimbotFOVSize, true, aimbotState.aimbotVisibilityCheck)
+                if closest and closest.Character and closest.Character:FindFirstChild(aimbotState.aimbotTargetPart) then
+                    pcall(function() lookAt(closest.Character[aimbotState.aimbotTargetPart].Position, aimbotState.aimbotSmoothness) end)
                 end
             end
-            SetSilentAimState(v)
-        end
-    })
-
-    SilentAimTab:Toggle({
-        Title = "loc:BLOCK_SHOOT",
-        Flag = "BlockShoot",
-        Callback = function(v)
-            SetSABlockShootState(v)
-        end
-    })
-
-    SilentAimTab:Toggle({
-        Title = "loc:SILENT_AIM_MOBILE_PREDICTION",
-        Flag = "SilentAimMobileDisimulado",
-        Callback = function(v)
-            if v then
-                if SA_ClickShootEnabled then
-                    SetSilentAimState(false)
-                    Window:GetFlag("ClickShootEnabled").Value = false
-                end
-                startSilentAimMobileDisimulado()
-            else
-                stopSilentAimMobileDisimulado()
-            end
-        end
-    })
-
-    SilentAimTab:Dropdown({
-        Title = "Silent Aim Type",
-        Values = {"Pantalla Completa", "FOV"},
-        Callback = function(v)
-            silentAimSettings.aimType = v
-        end
-    })
-
-    SilentAimTab:Toggle({
-        Title = "Mostrar FOV",
-        Flag = "SilentAimShowFOV",
-        Default = true,
-        Callback = function(v)
-            silentAimSettings.showFOV = v
-        end
-    })
-
-    SilentAimTab:Toggle({
-        Title = "loc:OCULTAR_CUADROS_ESP",
-        Flag = "ShowESPIndicators",
-        Default = true,
-        Callback = function(v)
-            showESPIndicators = v
-        end
-    })
-
-    SilentAimTab:Colorpicker({
-        Title = "Color del FOV",
-        Flag = "SilentAimFOVColor",
-        Value = Color3.fromRGB(255, 255, 255),
-        Callback = function(v)
-            silentAimSettings.fovColor = v
-            SilentAimFOV.Color = v
-        end
-    })
-
-    SilentAimTab:Slider({
-        Title = "Tamaño del FOV",
-        Flag = "SilentAimFOVSize",
-        Step = 10,
-        Value = { Min = 50, Max = 500, Default = 100 },
-        Callback = function(v)
-            silentAimSettings.fovSize = v
-            SilentAimFOV.Radius = v
-        end
-    })
-
-    SilentAimTab:Slider({
-        Title = "Aim Assist Strength",
-        Flag = "AimAssistStrength",
-        Step = 1,
-        Value = { Min = 1, Max = 100, Default = 70 },
-        Callback = function(v)
-            SA_Config.aimAssistStrength = v / 100
-        end
-    })
-
-    SilentAimTab:Slider({
-        Title = "Prediction",
-        Flag = "ClickShootPrediction",
-        Step = 1,
-        Value = { Min = 1, Max = 100, Default = 80 },
-        Callback = function(v)
-            SA_Config.predictionStrength = v / 100
-            silentAimSettings.prediction = v
-        end
-    })
-
-    -- New Wall Check toggle for Silent Aim (Mobile) (Prediction)
-    SilentAimTab:Toggle({
-        Title = "loc:WALL_CHECK",
-        Flag = "SilentAimWallCheck",
-        Default = false,
-        Callback = function(v)
-            silentAimSettings.wallCheck = v
-        end
-    })
-
-    HitboxTab:Toggle({
-        Title = "loc:HITBOX_ENABLED",
-        Flag = "HitboxEnabled",
-        Callback = function(v)
-            HitboxSettings.Enabled = v
             
-            if v then
-                spawn(function()
-                    while HitboxSettings.Enabled do
-                        pcall(function()
-                            -- Get local player's current equipped tool
-                            local tool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
-                            local isGun = tool and tool:FindFirstChild("showBeam") and tool.showBeam:IsA("RemoteEvent")
-                            local isKnife = tool and not isGun
+            SilentAimFOV.Visible = silentAimSettings.showFOV and silentAimSettings.aimType == "FOV"
+            
+            autoShootFOVCircle.Visible = AutoShootEnabled and autoShootConfig.showFOV and autoShootConfig.mode == "FOV"
+            autoShootFOVCircle.Position = workspace.CurrentCamera.ViewportSize / 2
+            autoShootFOVCircle.Radius = autoShootConfig.fovSize
+            autoShootFOVCircle.Color = autoShootConfig.fovColor
+        end)
 
-                            for _,targetPlayer in pairs(Players:GetPlayers()) do
-                                if targetPlayer.Name ~= LocalPlayer.Name then
-                                    local shouldExpand = not IsTeammateGlobal(targetPlayer)
-                                    -- Check gun/knife conditions
-                                    local weaponMatch = (HitboxSettings.GunEnabled and isGun) or (HitboxSettings.KnifeEnabled and isKnife)
-                                    if not (HitboxSettings.GunEnabled or HitboxSettings.KnifeEnabled) then
-                                        weaponMatch = true -- if both off, behave like old system (expand regardless of weapon)
-                                    end
-                                    shouldExpand = shouldExpand and weaponMatch
-                                    
-                                    if targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                                        if HitboxSettings.AntiWall and not CheckVisibility(targetPlayer.Character.HumanoidRootPart) then
-                                            restoreHitbox(targetPlayer)
-                                        else
-                                            local bodyParts = {"RightUpperLeg", "LeftUpperLeg", "HeadHB", "HumanoidRootPart", "LeftUpperArm", "RightUpperArm", "UpperTorso"}
-                                            for _, partName in pairs(bodyParts) do
-                                                local part = targetPlayer.Character:FindFirstChild(partName)
-                                                if part then
-                                                    if not originalHitboxProperties[targetPlayer] then
-                                                        originalHitboxProperties[targetPlayer] = {}
-                                                    end
-                                                    if not originalHitboxProperties[targetPlayer][partName] then
-                                                        originalHitboxProperties[targetPlayer][partName] = {
-                                                            Size = part.Size,
-                                                            Transparency = part.Transparency,
-                                                            Color = part.Color,
-                                                            CanCollide = part.CanCollide
-                                                        }
-                                                    end
-                                                    
-                                                    if shouldExpand then
-                                                        local newSize = Vector3.new(HitboxSettings.Size, HitboxSettings.Size, HitboxSettings.Size)
-                                                        if part.Size ~= newSize or part.Transparency ~= HitboxSettings.Transparency or part.Color ~= HitboxSettings.Color or part.CanCollide ~= false then
-                                                            part.CanCollide = false
-                                                            part.Transparency = HitboxSettings.Transparency
-                                                            part.Color = HitboxSettings.Color
-                                                            part.Size = newSize
+        AimbotTab:CreateToggle({
+            Name = "Enable Aimbot",
+            CurrentValue = false,
+            Flag = "AimbotEnabled",
+            Callback = function(v)
+                aimbotState.aimbotEnabled = v
+            end,
+        })
+
+        AimbotTab:CreateToggle({
+            Name = "Show FOV",
+            CurrentValue = false,
+            Flag = "ShowFOV",
+            Callback = function(v)
+                aimbotState.showFOV = v
+            end,
+        })
+
+        AimbotTab:CreateDropdown({
+            Name = "FOV Mode",
+            Options = {"Limited FOV", "Full Screen", "360 Degrees"},
+            CurrentOption = "Limited FOV",
+            Flag = "AimbotFOVType",
+            Callback = function(v)
+                aimbotState.fovType = v
+            end,
+        })
+
+        AimbotTab:CreateSlider({
+            Name = "Smoothness",
+            Range = {0.1, 1},
+            Increment = 0.05,
+            CurrentValue = 1,
+            Flag = "AimbotSmoothness",
+            Callback = function(v)
+                aimbotState.aimbotSmoothness = v
+            end,
+        })
+
+        AimbotTab:CreateColorPicker({
+            Name = "FOV Color",
+            Color = Color3.fromRGB(128, 0, 128),
+            Flag = "AimbotFOVColor",
+            Callback = function(v)
+                aimbotState.aimbotFOVColor = v
+                if FOVring then
+                    FOVring.Color = v
+                end
+            end,
+        })
+
+        AimbotTab:CreateSlider({
+            Name = "FOV Size",
+            Range = {50, 500},
+            Increment = 10,
+            CurrentValue = 100,
+            Flag = "AimbotFOVSize",
+            Callback = function(v)
+                aimbotState.aimbotFOVSize = v
+                if FOVring then
+                    FOVring.Radius = v
+                end
+            end,
+        })
+
+        AimbotTab:CreateDropdown({
+            Name = "Target Part",
+            Options = {"Head", "HumanoidRootPart", "UpperTorso"},
+            CurrentOption = "Head",
+            Flag = "AimbotTargetPart",
+            Callback = function(v)
+                aimbotState.aimbotTargetPart = v
+            end,
+        })
+
+        AimbotTab:CreateToggle({
+            Name = "Wall Check",
+            CurrentValue = false,
+            Flag = "AimbotVisibilityCheck",
+            Callback = function(v)
+                aimbotState.aimbotVisibilityCheck = v
+            end,
+        })
+
+        SilentAimTab:CreateToggle({
+            Name = "Silent Aim (No Fail)",
+            CurrentValue = false,
+            Flag = "ClickShootEnabled",
+            Callback = function(v)
+                if v then
+                    if silentAimMobileDisimuladoEnabled then
+                        stopSilentAimMobileDisimulado()
+                        Rayfield:SetToggle({Flag = "SilentAimMobileDisimulado", Value = false})
+                    end
+                end
+                SetSilentAimState(v)
+            end,
+        })
+
+        SilentAimTab:CreateToggle({
+            Name = "Block Shoot",
+            CurrentValue = false,
+            Flag = "BlockShoot",
+            Callback = function(v)
+                SetSABlockShootState(v)
+            end,
+        })
+
+        SilentAimTab:CreateToggle({
+            Name = "Silent Aim (Mobile) (Prediction)",
+            CurrentValue = false,
+            Flag = "SilentAimMobileDisimulado",
+            Callback = function(v)
+                if v then
+                    if SA_ClickShootEnabled then
+                        SetSilentAimState(false)
+                        Rayfield:SetToggle({Flag = "ClickShootEnabled", Value = false})
+                    end
+                    startSilentAimMobileDisimulado()
+                else
+                    stopSilentAimMobileDisimulado()
+                end
+            end,
+        })
+
+        SilentAimTab:CreateDropdown({
+            Name = "Silent Aim Type",
+            Options = {"Pantalla Completa", "FOV"},
+            CurrentOption = "Pantalla Completa",
+            Flag = "SilentAimType",
+            Callback = function(v)
+                silentAimSettings.aimType = v
+            end,
+        })
+
+        SilentAimTab:CreateToggle({
+            Name = "Mostrar FOV",
+            CurrentValue = true,
+            Flag = "SilentAimShowFOV",
+            Callback = function(v)
+                silentAimSettings.showFOV = v
+            end,
+        })
+
+        SilentAimTab:CreateToggle({
+            Name = "Hide ESP Squares",
+            CurrentValue = true,
+            Flag = "ShowESPIndicators",
+            Callback = function(v)
+                showESPIndicators = v
+            end,
+        })
+
+        SilentAimTab:CreateColorPicker({
+            Name = "FOV Color",
+            Color = Color3.fromRGB(255, 255, 255),
+            Flag = "SilentAimFOVColor",
+            Callback = function(v)
+                silentAimSettings.fovColor = v
+                SilentAimFOV.Color = v
+            end,
+        })
+
+        SilentAimTab:CreateSlider({
+            Name = "FOV Size",
+            Range = {50, 500},
+            Increment = 10,
+            CurrentValue = 100,
+            Flag = "SilentAimFOVSize",
+            Callback = function(v)
+                silentAimSettings.fovSize = v
+                SilentAimFOV.Radius = v
+            end,
+        })
+
+        SilentAimTab:CreateSlider({
+            Name = "Aim Assist Strength",
+            Range = {1, 100},
+            Increment = 1,
+            CurrentValue = 70,
+            Flag = "AimAssistStrength",
+            Callback = function(v)
+                SA_Config.aimAssistStrength = v / 100
+            end,
+        })
+
+        SilentAimTab:CreateSlider({
+            Name = "Prediction",
+            Range = {1, 100},
+            Increment = 1,
+            CurrentValue = 80,
+            Flag = "ClickShootPrediction",
+            Callback = function(v)
+                SA_Config.predictionStrength = v / 100
+                silentAimSettings.prediction = v
+            end,
+        })
+
+        SilentAimTab:CreateToggle({
+            Name = "Wall Check",
+            CurrentValue = false,
+            Flag = "SilentAimWallCheck",
+            Callback = function(v)
+                silentAimSettings.wallCheck = v
+            end,
+        })
+
+        HitboxTab:CreateToggle({
+            Name = "Enable Hitbox",
+            CurrentValue = false,
+            Flag = "HitboxEnabled",
+            Callback = function(v)
+                HitboxSettings.Enabled = v
+                
+                if v then
+                    task.spawn(function()
+                        while HitboxSettings.Enabled do
+                            pcall(function()
+                                local tool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                                local isGun = tool and tool:FindFirstChild("showBeam") and tool.showBeam:IsA("RemoteEvent")
+                                local isKnife = tool and not isGun
+
+                                for _,targetPlayer in pairs(Players:GetPlayers()) do
+                                    if targetPlayer.Name ~= LocalPlayer.Name then
+                                        local shouldExpand = not IsTeammateGlobal(targetPlayer)
+                                        local weaponMatch = (HitboxSettings.GunEnabled and isGun) or (HitboxSettings.KnifeEnabled and isKnife)
+                                        if not (HitboxSettings.GunEnabled or HitboxSettings.KnifeEnabled) then
+                                            weaponMatch = true
+                                        end
+                                        shouldExpand = shouldExpand and weaponMatch
+                                        
+                                        if targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                                            if HitboxSettings.AntiWall and not CheckVisibility(targetPlayer.Character.HumanoidRootPart) then
+                                                restoreHitbox(targetPlayer)
+                                            else
+                                                local bodyParts = {"RightUpperLeg", "LeftUpperLeg", "HeadHB", "HumanoidRootPart", "LeftUpperArm", "RightUpperArm", "UpperTorso"}
+                                                for _, partName in pairs(bodyParts) do
+                                                    local part = targetPlayer.Character:FindFirstChild(partName)
+                                                    if part then
+                                                        if not originalHitboxProperties[targetPlayer] then
+                                                            originalHitboxProperties[targetPlayer] = {}
                                                         end
-                                                    else
-                                                        local props = originalHitboxProperties[targetPlayer][partName]
-                                                        if part.Size ~= props.Size or part.Transparency ~= props.Transparency or part.Color ~= props.Color or part.CanCollide ~= props.CanCollide then
-                                                            part.Size = props.Size
-                                                            part.Transparency = props.Transparency
-                                                            part.Color = props.Color
-                                                            part.CanCollide = props.CanCollide
+                                                        if not originalHitboxProperties[targetPlayer][partName] then
+                                                            originalHitboxProperties[targetPlayer][partName] = {
+                                                                Size = part.Size,
+                                                                Transparency = part.Transparency,
+                                                                Color = part.Color,
+                                                                CanCollide = part.CanCollide
+                                                            }
+                                                        end
+                                                        
+                                                        if shouldExpand then
+                                                            local newSize = Vector3.new(HitboxSettings.Size, HitboxSettings.Size, HitboxSettings.Size)
+                                                            if part.Size ~= newSize or part.Transparency ~= HitboxSettings.Transparency or part.Color ~= HitboxSettings.Color or part.CanCollide ~= false then
+                                                                part.CanCollide = false
+                                                                part.Transparency = HitboxSettings.Transparency
+                                                                part.Color = HitboxSettings.Color
+                                                                part.Size = newSize
+                                                            end
+                                                        else
+                                                            local props = originalHitboxProperties[targetPlayer][partName]
+                                                            if part.Size ~= props.Size or part.Transparency ~= props.Transparency or part.Color ~= props.Color or part.CanCollide ~= props.CanCollide then
+                                                                part.Size = props.Size
+                                                                part.Transparency = props.Transparency
+                                                                part.Color = props.Color
+                                                                part.CanCollide = props.CanCollide
+                                                            end
                                                         end
                                                     end
                                                 end
@@ -4078,602 +3297,455 @@ function createMainWindow()
                                         end
                                     end
                                 end
-                            end
-                        end)
-                        wait(1)
-                    end
-                end)
-            else
-                pcall(restoreAllHitboxes)
-            end
-        end
-    })
-
-    -- New Gun hitbox toggle
-    HitboxTab:Toggle({
-        Title = "Hitbox (Gun)",
-        Flag = "HitboxGun",
-        Default = false,
-        Callback = function(v)
-            HitboxSettings.GunEnabled = v
-        end
-    })
-
-    -- New Knife hitbox toggle
-    HitboxTab:Toggle({
-        Title = "Hitbox (Knife)",
-        Flag = "HitboxKnife",
-        Default = false,
-        Callback = function(v)
-            HitboxSettings.KnifeEnabled = v
-        end
-    })
-
-    HitboxTab:Toggle({
-        Title = "loc:HITBOX_ANTI_WALL",
-        Flag = "HitboxAntiWall",
-        Callback = function(v)
-            HitboxSettings.AntiWall = v
-        end
-    })
-
-    HitboxTab:Slider({
-        Title = "loc:HITBOX_SIZE",
-        Flag = "HitboxSize",
-        Step = 1,
-        Value = { Min = 1, Max = 25, Default = 12 },
-        Callback = function(v)
-            HitboxSettings.Size = v
-        end
-    })
-
-    HitboxTab:Slider({
-        Title = "loc:HITBOX_TRANSPARENCY",
-        Flag = "HitboxTransparency",
-        Step = 0.1,
-        Value = { Min = 0, Max = 1, Default = 1 },
-        Callback = function(v)
-            HitboxSettings.Transparency = v
-        end
-    })
-
-    HitboxTab:Colorpicker({
-        Title = "loc:HITBOX_COLOR",
-        Flag = "HitboxColor",
-        Color = Color3.fromRGB(255, 0, 0),
-        Callback = function(v)
-            HitboxSettings.Color = v
-        end
-    })
-
-    VisualTab:Toggle({
-        Title = "loc:ESP_NAMES",
-        Flag = "ESPNames",
-        Callback = function(v)
-            ESPSettings.Names = v
-        end
-    })
-
-    VisualTab:Section({Title = "loc:ESP_SECTION"})
-    
-    VisualTab:Toggle({
-        Title = "loc:HIGHLIGHTS_ENABLED",
-        Flag = "HighlightsEnabled",
-        Callback = function(v)
-            ESPSettings.Highlights.Enabled = v
-            if not v and not ESPSettings.Highlights.TeammatesEnabled then
-                for player, highlight in pairs(highlights) do
-                    if highlight then
-                        highlight:Destroy()
-                    end
-                end
-                highlights = {}
-            else
-                for _, targetPlayer in pairs(Players:GetPlayers()) do
-                    if targetPlayer ~= LocalPlayer and targetPlayer.Character then
-                        createHighlightForPlayer(targetPlayer, targetPlayer.Character)
-                    end
-                end
-            end
-        end
-    })
-
-    VisualTab:Colorpicker({
-        Title = "loc:HIGHLIGHTS_COLOR",
-        Flag = "HighlightsColor",
-        Color = Color3.fromRGB(255, 0, 0),
-        Callback = function(v)
-            ESPSettings.Highlights.Color = v
-        end
-    })
-
-    VisualTab:Slider({
-        Title = "loc:HIGHLIGHTS_TRANSPARENCY",
-        Flag = "HighlightsTransparency",
-        Step = 0.1,
-        Value = { Min = 0, Max = 1, Default = 0.5 },
-        Callback = function(v)
-            ESPSettings.Highlights.Transparency = v
-        end
-    })
-
-    VisualTab:Section({Title = "Aliados (Teammates)"})
-    
-    VisualTab:Toggle({
-        Title = "Activar ESP Aliados",
-        Flag = "TeammatesESPEnabled",
-        Default = false,
-        Callback = function(v)
-            ESPSettings.Highlights.TeammatesEnabled = v
-            if not v and not ESPSettings.Highlights.Enabled then
-                for player, highlight in pairs(highlights) do
-                    if highlight then
-                        highlight:Destroy()
-                    end
-                end
-                highlights = {}
-            else
-                for _, targetPlayer in pairs(Players:GetPlayers()) do
-                    if targetPlayer ~= LocalPlayer and targetPlayer.Character then
-                        createHighlightForPlayer(targetPlayer, targetPlayer.Character)
-                    end
-                end
-            end
-        end
-    })
-
-    VisualTab:Colorpicker({
-        Title = "Color Aliados",
-        Flag = "TeammatesColor",
-        Color = Color3.fromRGB(135, 206, 235),
-        Callback = function(v)
-            ESPSettings.Highlights.TeammatesColor = v
-        end
-    })
-
-    VisualTab:Keybind({
-        Title = "Toggle Todos los ESP",
-        Value = "P",
-        Callback = function()
-            ESPSettings.Highlights.Enabled = not ESPSettings.Highlights.Enabled
-            ESPSettings.Highlights.TeammatesEnabled = not ESPSettings.Highlights.TeammatesEnabled
-        end
-    })
-
-    TPTab:Section({Title = "loc:TPS_SECTION"})
-
-    TPTab:Toggle({
-        Title = "Auto Farm Wins",
-        Flag = "AutoFarm",
-        Callback = function(v)
-            autoFarmEnabled = v
-            if v then
-                startAutoFarm()
-            else
-                stopAutoFarm()
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "Auto Farm Kills",
-        Flag = "AutoFarmKills",
-        Callback = function(v)
-            autoFarmKillsEnabled = v
-            if v then
-                if not autoFarmKillsThread then
-                    autoFarmKillsThread = task.spawn(mainLoop)
-                end
-            else
-                if autoFarmKillsThread then
-                    task.cancel(autoFarmKillsThread)
-                    autoFarmKillsThread = nil
-                end
-                StopKillSpam()
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "loc:AUTO_FARM_HEARTS",
-        Flag = "AutoFarmHearts",
-        Callback = function(v)
-            autoFarmHeartsEnabled = v
-            if v then
-                autoFarmHeartsThread = task.spawn(startAutoFarmHearts)
-            else
-                stopAutoFarmHearts()
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "loc:ANTI_AFK",
-        Flag = "AntiAFK",
-        Callback = function(v)
-            if v then
-                startAntiAFK()
-            else
-                stopAntiAFK()
-            end
-        end
-    })
-
-    TPTab:Section({Title = "loc:LEFT_SIDE"})
-
-    TPTab:Toggle({
-        Title = "1v1",
-        Flag = "TP_Left1v1_1",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-300, 241, 2)
-            elseif activeTPTarget == CFrame.new(-300, 241, 2) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "1v1",
-        Flag = "TP_Left1v1_2",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-292, 241, 2)
-            elseif activeTPTarget == CFrame.new(-292, 241, 2) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "2v2",
-        Flag = "TP_Left2v2_1",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-279, 241, 2)
-            elseif activeTPTarget == CFrame.new(-279, 241, 2) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "2v2",
-        Flag = "TP_Left2v2_2",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-271, 241, 2)
-            elseif activeTPTarget == CFrame.new(-271, 241, 2) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "3v3",
-        Flag = "TP_Left3v3_1",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-258, 241, 2)
-            elseif activeTPTarget == CFrame.new(-258, 241, 2) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "3v3",
-        Flag = "TP_Left3v3_2",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-250, 241, 2)
-            elseif activeTPTarget == CFrame.new(-250, 241, 2) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "4v4",
-        Flag = "TP_Left4v4_1",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-237, 241, 2)
-            elseif activeTPTarget == CFrame.new(-237, 241, 2) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "4v4",
-        Flag = "TP_Left4v4_2",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-229, 241, 2)
-            elseif activeTPTarget == CFrame.new(-229, 241, 2) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Section({Title = "loc:RIGHT_SIDE"})
-
-    TPTab:Toggle({
-        Title = "1v1",
-        Flag = "TP_Right1v1_1",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-300, 241, 34)
-            elseif activeTPTarget == CFrame.new(-300, 241, 34) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "1v1",
-        Flag = "TP_Right1v1_2",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-292, 241, 34)
-            elseif activeTPTarget == CFrame.new(-292, 241, 34) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "2v2",
-        Flag = "TP_Right2v2_1",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-279, 241, 34)
-            elseif activeTPTarget == CFrame.new(-279, 241, 34) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "2v2",
-        Flag = "TP_Right2v2_2",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-271, 241, 34)
-            elseif activeTPTarget == CFrame.new(-271, 241, 34) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "3v3",
-        Flag = "TP_Right3v3_1",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-250, 241, 33)
-            elseif activeTPTarget == CFrame.new(-250, 241, 33) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "3v3",
-        Flag = "TP_Right3v3_2",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-237, 241, 33)
-            elseif activeTPTarget == CFrame.new(-237, 241, 33) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "4v4",
-        Flag = "TP_Right4v4_1",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-229, 241, 34)
-            elseif activeTPTarget == CFrame.new(-229, 241, 34) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    TPTab:Toggle({
-        Title = "4v4",
-        Flag = "TP_Right4v4_2",
-        Callback = function(v)
-            if v then
-                activeTPTarget = CFrame.new(-243, 69, 33)
-            elseif activeTPTarget == CFrame.new(-243, 69, 33) then
-                activeTPTarget = nil
-            end
-        end
-    })
-
-    ExtraTab:Section({Title = "loc:PERIMETER_SPECTATE_SECTION"})
-
-    ExtraTab:Toggle({
-        Title = "loc:PERIMETER_SPECTATE",
-        Flag = "PerimeterSpectate",
-        Callback = function(v)
-            perimeterEnabled = v
-            if v then
-                startPerimeter()
-            else
-                stopPerimeter()
-            end
-        end
-    })
-
-    ExtraTab:Section({Title = "Boxes"})
-
-    local selectedBox = nil
-    ExtraTab:Dropdown({
-        Title = "Select Box",
-        Values = {
-            "Knife Box #1",
-            "Knife Box #2",
-            "Gun Box #1",
-            "Gun Box #2",
-            "Mythic Box #1",
-            "Mythic Box #2",
-            "Mythic Box #3",
-            "Mythic Box #4"
-        },
-        Callback = function(v)
-            selectedBox = v
-        end
-    })
-
-    ExtraTab:Button({
-        Title = "Open Selected Box",
-        Callback = function()
-            if selectedBox then
-                local buyCase = ReplicatedStorage:FindFirstChild("BuyCase")
-                if buyCase then
-                    buyCase:InvokeServer(selectedBox)
+                            end)
+                            wait(1)
+                        end
+                    end)
                 else
+                    pcall(restoreAllHitboxes)
                 end
-            else
+            end,
+        })
+
+        HitboxTab:CreateToggle({
+            Name = "Hitbox (Gun)",
+            CurrentValue = false,
+            Flag = "HitboxGun",
+            Callback = function(v)
+                HitboxSettings.GunEnabled = v
+            end,
+        })
+
+        HitboxTab:CreateToggle({
+            Name = "Hitbox (Knife)",
+            CurrentValue = false,
+            Flag = "HitboxKnife",
+            Callback = function(v)
+                HitboxSettings.KnifeEnabled = v
+            end,
+        })
+
+        HitboxTab:CreateToggle({
+            Name = "Visibility Check",
+            CurrentValue = false,
+            Flag = "HitboxAntiWall",
+            Callback = function(v)
+                HitboxSettings.AntiWall = v
+            end,
+        })
+
+        HitboxTab:CreateSlider({
+            Name = "Size",
+            Range = {1, 25},
+            Increment = 1,
+            CurrentValue = 12,
+            Flag = "HitboxSize",
+            Callback = function(v)
+                HitboxSettings.Size = v
+            end,
+        })
+
+        HitboxTab:CreateSlider({
+            Name = "Transparency",
+            Range = {0, 1},
+            Increment = 0.1,
+            CurrentValue = 1,
+            Flag = "HitboxTransparency",
+            Callback = function(v)
+                HitboxSettings.Transparency = v
+            end,
+        })
+
+        HitboxTab:CreateColorPicker({
+            Name = "Color",
+            Color = Color3.fromRGB(255, 0, 0),
+            Flag = "HitboxColor",
+            Callback = function(v)
+                HitboxSettings.Color = v
+            end,
+        })
+
+        VisualTab:CreateToggle({
+            Name = "Show Names",
+            CurrentValue = false,
+            Flag = "ESPNames",
+            Callback = function(v)
+                ESPSettings.Names = v
+            end,
+        })
+
+        VisualTab:CreateSection("Visual Settings")
+        
+        VisualTab:CreateToggle({
+            Name = "Enable Highlights (Enemies)",
+            CurrentValue = false,
+            Flag = "HighlightsEnabled",
+            Callback = function(v)
+                ESPSettings.Highlights.Enabled = v
+                if not v and not ESPSettings.Highlights.TeammatesEnabled then
+                    for player, highlight in pairs(highlights) do
+                        if highlight then
+                            highlight:Destroy()
+                        end
+                    end
+                    highlights = {}
+                else
+                    for _, targetPlayer in pairs(Players:GetPlayers()) do
+                        if targetPlayer ~= LocalPlayer and targetPlayer.Character then
+                            createHighlightForPlayer(targetPlayer, targetPlayer.Character)
+                        end
+                    end
+                end
+            end,
+        })
+
+        VisualTab:CreateColorPicker({
+            Name = "Enemy Color",
+            Color = Color3.fromRGB(255, 0, 0),
+            Flag = "HighlightsColor",
+            Callback = function(v)
+                ESPSettings.Highlights.Color = v
+            end,
+        })
+
+        VisualTab:CreateSlider({
+            Name = "Fill Transparency",
+            Range = {0, 1},
+            Increment = 0.1,
+            CurrentValue = 0.5,
+            Flag = "HighlightsTransparency",
+            Callback = function(v)
+                ESPSettings.Highlights.Transparency = v
+            end,
+        })
+
+        VisualTab:CreateSection("Teammates")
+        
+        VisualTab:CreateToggle({
+            Name = "Enable ESP Teammates",
+            CurrentValue = false,
+            Flag = "TeammatesESPEnabled",
+            Callback = function(v)
+                ESPSettings.Highlights.TeammatesEnabled = v
+                if not v and not ESPSettings.Highlights.Enabled then
+                    for player, highlight in pairs(highlights) do
+                        if highlight then
+                            highlight:Destroy()
+                        end
+                    end
+                    highlights = {}
+                else
+                    for _, targetPlayer in pairs(Players:GetPlayers()) do
+                        if targetPlayer ~= LocalPlayer and targetPlayer.Character then
+                            createHighlightForPlayer(targetPlayer, targetPlayer.Character)
+                        end
+                    end
+                end
+            end,
+        })
+
+        VisualTab:CreateColorPicker({
+            Name = "Teammates Color",
+            Color = Color3.fromRGB(135, 206, 235),
+            Flag = "TeammatesColor",
+            Callback = function(v)
+                ESPSettings.Highlights.TeammatesColor = v
+            end,
+        })
+
+        VisualTab:CreateKeybind({
+            Name = "Toggle All ESP",
+            CurrentKeybind = "P",
+            HoldToInteract = false,
+            Flag = "ToggleESPKey",
+            Callback = function()
+                ESPSettings.Highlights.Enabled = not ESPSettings.Highlights.Enabled
+                ESPSettings.Highlights.TeammatesEnabled = not ESPSettings.Highlights.TeammatesEnabled
+            end,
+        })
+
+        TPTab:CreateSection("Teleports")
+
+        TPTab:CreateToggle({
+            Name = "Auto Farm Wins",
+            CurrentValue = false,
+            Flag = "AutoFarm",
+            Callback = function(v)
+                autoFarmEnabled = v
+                if v then
+                    startAutoFarm()
+                else
+                    stopAutoFarm()
+                end
+            end,
+        })
+
+        TPTab:CreateToggle({
+            Name = "Auto Farm Kills",
+            CurrentValue = false,
+            Flag = "AutoFarmKills",
+            Callback = function(v)
+                autoFarmKillsEnabled = v
+                if v then
+                    if not autoFarmKillsThread then
+                        autoFarmKillsThread = task.spawn(mainLoop)
+                    end
+                else
+                    if autoFarmKillsThread then
+                        task.cancel(autoFarmKillsThread)
+                        autoFarmKillsThread = nil
+                    end
+                    StopKillSpam()
+                end
+            end,
+        })
+
+        TPTab:CreateToggle({
+            Name = "Anti AFK",
+            CurrentValue = false,
+            Flag = "AntiAFK",
+            Callback = function(v)
+                if v then
+                    startAntiAFK()
+                else
+                    stopAntiAFK()
+                end
+            end,
+        })
+
+        TPTab:CreateSection("Left Side")
+
+        local tpFlags = {}
+        local function createTPToggle(name, flag, cf)
+            table.insert(tpFlags, flag)
+            TPTab:CreateToggle({
+                Name = name,
+                CurrentValue = false,
+                Flag = flag,
+                Callback = function(v)
+                    if v then
+                        for _, otherFlag in ipairs(tpFlags) do
+                            if otherFlag ~= flag then
+                                Rayfield:SetToggle({Flag = otherFlag, Value = false})
+                            end
+                        end
+                        activeTPTarget = cf
+                    else
+                        if activeTPTarget == cf then
+                            activeTPTarget = nil
+                        end
+                    end
+                end,
+            })
+        end
+
+        createTPToggle("1v1", "TP_Left1v1_1", CFrame.new(-300, 241, 2))
+        createTPToggle("1v1", "TP_Left1v1_2", CFrame.new(-292, 241, 2))
+        createTPToggle("2v2", "TP_Left2v2_1", CFrame.new(-279, 241, 2))
+        createTPToggle("2v2", "TP_Left2v2_2", CFrame.new(-271, 241, 2))
+        createTPToggle("3v3", "TP_Left3v3_1", CFrame.new(-258, 241, 2))
+        createTPToggle("3v3", "TP_Left3v3_2", CFrame.new(-250, 241, 2))
+        createTPToggle("4v4", "TP_Left4v4_1", CFrame.new(-237, 241, 2))
+        createTPToggle("4v4", "TP_Left4v4_2", CFrame.new(-229, 241, 2))
+
+        TPTab:CreateSection("Right Side")
+
+        createTPToggle("1v1", "TP_Right1v1_1", CFrame.new(-300, 241, 34))
+        createTPToggle("1v1", "TP_Right1v1_2", CFrame.new(-292, 241, 34))
+        createTPToggle("2v2", "TP_Right2v2_1", CFrame.new(-279, 241, 34))
+        createTPToggle("2v2", "TP_Right2v2_2", CFrame.new(-271, 241, 34))
+        createTPToggle("3v3", "TP_Right3v3_1", CFrame.new(-250, 241, 33))
+        createTPToggle("3v3", "TP_Right3v3_2", CFrame.new(-237, 241, 33))
+        createTPToggle("4v4", "TP_Right4v4_1", CFrame.new(-229, 241, 34))
+        createTPToggle("4v4", "TP_Right4v4_2", CFrame.new(-243, 69, 33))
+
+        ExtraTab:CreateSection("Spectate Perimeter")
+
+        ExtraTab:CreateToggle({
+            Name = "Spectate Perimeter",
+            CurrentValue = false,
+            Flag = "PerimeterSpectate",
+            Callback = function(v)
+                perimeterEnabled = v
+                if v then
+                    startPerimeter()
+                else
+                    stopPerimeter()
+                end
+            end,
+        })
+
+        ExtraTab:CreateSection("Boxes")
+
+        local selectedBox = nil
+        ExtraTab:CreateDropdown({
+            Name = "Select Box",
+            Options = {
+                "Knife Box #1",
+                "Knife Box #2",
+                "Gun Box #1",
+                "Gun Box #2",
+                "Mythic Box #1",
+                "Mythic Box #2",
+                "Mythic Box #3",
+                "Mythic Box #4"
+            },
+            CurrentOption = "",
+            Flag = "BoxDropdown",
+            Callback = function(v)
+                selectedBox = v
+            end,
+        })
+
+        ExtraTab:CreateButton({
+            Name = "Open Selected Box",
+            Callback = function()
+                if selectedBox then
+                    local buyCase = ReplicatedStorage:FindFirstChild("BuyCase")
+                    if buyCase then
+                        buyCase:InvokeServer(selectedBox)
+                    end
+                end
+            end,
+        })
+
+        ExtraTab:CreateSection("Auto Shoot")
+
+        ExtraTab:CreateToggle({
+            Name = "Auto Shoot",
+            CurrentValue = false,
+            Flag = "AutoShoot",
+            Callback = function(v)
+                SetAutoShootState(v)
+            end,
+        })
+
+        ExtraTab:CreateDropdown({
+            Name = "Auto Shoot Mode",
+            Options = {"Pantalla Completa", "FOV"},
+            CurrentOption = "Pantalla Completa",
+            Flag = "AutoShootMode",
+            Callback = function(v)
+                autoShootConfig.mode = v
+            end,
+        })
+
+        ExtraTab:CreateToggle({
+            Name = "Mostrar FOV",
+            CurrentValue = true,
+            Flag = "AutoShootShowFOV",
+            Callback = function(v)
+                autoShootConfig.showFOV = v
+            end,
+        })
+
+        ExtraTab:CreateSlider({
+            Name = "FOV Size",
+            Range = {50, 500},
+            Increment = 10,
+            CurrentValue = 100,
+            Flag = "AutoShootFOVSize",
+            Callback = function(v)
+                autoShootConfig.fovSize = v
+            end,
+        })
+
+        ExtraTab:CreateColorPicker({
+            Name = "FOV Color",
+            Color = Color3.fromRGB(255, 255, 255),
+            Flag = "AutoShootFOVColor",
+            Callback = function(v)
+                autoShootConfig.fovColor = v
+            end,
+        })
+
+        ExtraTab:CreateSlider({
+            Name = "Shoot Delay",
+            Range = {0.01, 3},
+            Increment = 0.01,
+            CurrentValue = 0.08,
+            Flag = "ShootDelay",
+            Callback = function(v)
+                autoShootDelay = v
+            end,
+        })
+
+        ExtraTab:CreateSection("Invisibility")
+
+        ExtraTab:CreateToggle({
+            Name = "Auto-Give Cloak",
+            CurrentValue = false,
+            Flag = "AutoGiveCloak",
+            Callback = function(v)
+                AutoGiveCloak = v
+            end,
+        })
+
+        ExtraTab:CreateButton({
+            Name = "Get Cloak",
+            Callback = function()
+                GiveCloakTool()
+            end,
+        })
+
+        ExtraTab:CreateButton({
+            Name = "Remove Cloak",
+            Callback = function()
+                local removed = false
+                for _, t in pairs(LocalPlayer.Backpack:GetChildren()) do
+                    if t.Name == 'Invisibility Cloak' then t:Destroy(); removed = true end
+                end
+                if LocalPlayer.Character then
+                    local t = LocalPlayer.Character:FindFirstChild('Invisibility Cloak')
+                    if t then t:Destroy(); removed = true end
+                end
+            end,
+        })
+
+        ExtraTab:CreateSection("Inventory Viewer")
+
+        local selectedInvPlayer = nil
+        local function getPlayerNames()
+            local list = {}
+            for _, p in pairs(Players:GetPlayers()) do
+                table.insert(list, p.Name)
             end
+            return list
         end
-    })
 
-    ExtraTab:Section({Title = "Auto Shoot"})
+        local invDropdown = ExtraTab:CreateDropdown({
+            Name = "Select Player",
+            Options = getPlayerNames(),
+            CurrentOption = "",
+            Flag = "InvPlayerDropdown",
+            Callback = function(v)
+                selectedInvPlayer = v
+            end,
+        })
 
-    ExtraTab:Toggle({
-        Title = "Auto Shoot",
-        Flag = "AutoShoot",
-        Callback = function(v)
-            SetAutoShootState(v)
+        ExtraTab:CreateButton({
+            Name = "Refresh Player List",
+            Callback = function()
+                invDropdown:SetOptions(getPlayerNames())
+            end,
+        })
+
+        ExtraTab:CreateButton({
+            Name = "View Inventory",
+            Callback = function()
+                if selectedInvPlayer then
+                    OpenInventoryViewer(selectedInvPlayer)
+                end
+            end,
+        })
+
+        if InfoTab then
+            InfoTab:Select()
         end
-    })
-
-    ExtraTab:Dropdown({
-        Title = "Auto Shoot Mode",
-        Values = {"Pantalla Completa", "FOV"},
-        Callback = function(v)
-            autoShootConfig.mode = v
-        end
-    })
-
-    ExtraTab:Toggle({
-        Title = "Mostrar FOV",
-        Flag = "AutoShootShowFOV",
-        Default = true,
-        Callback = function(v)
-            autoShootConfig.showFOV = v
-        end
-    })
-
-    ExtraTab:Slider({
-        Title = "FOV Size",
-        Flag = "AutoShootFOVSize",
-        Step = 10,
-        Value = { Min = 50, Max = 500, Default = 100 },
-        Callback = function(v)
-            autoShootConfig.fovSize = v
-        end
-    })
-
-    ExtraTab:Colorpicker({
-        Title = "FOV Color",
-        Flag = "AutoShootFOVColor",
-        Value = Color3.fromRGB(255, 255, 255),
-        Callback = function(v)
-            autoShootConfig.fovColor = v
-        end
-    })
-
-    ExtraTab:Slider({
-        Title = "Shoot Delay",
-        Flag = "ShootDelay",
-        Step = 0.01,
-        Value = { Min = 0.01, Max = 3, Default = 0.08 },
-        Callback = function(v)
-            autoShootDelay = v
-        end
-    })
-
-    ExtraTab:Section({Title = "loc:INVISIBILITY"})
-
-    ExtraTab:Toggle({
-        Title = "loc:AUTO_GIVE_CLOAK",
-        Flag = "AutoGiveCloak",
-        Callback = function(v)
-            AutoGiveCloak = v
-        end
-    })
-
-    ExtraTab:Button({
-        Title = "loc:GET_CLOAK",
-        Callback = function()
-            if GiveCloakTool() then
-            else
-            end
-        end
-    })
-
-    ExtraTab:Button({
-        Title = "loc:REMOVE_CLOAK",
-        Callback = function()
-            local removed = false
-            for _, t in pairs(LocalPlayer.Backpack:GetChildren()) do
-                if t.Name == 'Invisibility Cloak' then t:Destroy(); removed = true end
-            end
-            if LocalPlayer.Character then
-                local t = LocalPlayer.Character:FindFirstChild('Invisibility Cloak')
-                if t then t:Destroy(); removed = true end
-            end
-            if removed then
-            end
-        end
-    })
-
-    ExtraTab:Section({Title = "loc:INVENTORY_VIEWER"})
-
-    local selectedInvPlayer = nil
-    local function getPlayerNames()
-        local list = {}
-        for _, p in pairs(Players:GetPlayers()) do
-            table.insert(list, p.Name)
-        end
-        return list
-    end
-
-    local invDropdown = ExtraTab:Dropdown({
-        Title = "Select Player",
-        Values = getPlayerNames(),
-        Callback = function(v)
-            selectedInvPlayer = v
-        end
-    })
-
-    ExtraTab:Button({
-        Title = "Refresh Player List",
-        Callback = function()
-            invDropdown:SetValues(getPlayerNames())
-        end
-    })
-
-    ExtraTab:Button({
-        Title = "View Inventory",
-        Callback = function()
-            if selectedInvPlayer then
-                OpenInventoryViewer(selectedInvPlayer)
-            else
-            end
-        end
-    })
-
-    if InfoTab and InfoTab.Select then
-        InfoTab:Select()
+    end)
+    if not success then
+        warn("Error al crear la ventana principal:", err)
     end
 end
 
-createWelcomePopup()
+createMainWindow()
