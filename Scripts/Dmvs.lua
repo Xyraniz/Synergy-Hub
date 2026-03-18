@@ -11,7 +11,7 @@ local Debris = game:GetService("Debris")
 
 local LocalPlayer = Players.LocalPlayer
 
-local whitelistedNames = {"DONATE100YT", "01_Yxn", "70xyr", "mauri1492", "cabada2007", "sparro61"}
+local whitelistedNames = {"DONATE100YT", "eyedsee", "01_Yxn", "70xyr", "mauri1492", "cabada2007", "sparro61"}
 local isWhitelisted = false
 for _, name in ipairs(whitelistedNames) do
     if LocalPlayer.Name == name then
@@ -901,7 +901,6 @@ local aimbotConnection
 
 local silentAimSettings = {
     prediction = 100,
-    aimType = "Pantalla Completa",
     fovColor = Color3.fromRGB(255, 255, 255),
     fovSize = 100,
     wallCheck = false,
@@ -1850,26 +1849,24 @@ local function SA_GetBestTarget(fovRadius, fovCenter)
             if root and humanoid and humanoid.Health > 0 then
                 local distance = (localChar:GetPivot().Position - root.Position).Magnitude
                 if distance <= SA_MaxDistance then
-                    if SA_IsTargetInView(root.Position) then
-                        if fovRadius then
-                            if not fovCenter then
-                                fovCenter = workspace.CurrentCamera.ViewportSize / 2
-                            end
-                            local screenPos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(root.Position)
-                            if onScreen then
-                                local screenPos2D = Vector2.new(screenPos.X, screenPos.Y)
-                                if (screenPos2D - fovCenter).Magnitude > fovRadius then
-                                    continue
-                                end
-                            else
-                                continue
-                            end
+                    local screenPos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(root.Position)
+                    if not onScreen then continue end
+                    
+                    local camera = workspace.CurrentCamera
+                    local direction = (root.Position - camera.CFrame.Position).Unit
+                    if direction:Dot(camera.CFrame.LookVector) <= 0 then continue end
+                    
+                    if fovRadius then
+                        local screenPos2D = Vector2.new(screenPos.X, screenPos.Y)
+                        if (screenPos2D - fovCenter).Magnitude > fovRadius then
+                            continue
                         end
-                        local score = SA_CalculateTargetScore(enemy)
-                        if score > 25 and score > bestScore then
-                            bestScore = score
-                            bestTarget = enemy
-                        end
+                    end
+
+                    local score = SA_CalculateTargetScore(enemy)
+                    if score > 25 and score > bestScore then
+                        bestScore = score
+                        bestTarget = enemy
                     end
                 end
             end
@@ -1955,13 +1952,8 @@ local function SA_PerformShot()
         return false
     end
 
-    -- Determinar si se usa FOV según el tipo seleccionado
-    local useFOV = (silentAimSettings.aimType == "FOV")
-    local fovRadius, fovCenter
-    if useFOV then
-        fovRadius = silentAimSettings.fovSize
-        fovCenter = workspace.CurrentCamera.ViewportSize / 2
-    end
+    local fovRadius = silentAimSettings.fovSize
+    local fovCenter = workspace.CurrentCamera.ViewportSize / 2
 
     local target, score = SA_GetBestTarget(fovRadius, fovCenter)
     if not target or score < 25 then
@@ -2034,7 +2026,6 @@ function SetSilentAimState(state)
     if state then
         SA_InitializeWeapon()
         SA_AdjustForMobile()
-    else
     end
 end
 
@@ -2354,15 +2345,13 @@ local function startSilentAimMobileDisimulado()
     CrosshairStroke.Thickness = 1
     CrosshairStroke.ZIndex = 11
 
-    if silentAimSettings.aimType == "FOV" then
-        silentAimFOVCircleDisimulado = Drawing.new("Circle")
-        silentAimFOVCircleDisimulado.Visible = false
-        silentAimFOVCircleDisimulado.Thickness = 2
-        silentAimFOVCircleDisimulado.Color = silentAimSettings.fovColor
-        silentAimFOVCircleDisimulado.Filled = false
-        silentAimFOVCircleDisimulado.Radius = silentAimSettings.fovSize
-        silentAimFOVCircleDisimulado.Position = Camera.ViewportSize / 2
-    end
+    silentAimFOVCircleDisimulado = Drawing.new("Circle")
+    silentAimFOVCircleDisimulado.Visible = false
+    silentAimFOVCircleDisimulado.Thickness = 2
+    silentAimFOVCircleDisimulado.Color = silentAimSettings.fovColor
+    silentAimFOVCircleDisimulado.Filled = false
+    silentAimFOVCircleDisimulado.Radius = silentAimSettings.fovSize
+    silentAimFOVCircleDisimulado.Position = Camera.ViewportSize / 2
 
     local function GetESPIndicator(userId)
         if ESP_Indicators[userId] and ESP_Indicators[userId].Parent then
@@ -2423,12 +2412,14 @@ local function startSilentAimMobileDisimulado()
                 end
                 
                 local screenPos, onScreen = Camera:WorldToViewportPoint(targetRoot.Position)
+                if not onScreen then continue end
+
+                local direction = (targetRoot.Position - cameraPos).Unit
+                if direction:Dot(Camera.CFrame.LookVector) <= 0 then continue end
                 
-                if silentAimSettings.aimType == "FOV" then
-                    local distanceFromCenter = (Vector2.new(screenPos.X, screenPos.Y) - viewportCenter).Magnitude
-                    if distanceFromCenter > silentAimSettings.fovSize then
-                        continue
-                    end
+                local distanceFromCenter = (Vector2.new(screenPos.X, screenPos.Y) - viewportCenter).Magnitude
+                if distanceFromCenter > silentAimSettings.fovSize then
+                    continue
                 end
                 
                 local distSq = (targetRoot.Position - myRoot.Position).Magnitude ^ 2
@@ -2484,7 +2475,7 @@ local function startSilentAimMobileDisimulado()
     local renderConnection = RunService.RenderStepped:Connect(function()
         if silentAimFOVCircleDisimulado then
             silentAimFOVCircleDisimulado.Position = Camera.ViewportSize / 2
-            silentAimFOVCircleDisimulado.Visible = silentAimSettings.showFOV and silentAimSettings.aimType == "FOV" and getgenv().Aimbot_Enabled
+            silentAimFOVCircleDisimulado.Visible = silentAimSettings.showFOV and getgenv().Aimbot_Enabled
             silentAimFOVCircleDisimulado.Color = silentAimSettings.fovColor
             silentAimFOVCircleDisimulado.Radius = silentAimSettings.fovSize
         end
@@ -3015,7 +3006,7 @@ function createMainWindow()
                 end
             end
             
-            SilentAimFOV.Visible = silentAimSettings.showFOV and silentAimSettings.aimType == "FOV"
+            SilentAimFOV.Visible = silentAimSettings.showFOV and SA_ClickShootEnabled
             
             autoShootFOVCircle.Visible = AutoShootEnabled and autoShootConfig.showFOV and autoShootConfig.mode == "FOV"
             autoShootFOVCircle.Position = workspace.CurrentCamera.ViewportSize / 2
@@ -3145,16 +3136,6 @@ function createMainWindow()
                 else
                     stopSilentAimMobileDisimulado()
                 end
-            end,
-        })
-
-        SilentAimTab:CreateDropdown({
-            Name = "Silent Aim Type",
-            Options = {"Pantalla Completa", "FOV"},
-            CurrentOption = "Pantalla Completa",
-            Flag = "SilentAimType",
-            Callback = function(v)
-                silentAimSettings.aimType = v
             end,
         })
 
