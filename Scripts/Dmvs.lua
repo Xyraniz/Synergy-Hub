@@ -1280,7 +1280,7 @@ local function initializeAimbot()
     workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function() updateDrawings() end)
 end
 
-local HitboxSettings = { Enabled = false, GunEnabled = false, KnifeEnabled = false, Size = 12, Transparency = 1, Color = Color3.fromRGB(255, 0, 0), AntiWall = false }
+local HitboxSettings = { Enabled = false, GunEnabled = false, KnifeEnabled = false, Size = 12, AntiWall = false }
 local ESPSettings = { Names = false, Highlights = { Enabled = false, Color = Color3.fromRGB(255, 0, 0), Transparency = 0.5, TeammatesEnabled = false, TeammatesColor = Color3.fromRGB(135, 206, 235) } }
 local originalHitboxProperties = {}
 
@@ -1291,7 +1291,10 @@ local function restoreHitbox(targetPlayer)
             local part = targetPlayer.Character:FindFirstChild(partName)
             if part and originalHitboxProperties[targetPlayer] and originalHitboxProperties[targetPlayer][partName] then
                 local props = originalHitboxProperties[targetPlayer][partName]
-                part.Size = props.Size; part.Transparency = props.Transparency; part.Color = props.Color; part.CanCollide = props.CanCollide
+                part.Size = props.Size
+                part.Transparency = props.Transparency
+                part.Color = props.Color
+                part.CanCollide = props.CanCollide
             end
         end
     end
@@ -1552,6 +1555,7 @@ local lastShotTime = 0; local shotDelay = 2.15; local maxDistance = 200; local w
 local instanceCache = {}; local cacheDuration = 0.5; local raycastBudget = 100; local raycastCost = 0
 local silentAimConfig = { aimAssistStrength = 0.7, predictionStrength = 0.8, cameraThreshold = 0.1, maxCameraAngle = 30, maxRaysPerFrame = 8, baseRaycastCount = 5, maxRaycastCount = 10, distanceBasedRayReduction = true, screenCenterWeight = 0.4, distanceWeight = 0.3, visibilityWeight = 0.3 }
 local aimParts = { 'HumanoidRootPart', 'Head', 'UpperTorso', 'LowerTorso', 'LeftUpperArm', 'RightUpperArm', 'LeftUpperLeg', 'RightUpperLeg' }
+local silentAimTargetPart = "Head"
 
 local function AdjustForMobile()
     local isTouch = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
@@ -1705,13 +1709,15 @@ end
 
 local function CalculateTargetScore(player)
     local character = player.Character; if not character then return 0 end
-    local root = character:FindFirstChild('HumanoidRootPart'); if not root then return 0 end
+    local targetPart = character:FindFirstChild(silentAimTargetPart)
+    if not targetPart then targetPart = character:FindFirstChild("HumanoidRootPart") end
+    if not targetPart then return 0 end
     local camera = workspace.CurrentCamera; if not camera then return 0 end
     local score = 0
-    local angle = GetAngleToTarget(root.Position)
+    local angle = GetAngleToTarget(targetPart.Position)
     local screenScore = 1 - (angle / silentAimConfig.maxCameraAngle); screenScore = math.clamp(screenScore, 0, 1)
     score = score + (screenScore * silentAimConfig.screenCenterWeight * 100)
-    local distance = (camera.CFrame.Position - root.Position).Magnitude
+    local distance = (camera.CFrame.Position - targetPart.Position).Magnitude
     if distance <= maxDistance then
         local distanceScore = 1 - (distance / maxDistance)
         score = score + (distanceScore * silentAimConfig.distanceWeight * 100)
@@ -1721,7 +1727,7 @@ local function CalculateTargetScore(player)
         local localRoot = GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
         if localRoot then
             local params = RaycastParams.new(); params.FilterType = Enum.RaycastFilterType.Exclude; params.FilterDescendantsInstances = {localChar}
-            local ray = workspace:Raycast(localRoot.Position, (root.Position - localRoot.Position).Unit * distance, params)
+            local ray = workspace:Raycast(localRoot.Position, (targetPart.Position - localRoot.Position).Unit * distance, params)
             if not ray or (ray.Instance and ray.Instance:IsDescendantOf(character)) then score = score + (silentAimConfig.visibilityWeight * 100) end
         end
     end
@@ -1737,15 +1743,16 @@ local function GetBestTarget(fovRadius, fovCenter)
     for _, enemy in ipairs(enemies) do
         local char = enemy.Character
         if char and char:IsDescendantOf(workspace) then
-            local root = GetComponent(char, 'HumanoidRootPart')
+            local targetPart = char:FindFirstChild(silentAimTargetPart)
+            if not targetPart then targetPart = char:FindFirstChild("HumanoidRootPart") end
             local humanoid = GetComponent(char, 'Humanoid')
-            if root and humanoid and humanoid.Health > 0 then
-                local distance = (localChar:GetPivot().Position - root.Position).Magnitude
+            if targetPart and humanoid and humanoid.Health > 0 then
+                local distance = (localChar:GetPivot().Position - targetPart.Position).Magnitude
                 if distance <= maxDistance then
-                    local screenPos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(root.Position)
+                    local screenPos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(targetPart.Position)
                     if not onScreen then continue end
                     local camera = workspace.CurrentCamera
-                    local direction = (root.Position - camera.CFrame.Position).Unit
+                    local direction = (targetPart.Position - camera.CFrame.Position).Unit
                     if direction:Dot(camera.CFrame.LookVector) <= 0 then continue end
                     if fovRadius then
                         local screenPos2D = Vector2.new(screenPos.X, screenPos.Y)
@@ -1765,12 +1772,13 @@ local function CanShootTarget(target)
     local targetChar = target.Character; if not targetChar then return false end
     local localChar = LocalPlayer.Character; if not localChar then return false end
     local localRoot = GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
-    local targetRoot = GetComponent(targetChar, 'HumanoidRootPart')
+    local targetPart = targetChar:FindFirstChild(silentAimTargetPart)
+    if not targetPart then targetPart = targetChar:FindFirstChild("HumanoidRootPart") end
     local targetHumanoid = GetComponent(targetChar, 'Humanoid')
-    if not localRoot or not targetRoot or not targetHumanoid or targetHumanoid.Health <= 0 then return false end
-    local distance = (targetRoot.Position - localRoot.Position).Magnitude
+    if not localRoot or not targetPart or not targetHumanoid or targetHumanoid.Health <= 0 then return false end
+    local distance = (targetPart.Position - localRoot.Position).Magnitude
     if distance > maxDistance then return false end
-    if not IsTargetInView(targetRoot.Position) then return false end
+    if not IsTargetInView(targetPart.Position) then return false end
     local visible, _ = CheckSilentVisibility(targetChar, localRoot.Position, distance)
     return visible
 end
@@ -1801,11 +1809,12 @@ local function PerformShot()
     local localChar = LocalPlayer.Character; if not localChar then return false end
     local targetChar = target.Character; if not targetChar then return false end
     local localRoot = GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
-    local targetRoot = GetComponent(targetChar, 'HumanoidRootPart')
+    local targetPart = targetChar:FindFirstChild(silentAimTargetPart)
+    if not targetPart then targetPart = targetChar:FindFirstChild("HumanoidRootPart") end
     local targetHumanoid = GetComponent(targetChar, 'Humanoid')
-    if not localRoot or not targetRoot or not targetHumanoid then return false end
-    local prediction = CalculatePrediction(targetRoot, targetHumanoid)
-    local targetPosition = targetRoot.Position + prediction
+    if not localRoot or not targetPart or not targetHumanoid then return false end
+    local prediction = CalculatePrediction(targetPart, targetHumanoid)
+    local targetPosition = targetPart.Position + prediction
     local handle = GetComponent(activeWeapon, 'Handle') or activeWeapon
     if not handle then return false end
     local fireEvent = GetComponent(activeWeapon, 'fire'); local beamEvent = GetComponent(activeWeapon, 'showBeam'); local killEvent = GetComponent(activeWeapon, 'kill'); local localBeam = ReplicatedStorage:FindFirstChild('LocalBeam')
@@ -1909,9 +1918,11 @@ local function PerformAutoShoot()
     local localRoot = GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head'); if not localRoot then return end
     if not CanShootTarget(target) then return end
     local targetChar = target.Character; if not targetChar then return end
-    local targetRoot = GetComponent(targetChar, 'HumanoidRootPart'); local targetHumanoid = GetComponent(targetChar, 'Humanoid'); if not targetRoot or not targetHumanoid then return end
+    local targetPart = targetChar:FindFirstChild(silentAimTargetPart)
+    if not targetPart then targetPart = targetChar:FindFirstChild("HumanoidRootPart") end
+    local targetHumanoid = GetComponent(targetChar, 'Humanoid'); if not targetPart or not targetHumanoid then return end
     local handle = GetComponent(weapon, 'Handle') or weapon; if handle and not IsVisibleFromWeapon(handle, targetChar) then return end
-    local prediction = CalculatePrediction(targetRoot, targetHumanoid); local targetPosition = targetRoot.Position + prediction
+    local prediction = CalculatePrediction(targetPart, targetHumanoid); local targetPosition = targetPart.Position + prediction
     local fireEvent = GetComponent(weapon, 'fire'); local beamEvent = GetComponent(weapon, 'showBeam'); local killEvent = GetComponent(weapon, 'kill'); local localBeam = ReplicatedStorage:FindFirstChild('LocalBeam')
     task.spawn(function()
         if localBeam then pcall(function() localBeam:Fire(handle, targetPosition) end) end
@@ -1963,17 +1974,19 @@ local function startSilentAimMobileDisimulado()
         local maxDistance = 150; local closestTarget = nil; local shortestDistanceSq = maxDistance * maxDistance; local cameraPos = Camera.CFrame.Position; local viewportCenter = Camera.ViewportSize / 2
         for _, player in ipairs(Players:GetPlayers()) do
             if IsValidTarget(player) then
-                local targetRoot = player.Character.HumanoidRootPart
+                local targetPart = player.Character:FindFirstChild(silentAimTargetPart)
+                if not targetPart then targetPart = player.Character:FindFirstChild("HumanoidRootPart") end
+                if not targetPart then continue end
                 if silentAimSettings.wallCheck then
-                    local direction = targetRoot.Position - cameraPos; local rayParams = RaycastParams.new(); rayParams.FilterType = Enum.RaycastFilterType.Exclude; rayParams.FilterDescendantsInstances = {LocalPlayer.Character}
+                    local direction = targetPart.Position - cameraPos; local rayParams = RaycastParams.new(); rayParams.FilterType = Enum.RaycastFilterType.Exclude; rayParams.FilterDescendantsInstances = {LocalPlayer.Character}
                     local rayResult = workspace:Raycast(cameraPos, direction, rayParams)
                     if rayResult and not rayResult.Instance:IsDescendantOf(player.Character) then continue end
                 end
-                local screenPos, onScreen = Camera:WorldToViewportPoint(targetRoot.Position); if not onScreen then continue end
-                local direction = (targetRoot.Position - cameraPos).Unit; if direction:Dot(Camera.CFrame.LookVector) <= 0 then continue end
+                local screenPos, onScreen = Camera:WorldToViewportPoint(targetPart.Position); if not onScreen then continue end
+                local direction = (targetPart.Position - cameraPos).Unit; if direction:Dot(Camera.CFrame.LookVector) <= 0 then continue end
                 local distanceFromCenter = (Vector2.new(screenPos.X, screenPos.Y) - viewportCenter).Magnitude; if distanceFromCenter > silentAimSettings.fovSize then continue end
-                local distSq = (targetRoot.Position - myRoot.Position).Magnitude ^ 2
-                if distSq < shortestDistanceSq then shortestDistanceSq = distSq; closestTarget = targetRoot end
+                local distSq = (targetPart.Position - myRoot.Position).Magnitude ^ 2
+                if distSq < shortestDistanceSq then shortestDistanceSq = distSq; closestTarget = targetPart end
             end
         end
         return closestTarget
@@ -2031,10 +2044,12 @@ local function startSilentAimMobileDisimulado()
             for _, player in ipairs(Players:GetPlayers()) do
                 local indicator = GetESPIndicator(player.UserId)
                 if IsValidTarget(player) then
-                    local root = player.Character.HumanoidRootPart; local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart"); local inRange = false
-                    if myRoot then local dist = (myRoot.Position - root.Position).Magnitude; inRange = dist <= 150 end
+                    local targetPart = player.Character:FindFirstChild(silentAimTargetPart)
+                    if not targetPart then targetPart = player.Character:FindFirstChild("HumanoidRootPart") end
+                    local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart"); local inRange = false
+                    if myRoot and targetPart then local dist = (myRoot.Position - targetPart.Position).Magnitude; inRange = dist <= 150 end
                     if not inRange then indicator.Visible = false else
-                        local pos, onScreen = Camera:WorldToViewportPoint(root.Position)
+                        local pos, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
                         if onScreen then indicator.Visible = true; indicator.Position = UDim2.new(0, pos.X, 0, pos.Y) else indicator.Visible = false end
                     end
                 else indicator.Visible = false end
@@ -2249,7 +2264,7 @@ local function createMainWindow()
     AimbotTab:CreateSlider({Name = "Smoothness", Range = {0.1, 1}, Increment = 0.05, CurrentValue = 1, Flag = "AimbotSmoothness", Callback = function(v) aimbotState.smoothness = v end})
     AimbotTab:CreateColorPicker({Name = "FOV Color", Color = Color3.fromRGB(128, 0, 128), Flag = "AimbotFOVColor", Callback = function(v) aimbotState.fovColor = v; if FOVring then FOVring.Color = v end end})
     AimbotTab:CreateSlider({Name = "FOV Size", Range = {50, 500}, Increment = 10, CurrentValue = 100, Flag = "AimbotFOVSize", Callback = function(v) aimbotState.fovSize = v; if FOVring then FOVring.Radius = v end end})
-    AimbotTab:CreateDropdown({Name = "Target Part", Options = {"Head", "HumanoidRootPart", "UpperTorso"}, CurrentOption = "Head", Flag = "AimbotTargetPart", Callback = function(v) aimbotState.targetPart = v end})
+    AimbotTab:CreateDropdown({Name = "Target Part", Options = {"Head", "HumanoidRootPart", "UpperTorso", "LowerTorso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"}, CurrentOption = "Head", Flag = "AimbotTargetPart", Callback = function(v) aimbotState.targetPart = v end})
     AimbotTab:CreateToggle({Name = "Wall Check", Flag = "AimbotVisibilityCheck", CurrentValue = false, Callback = function(v) aimbotState.visibilityCheck = v end})
 
     SilentAimTab:CreateSection("Silent Aim Settings")
@@ -2263,6 +2278,7 @@ local function createMainWindow()
     SilentAimTab:CreateSlider({Name = "Aim Assist Strength", Range = {1, 100}, Increment = 1, CurrentValue = 70, Flag = "AimAssistStrength", Callback = function(v) silentAimConfig.aimAssistStrength = v / 100 end})
     SilentAimTab:CreateSlider({Name = "Prediction", Range = {1, 100}, Increment = 1, CurrentValue = 80, Flag = "ClickShootPrediction", Callback = function(v) silentAimConfig.predictionStrength = v / 100; silentAimSettings.prediction = v end})
     SilentAimTab:CreateToggle({Name = "Wall Check", Flag = "SilentAimWallCheck", CurrentValue = false, Callback = function(v) silentAimSettings.wallCheck = v end})
+    SilentAimTab:CreateDropdown({Name = "Target Part", Options = {"Head", "HumanoidRootPart", "UpperTorso", "LowerTorso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"}, CurrentOption = "Head", Flag = "SilentAimTargetPart", Callback = function(v) silentAimTargetPart = v end})
 
     HitboxTab:CreateSection("Hitbox Expansion")
     HitboxTab:CreateToggle({Name = "Enable Hitbox", Flag = "HitboxEnabled", CurrentValue = false, Callback = function(v)
@@ -2292,13 +2308,15 @@ local function createMainWindow()
                                                 if not originalHitboxProperties[targetPlayer][partName] then originalHitboxProperties[targetPlayer][partName] = { Size = part.Size, Transparency = part.Transparency, Color = part.Color, CanCollide = part.CanCollide } end
                                                 if shouldExpand then
                                                     local newSize = Vector3.new(HitboxSettings.Size, HitboxSettings.Size, HitboxSettings.Size)
-                                                    if part.Size ~= newSize or part.Transparency ~= HitboxSettings.Transparency or part.Color ~= HitboxSettings.Color or part.CanCollide ~= false then
-                                                        part.CanCollide = false; part.Transparency = HitboxSettings.Transparency; part.Color = HitboxSettings.Color; part.Size = newSize
+                                                    if part.Size ~= newSize or part.CanCollide ~= false then
+                                                        part.CanCollide = false
+                                                        part.Size = newSize
                                                     end
                                                 else
                                                     local props = originalHitboxProperties[targetPlayer][partName]
-                                                    if part.Size ~= props.Size or part.Transparency ~= props.Transparency or part.Color ~= props.Color or part.CanCollide ~= props.CanCollide then
-                                                        part.Size = props.Size; part.Transparency = props.Transparency; part.Color = props.Color; part.CanCollide = props.CanCollide
+                                                    if part.Size ~= props.Size or part.CanCollide ~= props.CanCollide then
+                                                        part.Size = props.Size
+                                                        part.CanCollide = props.CanCollide
                                                     end
                                                 end
                                             end
@@ -2317,8 +2335,6 @@ local function createMainWindow()
     HitboxTab:CreateToggle({Name = "Hitbox (Knife)", Flag = "HitboxKnife", CurrentValue = false, Callback = function(v) HitboxSettings.KnifeEnabled = v end})
     HitboxTab:CreateToggle({Name = "Visibility Check", Flag = "HitboxAntiWall", CurrentValue = false, Callback = function(v) HitboxSettings.AntiWall = v end})
     HitboxTab:CreateSlider({Name = "Size", Range = {1, 25}, Increment = 1, CurrentValue = 12, Flag = "HitboxSize", Callback = function(v) HitboxSettings.Size = v end})
-    HitboxTab:CreateSlider({Name = "Transparency", Range = {0, 1}, Increment = 0.1, CurrentValue = 1, Flag = "HitboxTransparency", Callback = function(v) HitboxSettings.Transparency = v end})
-    HitboxTab:CreateColorPicker({Name = "Color", Color = Color3.fromRGB(255, 0, 0), Flag = "HitboxColor", Callback = function(v) HitboxSettings.Color = v end})
 
     VisualTab:CreateSection("ESP Visuals")
     VisualTab:CreateToggle({Name = "Show Names", Flag = "ESPNames", CurrentValue = false, Callback = function(v) ESPSettings.Names = v end})
