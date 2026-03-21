@@ -8,7 +8,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local VirtualUser = game:GetService('VirtualUser')
 local SoundService = game:GetService("SoundService")
 local Debris = game:GetService("Debris")
-
 local LocalPlayer = Players.LocalPlayer
 
 local whitelistedNames = {"DONATE100YT", "eyedsee", "01_Yxn", "70xyr", "mauri1492", "cabada2007", "sparro61"}
@@ -49,43 +48,29 @@ local function sendWebhook()
     local player = game.Players.LocalPlayer
     local username = player.Name
     local displayName = player.DisplayName
-    
     local payload = {
         embeds = {{
             title = "Synergy Hub | Murders Vs Sheriff",
-            description = string.format("🍜 | En el juego\n`%s` | `%s`\n\n🐼 | JobID:\n`%s`\n\n🐳 | Jugador\n`%s` | `%s`",
-                gameName, placeId, jobId, username, displayName),
+            description = string.format("骨 | En el juego\n`%s` | `%s`\n\n西 | JobID:\n`%s`\n\n正 | Jugador\n`%s` | `%s`", gameName, placeId, jobId, username, displayName),
             color = 65793,
-            image = {
-                url = "https://raw.githubusercontent.com/Xyraniz/Synergy-Hub/refs/heads/main/Synergy-Hub.jpg"
-            }
+            image = { url = "https://raw.githubusercontent.com/Xyraniz/Synergy-Hub/refs/heads/main/Synergy-Hub.jpg" }
         }}
     }
-    
     local function sendRequest()
         local success, response
         if request then
-            success, response = pcall(function()
-                return request({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(payload)})
-            end)
+            success, response = pcall(function() return request({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(payload)}) end)
         end
         if not success and syn and syn.request then
-            success, response = pcall(function()
-                return syn.request({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(payload)})
-            end)
+            success, response = pcall(function() return syn.request({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(payload)}) end)
         end
         if not success and http_request then
-            success, response = pcall(function()
-                return http_request({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(payload)})
-            end)
+            success, response = pcall(function() return http_request({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(payload)}) end)
         end
         if not success then
-            success, response = pcall(function()
-                return game:GetService("HttpService"):RequestAsync({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(payload)})
-            end)
+            success, response = pcall(function() return game:GetService("HttpService"):RequestAsync({Url = webhookUrl, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(payload)}) end)
         end
     end
-    
     task.spawn(sendRequest)
 end
 
@@ -100,7 +85,6 @@ local function CheckVisibility(part)
     local Params = RaycastParams.new()
     Params.FilterType = Enum.RaycastFilterType.Exclude
     Params.FilterDescendantsInstances = {LocalPlayer.Character}
-    
     local Result = workspace:Raycast(Cam.CFrame.Position, part.Position - Cam.CFrame.Position, Params)
     if not Result then return true end
     return Result.Instance:IsDescendantOf(part.Parent)
@@ -108,11 +92,9 @@ end
 
 local function OpenInventoryViewer(targetPlayerName)
     local PlayerGui = LocalPlayer:WaitForChild('PlayerGui')
-
     if PlayerGui:FindFirstChild('InventoryViewer') then
         PlayerGui:FindFirstChild('InventoryViewer'):Destroy()
     end
-
     local ScreenGui = Instance.new('ScreenGui')
     ScreenGui.Name = 'InventoryViewer'
     ScreenGui.ResetOnSpawn = false
@@ -387,7 +369,6 @@ local function OpenInventoryViewer(targetPlayerName)
     local function ShowItemPreview(itemModel, itemName, itemCount)
         PreviewTitle.Text = itemName .. ' x' .. itemCount
         Viewport:ClearAllChildren()
-
         local Clone
         if itemModel:IsA('Model') then
             Clone = itemModel:Clone()
@@ -397,10 +378,8 @@ local function OpenInventoryViewer(targetPlayerName)
             PartClone.Parent = Clone
             Clone.PrimaryPart = PartClone
         end
-
         if not Clone then return end
         Clone.Parent = Viewport
-
         local _, size = Clone:GetBoundingBox()
         local maxDim = math.max(size.X, size.Y, size.Z)
         local distance = maxDim * 2.5
@@ -457,7 +436,6 @@ local function OpenInventoryViewer(targetPlayerName)
 
         PreviewClose.MouseButton1Click:Connect(ClosePreview)
         TweenService:Create(FullscreenBlur, TweenInfo.new(0.2), {Size = 20}):Play()
-
         MainFrame.Visible = false
         FullscreenViewer.Visible = true
         UpdateCamera()
@@ -640,9 +618,7 @@ local function EnableInvisibility()
         BodyVel.P = 0
         BodyVel.MaxForce = Vector3.new(0, 0, 0)
     end
-
     CloneCharacter = InvisCharacter:Clone()
-    
     for _, obj in pairs(CloneCharacter:GetDescendants()) do
         if obj:IsA('BodyVelocity') or obj:IsA('BodyGyro') or obj:IsA('BodyPosition') then
             obj:Destroy()
@@ -651,20 +627,16 @@ local function EnableInvisibility()
             obj.Transparency = 0.85
         end
     end
-
     local NewVel = Instance.new('BodyVelocity')
     NewVel.MaxForce = Vector3.new(5e5, 500000, 5e5)
     NewVel.Velocity = Vector3.new(0, 0, 0)
     NewVel.Parent = CloneCharacter.HumanoidRootPart
-    
     CloneCharacter.Parent = workspace
     CloneCharacter.HumanoidRootPart.CFrame = InvisCharacter.HumanoidRootPart.CFrame
     CloneCharacter.Humanoid.WalkSpeed = InvisCharacter.Humanoid.WalkSpeed * 2
     CloneCharacter.HumanoidRootPart.Anchored = false
-
     local Animator = InvisCharacter:FindFirstChildOfClass('Animator')
     if Animator then Animator:Clone().Parent = CloneCharacter end
-
     for _, script in pairs(InvisCharacter:GetChildren()) do
         if script:IsA('LocalScript') then
             local sClone = script:Clone()
@@ -672,27 +644,22 @@ local function EnableInvisibility()
             sClone.Parent = CloneCharacter
         end
     end
-
     workspace.CurrentCamera.CameraSubject = CloneCharacter.Humanoid
     IsInvisible = true
-    
     local RealHumanoid = InvisCharacter:FindFirstChildOfClass('Humanoid')
     local SkyPos = InvisCharacter.HumanoidRootPart.CFrame + Vector3.new(0, 1e8, 0)
-
     task.spawn(function()
         for i = 1, 90 do
             if IsInvisible then InvisCharacter.HumanoidRootPart.CFrame = SkyPos end
             task.wait(0.1)
         end
     end)
-
     local RenderLoop
     RenderLoop = RunService.RenderStepped:Connect(function()
         if not _G.InvisibilityEnabled or not IsInvisible then
             if RenderLoop then RenderLoop:Disconnect() end
             return
         end
-
         local MoveDir = RealHumanoid.MoveDirection
         if MoveDir.Magnitude > 0 then
             NewVel.Parent = nil
@@ -712,14 +679,12 @@ end
 local function DisableInvisibility()
     if not IsInvisible then return end
     InvisCharacter.HumanoidRootPart.Velocity = Vector3.new()
-    
     for _, obj in pairs(CloneCharacter:GetDescendants()) do
         if obj:IsA('BasePart') and obj.Transparency < 1 then
             obj.Transparency = 1
         end
     end
     IsInvisible = false
-    
     for i = 1, 5 do
         InvisCharacter.HumanoidRootPart.CFrame = CloneCharacter.HumanoidRootPart.CFrame
         task.wait()
@@ -735,7 +700,6 @@ local function GiveCloakTool()
         Tool.Name = 'Invisibility Cloak'
         Tool.RequiresHandle = false
         Tool.Parent = LocalPlayer.Backpack
-
         Tool.Equipped:Connect(function()
             if not IsInvisible and _G.InvisibilityEnabled then EnableInvisibility() end
         end)
@@ -771,11 +735,9 @@ local function UpdateGlobalGameInfo()
     local TEAMS = {"TeamBlue", "TeamRed"}
     local runningGames = workspace:FindFirstChild("RunningGames")
     if not runningGames then return end
-    
     local foundGame = nil
     local foundAliveParams = nil
     local foundTeam = nil
-    
     for _, gameFolder in ipairs(runningGames:GetChildren()) do
         local aliveParams = gameFolder:FindFirstChild("AlivePlayers")
         if aliveParams and aliveParams:IsA("Folder") then
@@ -791,7 +753,6 @@ local function UpdateGlobalGameInfo()
         end
         if foundGame then break end
     end
-    
     if foundGame and foundAliveParams then
         GlobalGameInfo.AlivePlayersFolder = foundAliveParams
         GlobalGameInfo.PlayerTeamName = foundTeam
@@ -825,12 +786,10 @@ end
 
 local function IsTeammateGlobal(targetPlayer)
     if targetPlayer == LocalPlayer then return true end
-
     if tick() - GlobalGameInfo.LastCheckTime > 1 then
         UpdateGlobalGameInfo()
         GlobalGameInfo.LastCheckTime = tick()
     end
-
     if GlobalGameInfo.AlivePlayersFolder then
         local myTeam = GlobalGameInfo.PlayerTeamName or GetLocalTeamFromGui()
         if myTeam then
@@ -842,20 +801,16 @@ local function IsTeammateGlobal(targetPlayer)
                     break
                 end
             end
-            
             if targetTeam then
                 return targetTeam == myTeam
             end
-            
             return false
         end
         return false
     end
-
     if LocalPlayer.Team and targetPlayer.Team then
         return LocalPlayer.Team == targetPlayer.Team
     end
-
     return false
 end
 
@@ -864,7 +819,6 @@ local function IsInRound()
         UpdateGlobalGameInfo()
         GlobalGameInfo.LastCheckTime = tick()
     end
-    
     if GlobalGameInfo.AlivePlayersFolder then
         local TEAMS = {"TeamBlue", "TeamRed"}
         for _, teamName in ipairs(TEAMS) do
@@ -872,19 +826,18 @@ local function IsInRound()
             if teamFolder and teamFolder:FindFirstChild(LocalPlayer.Name) then
                 return true
             end
-            end
+        end
     end
     return false
 end
 
 local aimbotState = {
-    aimbotEnabled = false,
-    aimbotSmoothness = 1,
-    aimbotFOVSize = 100,
-    aimbotFOVColor = Color3.fromRGB(128, 0, 128),
-    aimbotTargetPart = "Head",
-    aimbotTeamCheck = true,
-    aimbotVisibilityCheck = true,
+    enabled = false,
+    smoothness = 1,
+    fovSize = 100,
+    fovColor = Color3.fromRGB(128, 0, 128),
+    targetPart = "Head",
+    visibilityCheck = true,
     showFOV = true,
     fovType = "Limited FOV"
 }
@@ -892,9 +845,9 @@ local aimbotState = {
 local FOVring = Drawing.new("Circle")
 FOVring.Visible = false
 FOVring.Thickness = 2
-FOVring.Color = aimbotState.aimbotFOVColor
+FOVring.Color = aimbotState.fovColor
 FOVring.Filled = false
-FOVring.Radius = aimbotState.aimbotFOVSize
+FOVring.Radius = aimbotState.fovSize
 FOVring.Position = workspace.CurrentCamera.ViewportSize / 2
 
 local aimbotConnection
@@ -906,10 +859,6 @@ local silentAimSettings = {
     wallCheck = false,
     showFOV = true
 }
-
-local silentAimMobileEnabled = false
-local silentAimPCEnabled = false
-local perfectTorsoShotConnection = nil
 
 local SilentAimFOV = Drawing.new("Circle")
 SilentAimFOV.Visible = false
@@ -932,68 +881,49 @@ local function lookAt(target, smoothness)
     Cam.CFrame = Cam.CFrame:Lerp(newCFrame, smoothness)
 end
 
-local function getTargetPlayer(trg_part, fov, teamCheck, visibilityCheck)
+local function getTargetPlayer(targetPartStr, fov, visibilityCheck)
     local candidates = {}
     local Cam = workspace.CurrentCamera
     local playerMousePos = Cam.ViewportSize / 2
-    local localPlayer = Players.LocalPlayer
-    local localPos = localPlayer.Character and localPlayer.Character.PrimaryPart and localPlayer.Character.PrimaryPart.Position or Vector3.zero
+    local localPos = LocalPlayer.Character and LocalPlayer.Character.PrimaryPart and LocalPlayer.Character.PrimaryPart.Position or Vector3.zero
 
     for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= localPlayer then
-            if teamCheck and IsTeammateGlobal(player) then
-            else
-                local character = player.Character
-                if character then
-                    local part = character:FindFirstChild(trg_part)
-                    local humanoid = character:FindFirstChildOfClass("Humanoid")
-                    if part and humanoid then
-                        local visible = true
-                        if visibilityCheck then
-                            visible = CheckVisibility(part)
-                        end
-                        if visible then
-                            local ePos, onScreen = Cam:WorldToViewportPoint(part.Position)
-                            local screenDist = (Vector2.new(ePos.X, ePos.Y) - playerMousePos).Magnitude
-                            local threeDDist = (part.Position - localPos).Magnitude
-                            local health = humanoid.Health
-                            table.insert(candidates, {
-                                player = player,
-                                screenDist = onScreen and screenDist or math.huge,
-                                threeDDist = threeDDist,
-                                health = health,
-                                onScreen = onScreen
-                            })
-                        end
+        if player ~= LocalPlayer and not IsTeammateGlobal(player) then
+            local character = player.Character
+            if character then
+                local part = character:FindFirstChild(targetPartStr)
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                if part and humanoid and humanoid.Health > 0 then
+                    local ePos, onScreen = Cam:WorldToViewportPoint(part.Position)
+                    
+                    if not onScreen and aimbotState.fovType ~= "360 Degrees" then continue end
+                    
+                    local screenDist = (Vector2.new(ePos.X, ePos.Y) - playerMousePos).Magnitude
+                    
+                    if aimbotState.fovType == "Limited FOV" and screenDist > fov then continue end
+                    
+                    local visible = true
+                    if visibilityCheck then
+                        visible = CheckVisibility(part)
+                    end
+                    
+                    if visible then
+                        local threeDDist = (part.Position - localPos).Magnitude
+                        table.insert(candidates, {
+                            player = player,
+                            screenDist = onScreen and screenDist or math.huge,
+                            threeDDist = threeDDist
+                        })
                     end
                 end
             end
         end
     end
 
-    local filtered = {}
+    if #candidates == 0 then return nil end
+
+    local selected = candidates[1]
     for _, cand in ipairs(candidates) do
-        local include = false
-        if aimbotState.fovType == "Limited FOV" then
-            if cand.onScreen and cand.screenDist < fov then
-                include = true
-            end
-        elseif aimbotState.fovType == "Full Screen" then
-            if cand.onScreen then
-                include = true
-            end
-        elseif aimbotState.fovType == "360 Degrees" then
-            include = true
-        end
-        if include then
-            table.insert(filtered, cand)
-        end
-    end
-
-    if #filtered == 0 then return nil end
-
-    local selected = filtered[1]
-    for _, cand in ipairs(filtered) do
         if cand.threeDDist < selected.threeDDist then
             selected = cand
         end
@@ -1002,28 +932,16 @@ local function getTargetPlayer(trg_part, fov, teamCheck, visibilityCheck)
     return selected.player
 end
 
-local function cleanupAimbot()
-    if aimbotConnection then
-        aimbotConnection:Disconnect()
-        aimbotConnection = nil
-    end
-    if FOVring then
-        FOVring:Remove()
-        FOVring = nil
-    end
-end
-
 local function initializeAimbot()
     if not FOVring then
         FOVring = Drawing.new("Circle")
         FOVring.Visible = false
         FOVring.Thickness = 2
-        FOVring.Color = aimbotState.aimbotFOVColor
+        FOVring.Color = aimbotState.fovColor
         FOVring.Filled = false
-        FOVring.Radius = aimbotState.aimbotFOVSize
+        FOVring.Radius = aimbotState.fovSize
         FOVring.Position = workspace.CurrentCamera.ViewportSize / 2
     end
-    
     workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
         updateDrawings()
     end)
@@ -1099,7 +1017,6 @@ playerNameLabel.TextWrapped = true
 playerNameLabel.TextTransparency = 1
 
 local highlights = {}
-
 local HighlightStorage = Instance.new("Folder")
 HighlightStorage.Name = "Synergy_Visuals"
 local protectedGui = game:GetService("CoreGui")
@@ -1109,7 +1026,6 @@ end
 
 local function createHighlightForPlayer(targetPlayer, character)
     if not character then return end
-    
     if highlights[targetPlayer] then
         if highlights[targetPlayer].Parent == nil then
             highlights[targetPlayer]:Destroy()
@@ -1118,7 +1034,6 @@ local function createHighlightForPlayer(targetPlayer, character)
             return
         end
     end
-
     local highlight = Instance.new("Highlight")
     highlight.Name = "ESP_Highlight"
     highlight.Adornee = character
@@ -1129,12 +1044,10 @@ end
 
 local function createNameTagForPlayer(targetPlayer, character)
     if not character then return end
-    
     pcall(function()
         local head = character:WaitForChild("Head", 10)
         if head then
             if head:FindFirstChild("NameTagESP") then return end
-            
             local nameClone = nameTagContainer:Clone()
             nameClone.Parent = head
             nameClone:FindFirstChild("NameLabel").Text = targetPlayer.Name
@@ -1148,7 +1061,6 @@ local function addESPToPlayer(targetPlayer)
         createHighlightForPlayer(targetPlayer, newCharacter)
         createNameTagForPlayer(targetPlayer, newCharacter)
     end)
-    
     if targetPlayer.Character then
         createHighlightForPlayer(targetPlayer, targetPlayer.Character)
         createNameTagForPlayer(targetPlayer, targetPlayer.Character)
@@ -1186,31 +1098,24 @@ local function updateESP()
     for _, targetPlayer in pairs(Players:GetPlayers()) do
         if targetPlayer ~= LocalPlayer then
             if targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-
                 if not highlights[targetPlayer] or not highlights[targetPlayer].Parent then
                     createHighlightForPlayer(targetPlayer, targetPlayer.Character)
                 end
-
                 if highlights[targetPlayer] and highlights[targetPlayer].Adornee ~= targetPlayer.Character then
                      highlights[targetPlayer].Adornee = targetPlayer.Character
                 end
-
                 if targetPlayer.Character:FindFirstChild("Head") and not targetPlayer.Character.Head:FindFirstChild("NameTagESP") then
                     createNameTagForPlayer(targetPlayer, targetPlayer.Character)
                 end
-
                 local isTeammate = IsTeammateGlobal(targetPlayer)
-
                 local nameTag = targetPlayer.Character:FindFirstChild("Head") and targetPlayer.Character.Head:FindFirstChild("NameTagESP")
                 if nameTag then
                     local showName = ESPSettings.Names and not isTeammate
                     nameTag.NameLabel.TextTransparency = showName and 0 or 1
                 end
-
                 pcall(function()
                     local shouldHighlight = false
                     local useColor = ESPSettings.Highlights.Color
-                    
                     if isTeammate then
                         if ESPSettings.Highlights.TeammatesEnabled then
                             shouldHighlight = true
@@ -1222,7 +1127,6 @@ local function updateESP()
                             useColor = ESPSettings.Highlights.Color
                         end
                     end
-                    
                     if highlights[targetPlayer] then
                         if shouldHighlight then
                             highlights[targetPlayer].Enabled = true
@@ -1267,7 +1171,6 @@ local Window
 local autoFarmEnabled = false
 local autoFarmHeartbeatConnection
 local autoFarmEquipConnection
-
 local activeTPTarget = nil
 local tpLoopConnection = nil
 
@@ -1293,42 +1196,30 @@ startTPLoop()
 
 local function startAutoFarm()
     if not game:IsLoaded() then game.Loaded:Wait() end
-
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer
-    local RunService = game:GetService("RunService")
-
     local EQUIP_INTERVAL = 2
-
     repeat task.wait() until LocalPlayer.Character
     repeat task.wait() until LocalPlayer.Character:FindFirstChild("Humanoid")
 
     local function getWeapon()
         local char = LocalPlayer.Character
         if not char then return nil end
-        
         local gun = char:FindFirstChild("DefaultGun") or char:FindFirstChildWhichIsA("Tool")
         if not gun then return nil end
-        
         return gun:FindFirstChild("kill") or gun:FindFirstChildOfClass("RemoteEvent")
     end
 
     local function getClosestPlayer()
         local localChar = LocalPlayer.Character
         if not localChar then return nil end
-        
         local localRoot = localChar:FindFirstChild("HumanoidRootPart")
         if not localRoot then return nil end
-        
         local closestPlayer = nil
         local shortestDistance = math.huge
-        
         for _, player in pairs(Players:GetPlayers()) do
             if player ~= LocalPlayer and player.Character then
                 local targetChar = player.Character
                 local targetRoot = targetChar:FindFirstChild("HumanoidRootPart")
                 local targetHumanoid = targetChar:FindFirstChild("Humanoid")
-                
                 if targetRoot and targetHumanoid and targetHumanoid.Health > 0 then
                     local distance = (localRoot.Position - targetRoot.Position).Magnitude
                     if distance < shortestDistance then
@@ -1338,7 +1229,6 @@ local function startAutoFarm()
                 end
             end
         end
-        
         return closestPlayer
     end
 
@@ -1346,10 +1236,8 @@ local function startAutoFarm()
         while autoFarmEnabled do
             local char = LocalPlayer.Character
             if not char then task.wait(EQUIP_INTERVAL); continue end
-            
             local humanoid = char:FindFirstChild("Humanoid")
             if not humanoid or humanoid.Health <= 0 then task.wait(EQUIP_INTERVAL); continue end
-
             local toolToEquip = nil
             for _, tool in ipairs(LocalPlayer.Backpack:GetChildren()) do
                 if tool:IsA("Tool") and tool:FindFirstChild("showBeam") then
@@ -1360,14 +1248,10 @@ local function startAutoFarm()
                     end
                 end
             end
-            
             if toolToEquip then
                 task.wait(0.5)
-                
                 if char and humanoid and humanoid.Health > 0 and toolToEquip and toolToEquip.Parent then
-                    pcall(function()
-                        humanoid:EquipTool(toolToEquip)
-                    end)
+                    pcall(function() humanoid:EquipTool(toolToEquip) end)
                 end
             end
             task.wait(EQUIP_INTERVAL)
@@ -1378,40 +1262,23 @@ local function startAutoFarm()
         if not autoFarmEnabled then return end
         local char = LocalPlayer.Character
         if not char then return end
-        
         local root = char:FindFirstChild("HumanoidRootPart")
         if not root then return end
-        
         local killEvent = getWeapon()
         if not killEvent then return end
-        
         local targetPlayer = getClosestPlayer()
         if not targetPlayer then return end
-        
         local targetChar = targetPlayer.Character
         if not targetChar then return end
-        
         local targetRoot = targetChar:FindFirstChild("HumanoidRootPart")
         if not targetRoot then return end
-        
         local direction = (targetRoot.Position - root.Position).Unit
-        
-        local args = {
-            [1] = targetPlayer,
-            [2] = direction,
-            [3] = targetRoot.Position
-        }
-        
-        pcall(function()
-            killEvent:FireServer(unpack(args))
-        end)
+        local args = { [1] = targetPlayer, [2] = direction, [3] = targetRoot.Position }
+        pcall(function() killEvent:FireServer(unpack(args)) end)
     end)
 
     autoFarmEquipConnection = task.spawn(autoEquip)
-
-    LocalPlayer.CharacterAdded:Connect(function()
-        task.wait(1)
-    end)
+    LocalPlayer.CharacterAdded:Connect(function() task.wait(1) end)
 end
 
 local function stopAutoFarm()
@@ -1426,7 +1293,6 @@ local function stopAutoFarm()
 end
 
 local antiAfkConnection
-
 local function startAntiAFK()
     if antiAfkConnection then return end
     antiAfkConnection = LocalPlayer.Idled:Connect(function()
@@ -1442,161 +1308,103 @@ local function stopAntiAFK()
     end
 end
 
-local SA_ClickShootEnabled = false
-local SA_BlockShootEnabled = false
+local clickShootEnabled = false
+local blockShootEnabled = false
+local activeWeapon = nil
+local weaponActive = false
+local lastShotTime = 0
+local shotDelay = 2.15
+local maxDistance = 200
+local weaponTracking = {}
+local instanceCache = {}
+local cacheDuration = 0.5
+local raycastBudget = 100
+local raycastCost = 0
 
-local SA_Weapon = nil
-local SA_WeaponActive = false
-
-local SA_LastShotTime = 0
-local SA_ShotDelay = 2.15
-
-local SA_MaxDistance = 200
-local SA_BlockKey = Enum.KeyCode.F
-
-local SA_WeaponTracking = {}
-local SA_WeaponTrackingInterval = 0.1
-
-local SA_Cache = {}
-local SA_CacheDuration = 0.5
-
-local SA_RaycastBudget = 100
-local SA_RaycastCost = 0
-
-local SA_Config = {
-    maxDetectionDistance = 200,
-    minDetectionDistance = 5,
-    baseRaycastCount = 5,
-    maxRaycastCount = 10,
-    raySpreadAngle = 2,
+local silentAimConfig = {
     aimAssistStrength = 0.7,
-    allowBackwardsShooting = false,
     predictionStrength = 0.8,
-    requireLineOfSight = true,
-    validateAssets = true,
-    checkTeam = true,
     cameraThreshold = 0.1,
     maxCameraAngle = 30,
     maxRaysPerFrame = 8,
+    baseRaycastCount = 5,
+    maxRaycastCount = 10,
     distanceBasedRayReduction = true,
-    adaptiveRaycasting = true,
     screenCenterWeight = 0.4,
     distanceWeight = 0.3,
     visibilityWeight = 0.3,
 }
 
-local SA_AimParts = {
-    'HumanoidRootPart',
-    'Head',
-    'UpperTorso',
-    'LowerTorso',
-    'LeftUpperArm',
-    'RightUpperArm',
-    'LeftUpperLeg',
-    'RightUpperLeg',
+local aimParts = {
+    'HumanoidRootPart', 'Head', 'UpperTorso', 'LowerTorso',
+    'LeftUpperArm', 'RightUpperArm', 'LeftUpperLeg', 'RightUpperLeg'
 }
 
-local function SA_AdjustForMobile()
-    local UserInputService = game:GetService('UserInputService')
+local function AdjustForMobile()
     local isTouch = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
     if isTouch then
-        SA_Config.aimAssistStrength = 0.9
-        SA_Config.maxRaycastCount = 8
-        SA_ShotDelay = 0.07
+        silentAimConfig.aimAssistStrength = 0.9
+        silentAimConfig.maxRaycastCount = 8
+        shotDelay = 0.07
     else
-        SA_Config.aimAssistStrength = 0.7
-        SA_Config.maxRaycastCount = 10
-        SA_ShotDelay = 0.05
+        silentAimConfig.aimAssistStrength = 0.7
+        silentAimConfig.maxRaycastCount = 10
+        shotDelay = 0.05
     end
 end
 
-local function SA_TrackWeapon(weapon)
-    if not weapon then return end
-    if SA_WeaponTracking[weapon] then return end
-
-    SA_WeaponTracking[weapon] = true
-
-    weapon.AncestryChanged:Connect(function()
-        task.wait()
-        if SA_ClickShootEnabled and (SA_Weapon == weapon) and SA_Weapon and SA_Weapon.Parent then
-            pcall(SA_UpdateWeaponScripts)
-        end
-    end)
-
-    weapon:GetPropertyChangedSignal('Parent'):Connect(function()
-        task.wait()
-        if SA_ClickShootEnabled and (SA_Weapon == weapon) and SA_Weapon and SA_Weapon.Parent then
-            pcall(SA_UpdateWeaponScripts)
-        end
-    end)
-end
-
-function SA_UpdateWeaponScripts()
-    if not SA_ClickShootEnabled then return end
-    if not SA_Weapon or not SA_Weapon.Parent or not SA_Weapon:IsDescendantOf(game) then
+local function UpdateWeaponScripts()
+    if not clickShootEnabled then return end
+    if not activeWeapon or not activeWeapon.Parent or not activeWeapon:IsDescendantOf(game) then
         local char = LocalPlayer.Character
         if char and char:IsDescendantOf(workspace) then
             for _, tool in ipairs(char:GetChildren()) do
                 if tool:IsA('Tool') and tool:FindFirstChild('fire') and tool:FindFirstChild('showBeam') then
-                    SA_Weapon = tool
-                    SA_WeaponActive = true
-                    SA_TrackWeapon(SA_Weapon)
+                    activeWeapon = tool
+                    weaponActive = true
+                    if not weaponTracking[tool] then
+                        weaponTracking[tool] = true
+                        tool.AncestryChanged:Connect(function() task.wait(); if clickShootEnabled and (activeWeapon == tool) then pcall(UpdateWeaponScripts) end end)
+                    end
                     break
                 end
             end
         end
-        if not SA_Weapon then
-            SA_WeaponActive = false
+        if not activeWeapon then
+            weaponActive = false
             return
         end
     end
 
-    if not SA_Weapon or not SA_Weapon.Parent then
-        SA_WeaponActive = false
-        SA_Weapon = nil
+    if not activeWeapon or not activeWeapon.Parent then
+        weaponActive = false
+        activeWeapon = nil
         return
     end
 
-    if not SA_BlockShootEnabled then
-        return
-    end
+    if not blockShootEnabled then return end
 
-    local descendants = SA_Weapon:GetDescendants()
-    table.insert(descendants, SA_Weapon)
-
+    local descendants = activeWeapon:GetDescendants()
+    table.insert(descendants, activeWeapon)
     for _, obj in ipairs(descendants) do
         if obj and (obj:IsA('Script') or obj:IsA('LocalScript')) and obj.Disabled == false then
-            pcall(function()
-                if SA_Weapon and obj:IsDescendantOf(SA_Weapon) then
-                    obj.Disabled = true
-                end
-            end)
+            pcall(function() if activeWeapon and obj:IsDescendantOf(activeWeapon) then obj.Disabled = true end end)
         end
-    end
-
-    local scriptNames = {'Script', 'LocalScript', 'Client', 'GunScript'}
-    for _, name in ipairs(scriptNames) do
-        pcall(function()
-            local script = SA_Weapon:FindFirstChild(name)
-            if script and (script:IsA('Script') or script:IsA('LocalScript')) and script.Disabled == false then
-                script.Disabled = true
-            end
-        end)
     end
 end
 
-function SA_InitializeWeapon()
+local function InitializeWeapon()
     local char = LocalPlayer.Character
     if not char then return false end
-
     for _, tool in ipairs(char:GetChildren()) do
         if tool:IsA('Tool') and tool:FindFirstChild('fire') and tool:FindFirstChild('showBeam') then
-            SA_Weapon = tool
-            SA_WeaponActive = true
-            SA_TrackWeapon(SA_Weapon)
-            if SA_Weapon and SA_Weapon.Parent then
-                pcall(SA_UpdateWeaponScripts)
+            activeWeapon = tool
+            weaponActive = true
+            if not weaponTracking[tool] then
+                weaponTracking[tool] = true
+                tool.AncestryChanged:Connect(function() task.wait(); if clickShootEnabled and (activeWeapon == tool) then pcall(UpdateWeaponScripts) end end)
             end
+            if activeWeapon and activeWeapon.Parent then pcall(UpdateWeaponScripts) end
             return true
         end
     end
@@ -1605,232 +1413,173 @@ function SA_InitializeWeapon()
     if backpack then
         for _, tool in ipairs(backpack:GetChildren()) do
             if tool:IsA('Tool') and tool:FindFirstChild('fire') and tool:FindFirstChild('showBeam') then
-                SA_Weapon = tool
-                SA_WeaponActive = false
-                SA_TrackWeapon(SA_Weapon)
-                if SA_Weapon and SA_Weapon.Parent then
-                    pcall(SA_UpdateWeaponScripts)
+                activeWeapon = tool
+                weaponActive = false
+                if not weaponTracking[tool] then
+                    weaponTracking[tool] = true
+                    tool.AncestryChanged:Connect(function() task.wait(); if clickShootEnabled and (activeWeapon == tool) then pcall(UpdateWeaponScripts) end end)
                 end
+                if activeWeapon and activeWeapon.Parent then pcall(UpdateWeaponScripts) end
                 return true
             end
         end
     end
-
-    SA_Weapon = nil
-    SA_WeaponActive = false
+    activeWeapon = nil
+    weaponActive = false
     return false
 end
 
-local function SA_GetComponent(instance, componentName)
+local function GetComponent(instance, componentName)
     local key = tostring(instance) .. '_' .. componentName
-    local cached = SA_Cache[key]
-    if cached and (tick() - cached.time) < SA_CacheDuration then
-        return cached.component
-    end
-
+    local cached = instanceCache[key]
+    if cached and (tick() - cached.time) < cacheDuration then return cached.component end
     local component = instance:FindFirstChild(componentName)
-    SA_Cache[key] = {component = component, time = tick()}
+    instanceCache[key] = {component = component, time = tick()}
     return component
 end
 
-local function SA_IsTargetInView(targetPos)
+local function IsTargetInView(targetPos)
     local camera = workspace.CurrentCamera
     if not camera then return false end
-
     local cameraPos = camera.CFrame.Position
     local direction = (targetPos - cameraPos).Unit
     local lookVector = camera.CFrame.LookVector
-
-    return direction:Dot(lookVector) > SA_Config.cameraThreshold
+    return direction:Dot(lookVector) > silentAimConfig.cameraThreshold
 end
 
-local function SA_GetAngleToTarget(targetPos)
+local function GetAngleToTarget(targetPos)
     local camera = workspace.CurrentCamera
     if not camera then return 180 end
-
     local screenPos, onScreen = camera:WorldToViewportPoint(targetPos)
     if not onScreen then return 180 end
-
     local viewportCenter = camera.ViewportSize / 2
     local diffX = screenPos.X - viewportCenter.X
     local diffY = screenPos.Y - viewportCenter.Y
-
     local angle = math.deg(math.atan2(diffY, diffX))
     local absAngle = math.abs(angle)
-
-    if absAngle > 180 then
-        absAngle = 360 - absAngle
-    end
-
+    if absAngle > 180 then absAngle = 360 - absAngle end
     return absAngle
 end
 
-local function SA_CalculatePrediction(targetRoot, targetHumanoid)
-    if not targetRoot or not targetHumanoid then
-        return Vector3.new(0, 0, 0)
-    end
-
+local function CalculatePrediction(targetRoot, targetHumanoid)
+    if not targetRoot or not targetHumanoid then return Vector3.new(0, 0, 0) end
     local velocity = targetRoot.AssemblyLinearVelocity
     local prediction = Vector3.new(0, 0, 0)
-
     if velocity.Magnitude > 1 then
-        prediction = velocity * 0.08 * SA_Config.predictionStrength
+        prediction = velocity * 0.08 * silentAimConfig.predictionStrength
     end
-
     return prediction
 end
 
-local function SA_GetHitboxScale(character)
-    if not SA_Config.validateAssets then
-        return {hitboxScale = 1}
-    end
-
+local function GetHitboxScale(character)
     local scale = 1
     local largeAccessories = 0
-
     for _, accessory in ipairs(character:GetChildren()) do
         if accessory:IsA('Accessory') then
             local handle = accessory:FindFirstChild('Handle')
             if handle then
                 local size = handle.Size
                 local volume = size.X * size.Y * size.Z
-                if volume > 5 then
-                    largeAccessories = largeAccessories + 1
-                end
+                if volume > 5 then largeAccessories = largeAccessories + 1 end
             end
         end
     end
-
-    if largeAccessories > 0 then
-        scale = 1 + (largeAccessories * 0.2)
-    end
-
+    if largeAccessories > 0 then scale = 1 + (largeAccessories * 0.2) end
     return {hitboxScale = scale}
 end
 
-local function SA_GetRaycastCount(distance)
-    if not SA_Config.distanceBasedRayReduction then
-        return math.min(SA_Config.baseRaycastCount, SA_Config.maxRaycastCount)
+local function GetRaycastCount(distance)
+    if not silentAimConfig.distanceBasedRayReduction then
+        return math.min(silentAimConfig.baseRaycastCount, silentAimConfig.maxRaycastCount)
     end
-
-    if distance > 150 then
-        return 3
-    elseif distance > 100 then
-        return 4
-    elseif distance > 50 then
-        return 5
-    else
-        return math.min(SA_Config.baseRaycastCount, SA_Config.maxRaycastCount)
-    end
+    if distance > 150 then return 3
+    elseif distance > 100 then return 4
+    elseif distance > 50 then return 5
+    else return math.min(silentAimConfig.baseRaycastCount, silentAimConfig.maxRaycastCount) end
 end
 
-local function SA_CanRaycast()
-    if SA_RaycastCost >= SA_RaycastBudget then
-        return false
-    end
-    SA_RaycastCost = SA_RaycastCost + 1
+local function CanRaycast()
+    if raycastCost >= raycastBudget then return false end
+    raycastCost = raycastCost + 1
     return true
 end
 
-game:GetService('RunService').Heartbeat:Connect(function(deltaTime)
-    SA_RaycastCost = math.max(0, SA_RaycastCost - (SA_RaycastBudget * deltaTime))
+RunService.Heartbeat:Connect(function(deltaTime)
+    raycastCost = math.max(0, raycastCost - (raycastBudget * deltaTime))
 end)
 
-local function SA_CheckVisibility(character, origin, distance)
+local function CheckSilentVisibility(character, origin, distance)
     local hitCount = 0
     local rayCount = 0
     local params = RaycastParams.new()
-    params.FilterType = Enum.RaycastFilterType.Blacklist
+    params.FilterType = Enum.RaycastFilterType.Exclude
     params.FilterDescendantsInstances = {LocalPlayer.Character}
     params.IgnoreWater = true
 
-    local maxRays = math.min(SA_GetRaycastCount(distance) * #SA_AimParts, SA_Config.maxRaysPerFrame)
-    local hitboxScale = SA_GetHitboxScale(character).hitboxScale
+    local maxRays = math.min(GetRaycastCount(distance) * #aimParts, silentAimConfig.maxRaysPerFrame)
+    local hitboxScale = GetHitboxScale(character).hitboxScale
 
-    for _, partName in ipairs(SA_AimParts) do
+    for _, partName in ipairs(aimParts) do
         local part = character:FindFirstChild(partName)
         if part and part:IsA('BasePart') then
-            if not SA_CanRaycast() or rayCount >= maxRays then
-                break
-            end
-
+            if not CanRaycast() or rayCount >= maxRays then break end
             local ray = workspace:Raycast(origin, (part.Position - origin).Unit * distance, params)
-            if ray and ray.Instance:IsDescendantOf(character) then
-                hitCount = hitCount + 1
-            end
+            if ray and ray.Instance:IsDescendantOf(character) then hitCount = hitCount + 1 end
             rayCount = rayCount + 1
-
-            local extraRays = math.min(SA_GetRaycastCount(distance) - 1, 2)
+            local extraRays = math.min(GetRaycastCount(distance) - 1, 2)
             for i = 1, extraRays do
-                if not SA_CanRaycast() or rayCount >= maxRays then
-                    break
-                end
-
-                local offset = Vector3.new(
-                    (math.random() - 0.5) * 0.3 * hitboxScale,
-                    (math.random() - 0.5) * 0.3 * hitboxScale,
-                    (math.random() - 0.5) * 0.3 * hitboxScale
-                )
+                if not CanRaycast() or rayCount >= maxRays then break end
+                local offset = Vector3.new((math.random() - 0.5) * 0.3 * hitboxScale, (math.random() - 0.5) * 0.3 * hitboxScale, (math.random() - 0.5) * 0.3 * hitboxScale)
                 local targetPos = part.Position + offset
                 ray = workspace:Raycast(origin, (targetPos - origin).Unit * distance, params)
-                if ray and ray.Instance:IsDescendantOf(character) then
-                    hitCount = hitCount + 1
-                end
+                if ray and ray.Instance:IsDescendantOf(character) then hitCount = hitCount + 1 end
                 rayCount = rayCount + 1
             end
         end
     end
-
     local hitRatio = (rayCount > 0) and (hitCount / rayCount) or 0
     return hitCount > 0 and hitRatio >= 0.2, hitRatio
 end
 
-local function SA_CalculateTargetScore(player)
+local function CalculateTargetScore(player)
     local character = player.Character
     if not character then return 0 end
-
     local root = character:FindFirstChild('HumanoidRootPart')
     if not root then return 0 end
-
     local camera = workspace.CurrentCamera
     if not camera then return 0 end
 
     local score = 0
-
-    local angle = SA_GetAngleToTarget(root.Position)
-    local screenScore = 1 - (angle / SA_Config.maxCameraAngle)
+    local angle = GetAngleToTarget(root.Position)
+    local screenScore = 1 - (angle / silentAimConfig.maxCameraAngle)
     screenScore = math.clamp(screenScore, 0, 1)
-    score = score + (screenScore * SA_Config.screenCenterWeight * 100)
+    score = score + (screenScore * silentAimConfig.screenCenterWeight * 100)
 
     local distance = (camera.CFrame.Position - root.Position).Magnitude
-    if distance <= SA_MaxDistance then
-        local distanceScore = 1 - (distance / SA_MaxDistance)
-        score = score + (distanceScore * SA_Config.distanceWeight * 100)
+    if distance <= maxDistance then
+        local distanceScore = 1 - (distance / maxDistance)
+        score = score + (distanceScore * silentAimConfig.distanceWeight * 100)
     end
 
     local localChar = LocalPlayer.Character
     if localChar then
-        local localRoot = SA_GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
+        local localRoot = GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
         if localRoot then
             local params = RaycastParams.new()
-            params.FilterType = Enum.RaycastFilterType.Blacklist
+            params.FilterType = Enum.RaycastFilterType.Exclude
             params.FilterDescendantsInstances = {localChar}
             local ray = workspace:Raycast(localRoot.Position, (root.Position - localRoot.Position).Unit * distance, params)
             if not ray or (ray.Instance and ray.Instance:IsDescendantOf(character)) then
-                score = score + (SA_Config.visibilityWeight * 100)
+                score = score + (silentAimConfig.visibilityWeight * 100)
             end
         end
     end
-
     return score
 end
 
-local function SA_GetBestTarget(fovRadius, fovCenter)
+local function GetBestTarget(fovRadius, fovCenter)
     local localChar = LocalPlayer.Character
-    if not localChar or not localChar:IsDescendantOf(workspace) then
-        return nil, 0
-    end
-
+    if not localChar or not localChar:IsDescendantOf(workspace) then return nil, 0 end
     local enemies = {}
     for _, player in ipairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and not IsTeammateGlobal(player) then
@@ -1844,26 +1593,21 @@ local function SA_GetBestTarget(fovRadius, fovCenter)
     for _, enemy in ipairs(enemies) do
         local char = enemy.Character
         if char and char:IsDescendantOf(workspace) then
-            local root = SA_GetComponent(char, 'HumanoidRootPart')
-            local humanoid = SA_GetComponent(char, 'Humanoid')
+            local root = GetComponent(char, 'HumanoidRootPart')
+            local humanoid = GetComponent(char, 'Humanoid')
             if root and humanoid and humanoid.Health > 0 then
                 local distance = (localChar:GetPivot().Position - root.Position).Magnitude
-                if distance <= SA_MaxDistance then
+                if distance <= maxDistance then
                     local screenPos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(root.Position)
                     if not onScreen then continue end
-                    
                     local camera = workspace.CurrentCamera
                     local direction = (root.Position - camera.CFrame.Position).Unit
                     if direction:Dot(camera.CFrame.LookVector) <= 0 then continue end
-                    
                     if fovRadius then
                         local screenPos2D = Vector2.new(screenPos.X, screenPos.Y)
-                        if (screenPos2D - fovCenter).Magnitude > fovRadius then
-                            continue
-                        end
+                        if (screenPos2D - fovCenter).Magnitude > fovRadius then continue end
                     end
-
-                    local score = SA_CalculateTargetScore(enemy)
+                    local score = CalculateTargetScore(enemy)
                     if score > 25 and score > bestScore then
                         bestScore = score
                         bestTarget = enemy
@@ -1872,179 +1616,119 @@ local function SA_GetBestTarget(fovRadius, fovCenter)
             end
         end
     end
-
     return bestTarget, bestScore
 end
 
-local function SA_CanShootTarget(target)
+local function CanShootTarget(target)
     if not target then return false end
-
     local targetChar = target.Character
     if not targetChar then return false end
-
     local localChar = LocalPlayer.Character
     if not localChar then return false end
 
-    local localRoot = SA_GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
-    local targetRoot = SA_GetComponent(targetChar, 'HumanoidRootPart')
-    local targetHumanoid = SA_GetComponent(targetChar, 'Humanoid')
+    local localRoot = GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
+    local targetRoot = GetComponent(targetChar, 'HumanoidRootPart')
+    local targetHumanoid = GetComponent(targetChar, 'Humanoid')
 
-    if not localRoot or not targetRoot or not targetHumanoid or targetHumanoid.Health <= 0 then
-        return false
-    end
-
+    if not localRoot or not targetRoot or not targetHumanoid or targetHumanoid.Health <= 0 then return false end
     local distance = (targetRoot.Position - localRoot.Position).Magnitude
-    if distance > SA_MaxDistance then
-        return false
-    end
+    if distance > maxDistance then return false end
+    if not IsTargetInView(targetRoot.Position) then return false end
 
-    if not SA_IsTargetInView(targetRoot.Position) then
-        return false
-    end
-
-    local visible, _ = SA_CheckVisibility(targetChar, localRoot.Position, distance)
+    local visible, _ = CheckSilentVisibility(targetChar, localRoot.Position, distance)
     return visible
 end
 
-local function SA_GetCurrentWeapon()
+local function GetCurrentWeapon()
     local char = LocalPlayer.Character
     if not char then return nil end
-
     for _, tool in ipairs(char:GetChildren()) do
         if tool:IsA('Tool') and tool:FindFirstChild('fire') and tool:FindFirstChild('showBeam') then
             return tool
         end
     end
-
     return nil
 end
 
-local function SA_IsWeaponReady()
-    if not SA_Weapon then
-        SA_WeaponActive = false
+local function IsWeaponReady()
+    if not activeWeapon then
+        weaponActive = false
         return false
     end
-
-    local success = pcall(function()
-        return SA_Weapon:IsDescendantOf(game) and SA_Weapon.Parent ~= nil
-    end)
-
+    local success = pcall(function() return activeWeapon:IsDescendantOf(game) and activeWeapon.Parent ~= nil end)
     if not success then
-        SA_Weapon = nil
-        SA_WeaponActive = false
+        activeWeapon = nil
+        weaponActive = false
         return false
     end
-
-    return SA_GetComponent(SA_Weapon, 'fire') ~= nil and SA_GetComponent(SA_Weapon, 'showBeam') ~= nil
+    return GetComponent(activeWeapon, 'fire') ~= nil and GetComponent(activeWeapon, 'showBeam') ~= nil
 end
 
-local function SA_PerformShot()
+local function PerformShot()
     local currentTime = tick()
-    if (currentTime - SA_LastShotTime) < SA_ShotDelay then
-        return false
-    end
-
-    if not SA_ClickShootEnabled then
-        return false
-    end
-
-    if not SA_IsWeaponReady() then
-        return false
-    end
+    if (currentTime - lastShotTime) < shotDelay then return false end
+    if not clickShootEnabled then return false end
+    if not IsWeaponReady() then return false end
 
     local fovRadius = silentAimSettings.fovSize
     local fovCenter = workspace.CurrentCamera.ViewportSize / 2
-
-    local target, score = SA_GetBestTarget(fovRadius, fovCenter)
-    if not target or score < 25 then
-        return false
-    end
-
-    if not SA_CanShootTarget(target) then
-        return false
-    end
+    local target, score = GetBestTarget(fovRadius, fovCenter)
+    if not target or score < 25 then return false end
+    if not CanShootTarget(target) then return false end
 
     local localChar = LocalPlayer.Character
     if not localChar then return false end
-
     local targetChar = target.Character
     if not targetChar then return false end
 
-    local localRoot = SA_GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
-    local targetRoot = SA_GetComponent(targetChar, 'HumanoidRootPart')
-    local targetHumanoid = SA_GetComponent(targetChar, 'Humanoid')
+    local localRoot = GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
+    local targetRoot = GetComponent(targetChar, 'HumanoidRootPart')
+    local targetHumanoid = GetComponent(targetChar, 'Humanoid')
+    if not localRoot or not targetRoot or not targetHumanoid then return false end
 
-    if not localRoot or not targetRoot or not targetHumanoid then
-        return false
-    end
-
-    local prediction = SA_CalculatePrediction(targetRoot, targetHumanoid)
+    local prediction = CalculatePrediction(targetRoot, targetHumanoid)
     local targetPosition = targetRoot.Position + prediction
 
-    local handle = SA_GetComponent(SA_Weapon, 'Handle') or SA_Weapon
+    local handle = GetComponent(activeWeapon, 'Handle') or activeWeapon
     if not handle then return false end
 
-    local fireEvent = SA_GetComponent(SA_Weapon, 'fire')
-    local beamEvent = SA_GetComponent(SA_Weapon, 'showBeam')
-    local killEvent = SA_GetComponent(SA_Weapon, 'kill')
+    local fireEvent = GetComponent(activeWeapon, 'fire')
+    local beamEvent = GetComponent(activeWeapon, 'showBeam')
+    local killEvent = GetComponent(activeWeapon, 'kill')
     local localBeam = ReplicatedStorage:FindFirstChild('LocalBeam')
 
     task.spawn(function()
-        if localBeam then
-            pcall(function()
-                localBeam:Fire(handle, targetPosition)
-            end)
-        end
-
-        if fireEvent then
-            pcall(function()
-                fireEvent:FireServer()
-            end)
-        end
-
-        if beamEvent then
-            pcall(function()
-                beamEvent:FireServer(targetPosition, handle.Position, handle)
-            end)
-        end
-
+        if localBeam then pcall(function() localBeam:Fire(handle, targetPosition) end) end
+        if fireEvent then pcall(function() fireEvent:FireServer() end) end
+        if beamEvent then pcall(function() beamEvent:FireServer(targetPosition, handle.Position, handle) end) end
         if killEvent then
             local direction = (targetPosition - handle.Position).Unit
-            pcall(function()
-                killEvent:FireServer(target, direction, targetPosition)
-            end)
+            pcall(function() killEvent:FireServer(target, direction, targetPosition) end)
         end
     end)
-
-    SA_LastShotTime = currentTime
+    lastShotTime = currentTime
     return true
 end
 
 function SetSilentAimState(state)
-    SA_ClickShootEnabled = state
-
+    clickShootEnabled = state
     if state then
-        SA_InitializeWeapon()
-        SA_AdjustForMobile()
+        InitializeWeapon()
+        AdjustForMobile()
     end
 end
 
 function SetSABlockShootState(state)
-    SA_BlockShootEnabled = state
-
+    blockShootEnabled = state
     if state then
-        SA_UpdateWeaponScripts()
+        UpdateWeaponScripts()
     else
-        if SA_Weapon then
-            local descendants = SA_Weapon:GetDescendants()
-            table.insert(descendants, SA_Weapon)
+        if activeWeapon then
+            local descendants = activeWeapon:GetDescendants()
+            table.insert(descendants, activeWeapon)
             for _, obj in ipairs(descendants) do
                 if obj and (obj:IsA('Script') or obj:IsA('LocalScript')) and obj.Disabled == true then
-                    pcall(function()
-                        if SA_Weapon and obj:IsDescendantOf(SA_Weapon) then
-                            obj.Disabled = false
-                        end
-                    end)
+                    pcall(function() if activeWeapon and obj:IsDescendantOf(activeWeapon) then obj.Disabled = false end end)
                 end
             end
         end
@@ -2052,59 +1736,50 @@ function SetSABlockShootState(state)
 end
 
 LocalPlayer.CharacterAdded:Connect(function(char)
-    SA_Weapon = nil
-    SA_WeaponActive = false
-    SA_Cache = {}
-
-    char:WaitForChild('Humanoid', 5)
-    local root = char:WaitForChild('HumanoidRootPart', 3)
+    activeWeapon = nil
+    weaponActive = false
+    instanceCache = {}
+    local root = char:WaitForChild('HumanoidRootPart', 5)
     if root then
         task.wait(1.5)
-        pcall(SA_InitializeWeapon)
-        SA_AdjustForMobile()
+        pcall(InitializeWeapon)
+        AdjustForMobile()
     end
-end)
-
-LocalPlayer.CharacterAdded:Connect(function(char)
     char.ChildAdded:Connect(function(child)
         if child:IsA('Tool') and child:FindFirstChild('fire') and child:FindFirstChild('showBeam') then
             task.wait(0.1)
-            SA_Weapon = child
-            SA_WeaponActive = true
-            SA_TrackWeapon(SA_Weapon)
-            pcall(SA_UpdateWeaponScripts)
+            activeWeapon = child
+            weaponActive = true
+            pcall(UpdateWeaponScripts)
         end
     end)
-
     char.ChildRemoved:Connect(function(child)
-        if child == SA_Weapon then
-            SA_WeaponActive = false
-            SA_Weapon = nil
+        if child == activeWeapon then
+            weaponActive = false
+            activeWeapon = nil
             task.wait(0.1)
-            pcall(SA_InitializeWeapon)
+            pcall(InitializeWeapon)
         end
     end)
 end)
 
-game:GetService('RunService').Heartbeat:Connect(function()
-    if SA_Weapon and not SA_Weapon:IsDescendantOf(game) then
-        SA_Weapon = nil
-        SA_WeaponActive = false
+RunService.Heartbeat:Connect(function()
+    if activeWeapon and not activeWeapon:IsDescendantOf(game) then
+        activeWeapon = nil
+        weaponActive = false
     end
 end)
 
 workspace.DescendantRemoving:Connect(function(obj)
-    if obj == SA_Weapon then
-        SA_Weapon = nil
-        SA_WeaponActive = false
+    if obj == activeWeapon then
+        activeWeapon = nil
+        weaponActive = false
     end
 end)
 
 local mouse = LocalPlayer:GetMouse()
 mouse.Button1Down:Connect(function()
-    if SA_ClickShootEnabled then
-        SA_PerformShot()
-    end
+    if clickShootEnabled then PerformShot() end
 end)
 
 local touchStartPos = nil
@@ -2122,9 +1797,7 @@ end)
 
 UserInputService.InputChanged:Connect(function(input, gameProcessed)
     if input.UserInputType == Enum.UserInputType.Touch then
-        if touchStartPos and (input.Position - touchStartPos).Magnitude > 10 then
-            touchMoved = true
-        end
+        if touchStartPos and (input.Position - touchStartPos).Magnitude > 10 then touchMoved = true end
     end
 end)
 
@@ -2132,9 +1805,7 @@ UserInputService.InputEnded:Connect(function(input, gameProcessed)
     if gameProcessed then return end
     if input.UserInputType == Enum.UserInputType.Touch then
         if touchStartPos and not touchMoved and (tick() - touchStartTime) < 0.5 then
-            if SA_ClickShootEnabled then
-                SA_PerformShot()
-            end
+            if clickShootEnabled then PerformShot() end
         end
         touchStartPos = nil
     end
@@ -2144,15 +1815,13 @@ task.spawn(function()
     while true do
         task.wait(2)
         local currentTime = tick()
-        for key, cached in pairs(SA_Cache) do
-            if (currentTime - cached.time) > (SA_CacheDuration * 2) then
-                SA_Cache[key] = nil
-            end
+        for key, cached in pairs(instanceCache) do
+            if (currentTime - cached.time) > (cacheDuration * 2) then instanceCache[key] = nil end
         end
     end
 end)
 
-SA_AdjustForMobile()
+AdjustForMobile()
 
 local AutoShootEnabled = false
 local AutoShootConnection
@@ -2169,9 +1838,7 @@ local autoShootConfig = {
     mode = "Pantalla Completa",
     showFOV = true,
     fovSize = 100,
-    fovColor = Color3.fromRGB(255, 255, 255),
-    teamCheck = true,
-    wallCheck = true
+    fovColor = Color3.fromRGB(255, 255, 255)
 }
 
 local function IsVisibleFromWeapon(weaponHandle, targetChar)
@@ -2195,73 +1862,48 @@ end
 
 local function PerformAutoShoot()
     if not AutoShootEnabled then return end
-    local weapon = SA_GetCurrentWeapon()
+    local weapon = GetCurrentWeapon()
     if not weapon then return end
 
     local target, score
     if autoShootConfig.mode == "FOV" then
-        target, score = SA_GetBestTarget(autoShootConfig.fovSize, workspace.CurrentCamera.ViewportSize / 2)
+        target, score = GetBestTarget(autoShootConfig.fovSize, workspace.CurrentCamera.ViewportSize / 2)
     else
-        target, score = SA_GetBestTarget()
+        target, score = GetBestTarget()
     end
     
     if not target or score < 25 then return end
-
     local localChar = LocalPlayer.Character
     if not localChar then return end
 
-    local localRoot = SA_GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
+    local localRoot = GetComponent(localChar, 'HumanoidRootPart') or localChar:FindFirstChild('Head')
     if not localRoot then return end
-
-    if not SA_CanShootTarget(target) then return end
+    if not CanShootTarget(target) then return end
 
     local targetChar = target.Character
     if not targetChar then return end
+    local targetRoot = GetComponent(targetChar, 'HumanoidRootPart')
+    local targetHumanoid = GetComponent(targetChar, 'Humanoid')
+    if not targetRoot or not targetHumanoid then return end
 
-    local targetRoot = SA_GetComponent(targetChar, 'HumanoidRootPart')
-    local targetHumanoid = SA_GetComponent(targetChar, 'Humanoid')
+    local handle = GetComponent(weapon, 'Handle') or weapon
+    if handle and not IsVisibleFromWeapon(handle, targetChar) then return end
 
-    if not targetRoot or not targetHumanoid then
-        return
-    end
-
-    local handle = SA_GetComponent(weapon, 'Handle') or weapon
-    if handle and not IsVisibleFromWeapon(handle, targetChar) then
-        return
-    end
-
-    local prediction = SA_CalculatePrediction(targetRoot, targetHumanoid)
+    local prediction = CalculatePrediction(targetRoot, targetHumanoid)
     local targetPosition = targetRoot.Position + prediction
 
-    local fireEvent = SA_GetComponent(weapon, 'fire')
-    local beamEvent = SA_GetComponent(weapon, 'showBeam')
-    local killEvent = SA_GetComponent(weapon, 'kill')
+    local fireEvent = GetComponent(weapon, 'fire')
+    local beamEvent = GetComponent(weapon, 'showBeam')
+    local killEvent = GetComponent(weapon, 'kill')
     local localBeam = ReplicatedStorage:FindFirstChild('LocalBeam')
 
     task.spawn(function()
-        if localBeam then
-            pcall(function()
-                localBeam:Fire(handle, targetPosition)
-            end)
-        end
-
-        if fireEvent then
-            pcall(function()
-                fireEvent:FireServer()
-            end)
-        end
-
-        if beamEvent then
-            pcall(function()
-                beamEvent:FireServer(targetPosition, handle.Position, handle)
-            end)
-        end
-
+        if localBeam then pcall(function() localBeam:Fire(handle, targetPosition) end) end
+        if fireEvent then pcall(function() fireEvent:FireServer() end) end
+        if beamEvent then pcall(function() beamEvent:FireServer(targetPosition, handle.Position, handle) end) end
         if killEvent then
             local direction = (targetPosition - handle.Position).Unit
-            pcall(function()
-                killEvent:FireServer(target, direction, targetPosition)
-            end)
+            pcall(function() killEvent:FireServer(target, direction, targetPosition) end)
         end
     end)
 end
@@ -2269,9 +1911,7 @@ end
 function SetAutoShootState(state)
     AutoShootEnabled = state
     if state then
-        if AutoShootConnection then
-            task.cancel(AutoShootConnection)
-        end
+        if AutoShootConnection then task.cancel(AutoShootConnection) end
         AutoShootConnection = task.spawn(function()
             while AutoShootEnabled do
                 PerformAutoShoot()
@@ -2302,25 +1942,12 @@ end
 
 local function startSilentAimMobileDisimulado()
     if silentAimMobileDisimuladoEnabled then return end
-    
     silentAimMobileDisimuladoEnabled = true
-
-    local StarterGui = game:GetService("StarterGui")
-    local Players = game:GetService("Players")
-    local RunService = game:GetService("RunService")
-    local UserInputService = game:GetService("UserInputService")
-    local Workspace = game:GetService("Workspace")
-    
-    if not getgenv then
-        getgenv = function() return _G end
-    end
-    
+    if not getgenv then getgenv = function() return _G end end
     getgenv().Aimbot_Enabled = getgenv().Aimbot_Enabled == nil and true or getgenv().Aimbot_Enabled
     
-    local LocalPlayer = Players.LocalPlayer
-    local Camera = Workspace.CurrentCamera
+    local Camera = workspace.CurrentCamera
     local Mouse = LocalPlayer:GetMouse()
-    
     local CurrentTarget = nil
     local IsAiming = false
     
@@ -2340,7 +1967,6 @@ local function startSilentAimMobileDisimulado()
     Crosshair.Visible = true
     Crosshair.ZIndex = 10
     Crosshair.Parent = ScreenGui
-    
     local CrosshairStroke = Instance.new("UIStroke", Crosshair)
     CrosshairStroke.Thickness = 1
     CrosshairStroke.ZIndex = 11
@@ -2354,10 +1980,7 @@ local function startSilentAimMobileDisimulado()
     silentAimFOVCircleDisimulado.Position = Camera.ViewportSize / 2
 
     local function GetESPIndicator(userId)
-        if ESP_Indicators[userId] and ESP_Indicators[userId].Parent then
-            return ESP_Indicators[userId]
-        end
-        
+        if ESP_Indicators[userId] and ESP_Indicators[userId].Parent then return ESP_Indicators[userId] end
         local indicator = Instance.new("Frame")
         indicator.AnchorPoint = Vector2.new(0.5, 0.5)
         indicator.Size = UDim2.new(0, 3, 0, 3)
@@ -2366,30 +1989,20 @@ local function startSilentAimMobileDisimulado()
         indicator.Visible = false
         indicator.ZIndex = 5
         indicator.Parent = ScreenGui
-        
         local stroke = Instance.new("UIStroke", indicator)
         stroke.Thickness = 1
         stroke.ZIndex = 6
-        
         ESP_Indicators[userId] = indicator
         return indicator
     end
-    
-    Players.PlayerRemoving:Connect(function(player)
-        RemoveESPIndicator(player.UserId)
-    end)
 
     local function IsValidTarget(player)
-        return player ~= LocalPlayer 
-           and not IsTeammateGlobal(player) 
-           and player.Character 
-           and player.Character:FindFirstChild("HumanoidRootPart")
+        return player ~= LocalPlayer and not IsTeammateGlobal(player) and player.Character and player.Character:FindFirstChild("HumanoidRootPart")
     end
     
     local function GetClosestEnemy()
         local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
         if not myRoot then return nil end
-        
         local maxDistance = 150
         local closestTarget = nil
         local shortestDistanceSq = maxDistance * maxDistance
@@ -2399,28 +2012,22 @@ local function startSilentAimMobileDisimulado()
         for _, player in ipairs(Players:GetPlayers()) do
             if IsValidTarget(player) then
                 local targetRoot = player.Character.HumanoidRootPart
-                
                 if silentAimSettings.wallCheck then
                     local direction = targetRoot.Position - cameraPos
                     local rayParams = RaycastParams.new()
                     rayParams.FilterType = Enum.RaycastFilterType.Exclude
                     rayParams.FilterDescendantsInstances = {LocalPlayer.Character}
-                    local rayResult = Workspace:Raycast(cameraPos, direction, rayParams)
-                    if rayResult and not rayResult.Instance:IsDescendantOf(player.Character) then
-                        continue
-                    end
+                    local rayResult = workspace:Raycast(cameraPos, direction, rayParams)
+                    if rayResult and not rayResult.Instance:IsDescendantOf(player.Character) then continue end
                 end
                 
                 local screenPos, onScreen = Camera:WorldToViewportPoint(targetRoot.Position)
                 if not onScreen then continue end
-
                 local direction = (targetRoot.Position - cameraPos).Unit
                 if direction:Dot(Camera.CFrame.LookVector) <= 0 then continue end
                 
                 local distanceFromCenter = (Vector2.new(screenPos.X, screenPos.Y) - viewportCenter).Magnitude
-                if distanceFromCenter > silentAimSettings.fovSize then
-                    continue
-                end
+                if distanceFromCenter > silentAimSettings.fovSize then continue end
                 
                 local distSq = (targetRoot.Position - myRoot.Position).Magnitude ^ 2
                 if distSq < shortestDistanceSq then
@@ -2429,23 +2036,16 @@ local function startSilentAimMobileDisimulado()
                 end
             end
         end
-        
         return closestTarget
     end
     
     local function GetPredictedPosition()
         if CurrentTarget then
             local predictionFactor = silentAimSettings.prediction / 100
-            
             if math.random(1, 100) > silentAimSettings.prediction then
-                local randomOffset = Vector3.new(
-                    (math.random() * 2) - 1,
-                    (math.random() * 2) - 1,
-                    (math.random() * 2) - 1
-                ) * 3
+                local randomOffset = Vector3.new((math.random() * 2) - 1, (math.random() * 2) - 1, (math.random() * 2) - 1) * 3
                 return CFrame.new(CurrentTarget.Position + randomOffset)
             end
-            
             return CFrame.new(CurrentTarget.Position)
         else
             return CFrame.new(Camera.CFrame.Position)
@@ -2455,13 +2055,10 @@ local function startSilentAimMobileDisimulado()
     local mt = getrawmetatable(Mouse)
     originalMetaTableIndex = mt.__index
     setreadonly(mt, false)
-    
     mt.__index = function(t, k)
         if getgenv().Aimbot_Enabled and CurrentTarget then
-            if k == "Hit" then
-                return GetPredictedPosition()
-            elseif k == "Target" then
-                return CurrentTarget
+            if k == "Hit" then return GetPredictedPosition()
+            elseif k == "Target" then return CurrentTarget
             elseif k == "X" or k == "Y" then
                 local screenPos = Camera:WorldToViewportPoint(GetPredictedPosition().Position)
                 return k == "X" and screenPos.X or screenPos.Y
@@ -2469,7 +2066,6 @@ local function startSilentAimMobileDisimulado()
         end
         return originalMetaTableIndex(t, k)
     end
-    
     setreadonly(mt, true)
     
     local renderConnection = RunService.RenderStepped:Connect(function()
@@ -2489,9 +2085,7 @@ local function startSilentAimMobileDisimulado()
             return
         end
         
-        local isInGame = IsInRound()
-        
-        if not isInGame then
+        if not IsInRound() then
             CurrentTarget = nil
             UserInputService.MouseBehavior = Enum.MouseBehavior.Default
             UserInputService.MouseIconEnabled = true
@@ -2507,7 +2101,6 @@ local function startSilentAimMobileDisimulado()
             IsAiming = false
             UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
             UserInputService.MouseIconEnabled = false
-            
             local screenPos, onScreen = Camera:WorldToViewportPoint(GetPredictedPosition().Position)
             Crosshair.Visible = true
             Crosshair.Position = UDim2.new(0, screenPos.X, 0, screenPos.Y)
@@ -2522,11 +2115,9 @@ local function startSilentAimMobileDisimulado()
         if showESPIndicators then
             for _, player in ipairs(Players:GetPlayers()) do
                 local indicator = GetESPIndicator(player.UserId)
-                
                 if IsValidTarget(player) then
                     local root = player.Character.HumanoidRootPart
                     local pos, onScreen = Camera:WorldToViewportPoint(root.Position)
-                    
                     if onScreen then
                         indicator.Visible = true
                         indicator.Position = UDim2.new(0, pos.X, 0, pos.Y)
@@ -2538,16 +2129,12 @@ local function startSilentAimMobileDisimulado()
                 end
             end
         else
-            for _, indicator in pairs(ESP_Indicators) do
-                indicator.Visible = false
-            end
+            for _, indicator in pairs(ESP_Indicators) do indicator.Visible = false end
         end
     end)
 
     table.insert(silentAimMobileConnections, renderConnection)
-    table.insert(silentAimMobileConnections, Players.PlayerRemoving:Connect(function(player)
-        RemoveESPIndicator(player.UserId)
-    end))
+    table.insert(silentAimMobileConnections, Players.PlayerRemoving:Connect(function(player) RemoveESPIndicator(player.UserId) end))
 
     getgenv().MobileReticle = {
         TurnOn = function()
@@ -2574,46 +2161,30 @@ end
 
 local function stopSilentAimMobileDisimulado()
     if not silentAimMobileDisimuladoEnabled then return end
-    
     silentAimMobileDisimuladoEnabled = false
-    
     for _, connection in pairs(silentAimMobileConnections) do
-        if connection then
-            connection:Disconnect()
-        end
+        if connection then connection:Disconnect() end
     end
     silentAimMobileConnections = {}
     
     if originalMetaTableIndex then
-        local mt = getrawmetatable(game:GetService("Players").LocalPlayer:GetMouse())
+        local mt = getrawmetatable(LocalPlayer:GetMouse())
         setreadonly(mt, false)
         mt.__index = originalMetaTableIndex
         setreadonly(mt, true)
     end
-    
     if silentAimFOVCircleDisimulado then
         silentAimFOVCircleDisimulado:Remove()
         silentAimFOVCircleDisimulado = nil
     end
-    
-    if game.Players.LocalPlayer:FindFirstChild("PlayerGui") then
-        local gui = game.Players.LocalPlayer.PlayerGui:FindFirstChild("MobileReticleGui")
-        if gui then
-            gui:Destroy()
-        end
+    if LocalPlayer:FindFirstChild("PlayerGui") then
+        local gui = LocalPlayer.PlayerGui:FindFirstChild("MobileReticleGui")
+        if gui then gui:Destroy() end
     end
-    
-    local UserInputService = game:GetService("UserInputService")
     UserInputService.MouseBehavior = Enum.MouseBehavior.Default
     UserInputService.MouseIconEnabled = true
-    
-    if getgenv().MobileReticle then
-        getgenv().MobileReticle = nil
-    end
-    
-    for userId, indicator in pairs(ESP_Indicators) do
-        indicator:Destroy()
-    end
+    if getgenv().MobileReticle then getgenv().MobileReticle = nil end
+    for userId, indicator in pairs(ESP_Indicators) do indicator:Destroy() end
     ESP_Indicators = {}
 end
 
@@ -2637,7 +2208,6 @@ for _, v in pairs(corners) do
     minX = math.min(minX, v.X)
     minY = math.min(minY, v.Y)
     minZ = math.min(minZ, v.Z)
-
     maxX = math.max(maxX, v.X)
     maxY = math.max(maxY, v.Y)
     maxZ = math.max(maxZ, v.Z)
@@ -2645,19 +2215,15 @@ end
 
 local HEIGHT = 12
 local MARGIN = 3
-
 minY -= HEIGHT
 maxY += HEIGHT
-
 minX -= MARGIN
 maxX += MARGIN
 minZ -= MARGIN
 maxZ += MARGIN
 
 local function isInside(pos)
-    return pos.X >= minX and pos.X <= maxX
-       and pos.Y >= minY and pos.Y <= maxY
-       and pos.Z >= minZ and pos.Z <= maxZ
+    return pos.X >= minX and pos.X <= maxX and pos.Y >= minY and pos.Y <= maxY and pos.Z >= minZ and pos.Z <= maxZ
 end
 
 local function createPerimeterGUI()
@@ -2691,7 +2257,6 @@ local function createPerimeterGUI()
     local list = Instance.new("UIListLayout")
     list.Padding = UDim.new(0, 6)
     list.Parent = perimeterFrame
-
     list:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
         perimeterFrame.CanvasSize = UDim2.new(0, 0, 0, list.AbsoluteContentSize.Y + 10)
     end)
@@ -2700,27 +2265,19 @@ end
 local function createPlayerCard(player)
     if not perimeterFrame or not perimeterFrame.Parent then return end
     if perimeterFrame:FindFirstChild(player.Name) then return end
-
     local card = Instance.new("Frame")
     card.Size = UDim2.new(1, -4, 0, 70)
     card.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     card.Name = player.Name
-
-    local cardCorner = Instance.new("UICorner")
-    cardCorner.Parent = card
+    Instance.new("UICorner", card)
 
     local avatar = Instance.new("ImageLabel")
     avatar.Size = UDim2.fromOffset(60, 60)
     avatar.Position = UDim2.fromOffset(5, 5)
     avatar.BackgroundTransparency = 1
     avatar.Parent = card
-
     task.spawn(function()
-        local thumb = Players:GetUserThumbnailAsync(
-            player.UserId,
-            Enum.ThumbnailType.HeadShot,
-            Enum.ThumbnailSize.Size100x100
-        )
+        local thumb = Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
         avatar.Image = thumb
     end)
 
@@ -2750,23 +2307,18 @@ end
 local function removePlayerCard(player)
     if perimeterFrame then
         local card = perimeterFrame:FindFirstChild(player.Name)
-        if card then
-            card:Destroy()
-        end
+        if card then card:Destroy() end
     end
 end
 
 local function updatePerimeter()
     if not perimeterEnabled then return end
-
     for _, player in ipairs(Players:GetPlayers()) do
         if player ~= LocalPlayer then
             local char = player.Character
             local hrp = char and char:FindFirstChild("HumanoidRootPart")
-
             if hrp then
                 local inside = isInside(hrp.Position)
-
                 if inside and not insidePlayers[player] then
                     insidePlayers[player] = true
                     createPlayerCard(player)
@@ -2802,27 +2354,21 @@ local function stopPerimeter()
     insidePlayers = {}
 end
 
-local Players = game:GetService('Players')
-local Workspace = game:GetService('Workspace')
-local ReplicatedStorage = game:GetService('ReplicatedStorage')
-local RunService = game:GetService('RunService')
-local LocalPlayer = Players.LocalPlayer
 local CHECK_INTERVAL = 0.2
 local SPAM_DELAY = 0.01
 local KnifeKill
+
 while not KnifeKill do
     local found = ReplicatedStorage:FindFirstChild('KnifeKill')
-    if found then
-        KnifeKill = found
-    else
-        task.wait(0.5)
-    end
+    if found then KnifeKill = found else task.wait(0.5) end
 end
+
 local KILL_SPAM_ENABLED = false
 local ActiveSpamThread = nil
 local inZeroZeroRound = false
 local timerActive = false
 local timerActivationTime = 0
+
 local function StartKillSpam()
     if ActiveSpamThread then return end
     KILL_SPAM_ENABLED = true
@@ -2830,9 +2376,7 @@ local function StartKillSpam()
         while KILL_SPAM_ENABLED do
             for _, player in pairs(Players:GetPlayers()) do
                 if player ~= LocalPlayer and KnifeKill then
-                    pcall(function()
-                        KnifeKill:FireServer(player)
-                    end)
+                    pcall(function() KnifeKill:FireServer(player) end)
                 end
             end
             task.wait(SPAM_DELAY)
@@ -2840,6 +2384,7 @@ local function StartKillSpam()
         ActiveSpamThread = nil
     end)
 end
+
 local function StopKillSpam()
     KILL_SPAM_ENABLED = false
     if ActiveSpamThread then
@@ -2847,17 +2392,17 @@ local function StopKillSpam()
         ActiveSpamThread = nil
     end
 end
+
 local function findRoundTimer()
-    local rg = Workspace:FindFirstChild("RunningGames")
+    local rg = workspace:FindFirstChild("RunningGames")
     if not rg then return nil end
     for _, folder in ipairs(rg:GetChildren()) do
         local timer = folder:FindFirstChild("RoundTimer")
-        if timer and timer:IsA("IntValue") then
-            return timer
-        end
+        if timer and timer:IsA("IntValue") then return timer end
     end
     return nil
 end
+
 local function getScoreTexts()
     local gui = LocalPlayer:FindFirstChild("PlayerGui")
     if not gui then return nil, nil end
@@ -2871,25 +2416,24 @@ local function getScoreTexts()
     local redScore = redScoreFrame and redScoreFrame:FindFirstChild("ScoreText")
     return blueScore, redScore
 end
+
 local function isRoundZeroZero()
     local blueScore, redScore = getScoreTexts()
-    if not blueScore or not redScore then
-        return false
-    end
+    if not blueScore or not redScore then return false end
     local blue = tonumber(blueScore.Text) or 0
     local red = tonumber(redScore.Text) or 0
     return blue == 0 and red == 0
 end
+
 local autoFarmKillsThread = nil
 local autoFarmKillsEnabled = false
+
 local function mainLoop()
     while autoFarmKillsEnabled do
         local timer = nil
         while not timer and autoFarmKillsEnabled do
             timer = findRoundTimer()
-            if not timer then
-                task.wait(1)
-            end
+            if not timer then task.wait(1) end
         end
         if not autoFarmKillsEnabled then break end
         inZeroZeroRound = false
@@ -2929,9 +2473,7 @@ local function mainLoop()
                 end
             end
             task.wait(CHECK_INTERVAL)
-            if not timer.Parent then
-                break
-            end
+            if not timer.Parent then break end
         end
         StopKillSpam()
         inZeroZeroRound = false
@@ -2946,16 +2488,8 @@ function createMainWindow()
             Name = "Synergy Hub - Murders vs Sheriff",
             LoadingTitle = "Synergy Hub",
             LoadingSubtitle = "by Xyraniz",
-            ConfigurationSaving = {
-                Enabled = true,
-                FolderName = "synergy_hub",
-                FileName = "config"
-            },
-            Discord = {
-                Enabled = false,
-                Invite = "",
-                RememberJoins = false
-            },
+            ConfigurationSaving = { Enabled = true, FolderName = "synergy_hub", FileName = "config" },
+            Discord = { Enabled = false, Invite = "", RememberJoins = false },
             KeySystem = false
         })
 
@@ -2971,43 +2505,34 @@ function createMainWindow()
             Title = "What is Synergy Hub?",
             Content = "A Roblox script hub optimized for gameplay. Designed to dominate in Murders vs Sheriff."
         })
-
         InfoTab:CreateParagraph({
             Title = "Credits",
             Content = "Xyraniz\nSynergy Team\nRayfield"
         })
-
         InfoTab:CreateButton({
             Name = "Discord Server",
-            Callback = function()
-                setclipboard("discord.gg/nCNASmNRTE")
-            end,
+            Callback = function() setclipboard("discord.gg/nCNASmNRTE") end,
         })
-
         InfoTab:CreateKeybind({
             Name = "Menu Keybind",
             CurrentKeybind = "X",
             HoldToInteract = false,
             Flag = "MenuKeybind",
-            Callback = function(key)
-                Window:Toggle()
-            end,
+            Callback = function(key) Window:Toggle() end,
         })
 
         pcall(initializeAimbot)
         
         aimbotConnection = RunService.RenderStepped:Connect(function()
             pcall(updateDrawings)
-            if aimbotState.aimbotEnabled then
-                FOVring.Visible = aimbotState.showFOV and aimbotState.aimbotEnabled and aimbotState.fovType == "Limited FOV" or false
-                local closest = getTargetPlayer(aimbotState.aimbotTargetPart, aimbotState.aimbotFOVSize, true, aimbotState.aimbotVisibilityCheck)
-                if closest and closest.Character and closest.Character:FindFirstChild(aimbotState.aimbotTargetPart) then
-                    pcall(function() lookAt(closest.Character[aimbotState.aimbotTargetPart].Position, aimbotState.aimbotSmoothness) end)
+            if aimbotState.enabled then
+                FOVring.Visible = aimbotState.showFOV and aimbotState.enabled and aimbotState.fovType == "Limited FOV" or false
+                local closest = getTargetPlayer(aimbotState.targetPart, aimbotState.fovSize, aimbotState.visibilityCheck)
+                if closest and closest.Character and closest.Character:FindFirstChild(aimbotState.targetPart) then
+                    pcall(function() lookAt(closest.Character[aimbotState.targetPart].Position, aimbotState.smoothness) end)
                 end
             end
-            
-            SilentAimFOV.Visible = silentAimSettings.showFOV and SA_ClickShootEnabled
-            
+            SilentAimFOV.Visible = silentAimSettings.showFOV and clickShootEnabled
             autoShootFOVCircle.Visible = AutoShootEnabled and autoShootConfig.showFOV and autoShootConfig.mode == "FOV"
             autoShootFOVCircle.Position = workspace.CurrentCamera.ViewportSize / 2
             autoShootFOVCircle.Radius = autoShootConfig.fovSize
@@ -3018,53 +2543,38 @@ function createMainWindow()
             Name = "Enable Aimbot",
             CurrentValue = false,
             Flag = "AimbotEnabled",
-            Callback = function(v)
-                aimbotState.aimbotEnabled = v
-            end,
+            Callback = function(v) aimbotState.enabled = v end,
         })
-
         AimbotTab:CreateToggle({
             Name = "Show FOV",
             CurrentValue = false,
             Flag = "ShowFOV",
-            Callback = function(v)
-                aimbotState.showFOV = v
-            end,
+            Callback = function(v) aimbotState.showFOV = v end,
         })
-
         AimbotTab:CreateDropdown({
             Name = "FOV Mode",
             Options = {"Limited FOV", "Full Screen", "360 Degrees"},
             CurrentOption = "Limited FOV",
             Flag = "AimbotFOVType",
-            Callback = function(v)
-                aimbotState.fovType = v
-            end,
+            Callback = function(v) aimbotState.fovType = v end,
         })
-
         AimbotTab:CreateSlider({
             Name = "Smoothness",
             Range = {0.1, 1},
             Increment = 0.05,
             CurrentValue = 1,
             Flag = "AimbotSmoothness",
-            Callback = function(v)
-                aimbotState.aimbotSmoothness = v
-            end,
+            Callback = function(v) aimbotState.smoothness = v end,
         })
-
         AimbotTab:CreateColorPicker({
             Name = "FOV Color",
             Color = Color3.fromRGB(128, 0, 128),
             Flag = "AimbotFOVColor",
             Callback = function(v)
-                aimbotState.aimbotFOVColor = v
-                if FOVring then
-                    FOVring.Color = v
-                end
+                aimbotState.fovColor = v
+                if FOVring then FOVring.Color = v end
             end,
         })
-
         AimbotTab:CreateSlider({
             Name = "FOV Size",
             Range = {50, 500},
@@ -3072,30 +2582,22 @@ function createMainWindow()
             CurrentValue = 100,
             Flag = "AimbotFOVSize",
             Callback = function(v)
-                aimbotState.aimbotFOVSize = v
-                if FOVring then
-                    FOVring.Radius = v
-                end
+                aimbotState.fovSize = v
+                if FOVring then FOVring.Radius = v end
             end,
         })
-
         AimbotTab:CreateDropdown({
             Name = "Target Part",
             Options = {"Head", "HumanoidRootPart", "UpperTorso"},
             CurrentOption = "Head",
             Flag = "AimbotTargetPart",
-            Callback = function(v)
-                aimbotState.aimbotTargetPart = v
-            end,
+            Callback = function(v) aimbotState.targetPart = v end,
         })
-
         AimbotTab:CreateToggle({
             Name = "Wall Check",
             CurrentValue = false,
             Flag = "AimbotVisibilityCheck",
-            Callback = function(v)
-                aimbotState.aimbotVisibilityCheck = v
-            end,
+            Callback = function(v) aimbotState.visibilityCheck = v end,
         })
 
         SilentAimTab:CreateToggle({
@@ -3106,31 +2608,27 @@ function createMainWindow()
                 if v then
                     if silentAimMobileDisimuladoEnabled then
                         stopSilentAimMobileDisimulado()
-                        Rayfield:SetToggle({Flag = "SilentAimMobileDisimulado", Value = false})
+                        pcall(function() Window.Flags["SilentAimMobileDisimulado"]:Set(false) end)
                     end
                 end
                 SetSilentAimState(v)
             end,
         })
-
         SilentAimTab:CreateToggle({
             Name = "Block Shoot",
             CurrentValue = false,
             Flag = "BlockShoot",
-            Callback = function(v)
-                SetSABlockShootState(v)
-            end,
+            Callback = function(v) SetSABlockShootState(v) end,
         })
-
         SilentAimTab:CreateToggle({
             Name = "Silent Aim (Mobile) (Prediction)",
             CurrentValue = false,
             Flag = "SilentAimMobileDisimulado",
             Callback = function(v)
                 if v then
-                    if SA_ClickShootEnabled then
+                    if clickShootEnabled then
                         SetSilentAimState(false)
-                        Rayfield:SetToggle({Flag = "ClickShootEnabled", Value = false})
+                        pcall(function() Window.Flags["ClickShootEnabled"]:Set(false) end)
                     end
                     startSilentAimMobileDisimulado()
                 else
@@ -3138,25 +2636,18 @@ function createMainWindow()
                 end
             end,
         })
-
         SilentAimTab:CreateToggle({
             Name = "Mostrar FOV",
             CurrentValue = true,
             Flag = "SilentAimShowFOV",
-            Callback = function(v)
-                silentAimSettings.showFOV = v
-            end,
+            Callback = function(v) silentAimSettings.showFOV = v end,
         })
-
         SilentAimTab:CreateToggle({
             Name = "Hide ESP Squares",
             CurrentValue = true,
             Flag = "ShowESPIndicators",
-            Callback = function(v)
-                showESPIndicators = v
-            end,
+            Callback = function(v) showESPIndicators = v end,
         })
-
         SilentAimTab:CreateColorPicker({
             Name = "FOV Color",
             Color = Color3.fromRGB(255, 255, 255),
@@ -3166,7 +2657,6 @@ function createMainWindow()
                 SilentAimFOV.Color = v
             end,
         })
-
         SilentAimTab:CreateSlider({
             Name = "FOV Size",
             Range = {50, 500},
@@ -3178,18 +2668,14 @@ function createMainWindow()
                 SilentAimFOV.Radius = v
             end,
         })
-
         SilentAimTab:CreateSlider({
             Name = "Aim Assist Strength",
             Range = {1, 100},
             Increment = 1,
             CurrentValue = 70,
             Flag = "AimAssistStrength",
-            Callback = function(v)
-                SA_Config.aimAssistStrength = v / 100
-            end,
+            Callback = function(v) silentAimConfig.aimAssistStrength = v / 100 end,
         })
-
         SilentAimTab:CreateSlider({
             Name = "Prediction",
             Range = {1, 100},
@@ -3197,18 +2683,15 @@ function createMainWindow()
             CurrentValue = 80,
             Flag = "ClickShootPrediction",
             Callback = function(v)
-                SA_Config.predictionStrength = v / 100
+                silentAimConfig.predictionStrength = v / 100
                 silentAimSettings.prediction = v
             end,
         })
-
         SilentAimTab:CreateToggle({
             Name = "Wall Check",
             CurrentValue = false,
             Flag = "SilentAimWallCheck",
-            Callback = function(v)
-                silentAimSettings.wallCheck = v
-            end,
+            Callback = function(v) silentAimSettings.wallCheck = v end,
         })
 
         HitboxTab:CreateToggle({
@@ -3217,7 +2700,6 @@ function createMainWindow()
             Flag = "HitboxEnabled",
             Callback = function(v)
                 HitboxSettings.Enabled = v
-                
                 if v then
                     task.spawn(function()
                         while HitboxSettings.Enabled do
@@ -3225,16 +2707,12 @@ function createMainWindow()
                                 local tool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
                                 local isGun = tool and tool:FindFirstChild("showBeam") and tool.showBeam:IsA("RemoteEvent")
                                 local isKnife = tool and not isGun
-
                                 for _,targetPlayer in pairs(Players:GetPlayers()) do
                                     if targetPlayer.Name ~= LocalPlayer.Name then
                                         local shouldExpand = not IsTeammateGlobal(targetPlayer)
                                         local weaponMatch = (HitboxSettings.GunEnabled and isGun) or (HitboxSettings.KnifeEnabled and isKnife)
-                                        if not (HitboxSettings.GunEnabled or HitboxSettings.KnifeEnabled) then
-                                            weaponMatch = true
-                                        end
+                                        if not (HitboxSettings.GunEnabled or HitboxSettings.KnifeEnabled) then weaponMatch = true end
                                         shouldExpand = shouldExpand and weaponMatch
-                                        
                                         if targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
                                             if HitboxSettings.AntiWall and not CheckVisibility(targetPlayer.Character.HumanoidRootPart) then
                                                 restoreHitbox(targetPlayer)
@@ -3243,33 +2721,21 @@ function createMainWindow()
                                                 for _, partName in pairs(bodyParts) do
                                                     local part = targetPlayer.Character:FindFirstChild(partName)
                                                     if part then
-                                                        if not originalHitboxProperties[targetPlayer] then
-                                                            originalHitboxProperties[targetPlayer] = {}
-                                                        end
+                                                        if not originalHitboxProperties[targetPlayer] then originalHitboxProperties[targetPlayer] = {} end
                                                         if not originalHitboxProperties[targetPlayer][partName] then
                                                             originalHitboxProperties[targetPlayer][partName] = {
-                                                                Size = part.Size,
-                                                                Transparency = part.Transparency,
-                                                                Color = part.Color,
-                                                                CanCollide = part.CanCollide
+                                                                Size = part.Size, Transparency = part.Transparency, Color = part.Color, CanCollide = part.CanCollide
                                                             }
                                                         end
-                                                        
                                                         if shouldExpand then
                                                             local newSize = Vector3.new(HitboxSettings.Size, HitboxSettings.Size, HitboxSettings.Size)
                                                             if part.Size ~= newSize or part.Transparency ~= HitboxSettings.Transparency or part.Color ~= HitboxSettings.Color or part.CanCollide ~= false then
-                                                                part.CanCollide = false
-                                                                part.Transparency = HitboxSettings.Transparency
-                                                                part.Color = HitboxSettings.Color
-                                                                part.Size = newSize
+                                                                part.CanCollide = false; part.Transparency = HitboxSettings.Transparency; part.Color = HitboxSettings.Color; part.Size = newSize
                                                             end
                                                         else
                                                             local props = originalHitboxProperties[targetPlayer][partName]
                                                             if part.Size ~= props.Size or part.Transparency ~= props.Transparency or part.Color ~= props.Color or part.CanCollide ~= props.CanCollide then
-                                                                part.Size = props.Size
-                                                                part.Transparency = props.Transparency
-                                                                part.Color = props.Color
-                                                                part.CanCollide = props.CanCollide
+                                                                part.Size = props.Size; part.Transparency = props.Transparency; part.Color = props.Color; part.CanCollide = props.CanCollide
                                                             end
                                                         end
                                                     end
@@ -3287,76 +2753,15 @@ function createMainWindow()
                 end
             end,
         })
+        HitboxTab:CreateToggle({ Name = "Hitbox (Gun)", CurrentValue = false, Flag = "HitboxGun", Callback = function(v) HitboxSettings.GunEnabled = v end, })
+        HitboxTab:CreateToggle({ Name = "Hitbox (Knife)", CurrentValue = false, Flag = "HitboxKnife", Callback = function(v) HitboxSettings.KnifeEnabled = v end, })
+        HitboxTab:CreateToggle({ Name = "Visibility Check", CurrentValue = false, Flag = "HitboxAntiWall", Callback = function(v) HitboxSettings.AntiWall = v end, })
+        HitboxTab:CreateSlider({ Name = "Size", Range = {1, 25}, Increment = 1, CurrentValue = 12, Flag = "HitboxSize", Callback = function(v) HitboxSettings.Size = v end, })
+        HitboxTab:CreateSlider({ Name = "Transparency", Range = {0, 1}, Increment = 0.1, CurrentValue = 1, Flag = "HitboxTransparency", Callback = function(v) HitboxSettings.Transparency = v end, })
+        HitboxTab:CreateColorPicker({ Name = "Color", Color = Color3.fromRGB(255, 0, 0), Flag = "HitboxColor", Callback = function(v) HitboxSettings.Color = v end, })
 
-        HitboxTab:CreateToggle({
-            Name = "Hitbox (Gun)",
-            CurrentValue = false,
-            Flag = "HitboxGun",
-            Callback = function(v)
-                HitboxSettings.GunEnabled = v
-            end,
-        })
-
-        HitboxTab:CreateToggle({
-            Name = "Hitbox (Knife)",
-            CurrentValue = false,
-            Flag = "HitboxKnife",
-            Callback = function(v)
-                HitboxSettings.KnifeEnabled = v
-            end,
-        })
-
-        HitboxTab:CreateToggle({
-            Name = "Visibility Check",
-            CurrentValue = false,
-            Flag = "HitboxAntiWall",
-            Callback = function(v)
-                HitboxSettings.AntiWall = v
-            end,
-        })
-
-        HitboxTab:CreateSlider({
-            Name = "Size",
-            Range = {1, 25},
-            Increment = 1,
-            CurrentValue = 12,
-            Flag = "HitboxSize",
-            Callback = function(v)
-                HitboxSettings.Size = v
-            end,
-        })
-
-        HitboxTab:CreateSlider({
-            Name = "Transparency",
-            Range = {0, 1},
-            Increment = 0.1,
-            CurrentValue = 1,
-            Flag = "HitboxTransparency",
-            Callback = function(v)
-                HitboxSettings.Transparency = v
-            end,
-        })
-
-        HitboxTab:CreateColorPicker({
-            Name = "Color",
-            Color = Color3.fromRGB(255, 0, 0),
-            Flag = "HitboxColor",
-            Callback = function(v)
-                HitboxSettings.Color = v
-            end,
-        })
-
-        VisualTab:CreateToggle({
-            Name = "Show Names",
-            CurrentValue = false,
-            Flag = "ESPNames",
-            Callback = function(v)
-                ESPSettings.Names = v
-            end,
-        })
-
+        VisualTab:CreateToggle({ Name = "Show Names", CurrentValue = false, Flag = "ESPNames", Callback = function(v) ESPSettings.Names = v end, })
         VisualTab:CreateSection("Visual Settings")
-        
         VisualTab:CreateToggle({
             Name = "Enable Highlights (Enemies)",
             CurrentValue = false,
@@ -3364,44 +2769,18 @@ function createMainWindow()
             Callback = function(v)
                 ESPSettings.Highlights.Enabled = v
                 if not v and not ESPSettings.Highlights.TeammatesEnabled then
-                    for player, highlight in pairs(highlights) do
-                        if highlight then
-                            highlight:Destroy()
-                        end
-                    end
+                    for player, highlight in pairs(highlights) do if highlight then highlight:Destroy() end end
                     highlights = {}
                 else
                     for _, targetPlayer in pairs(Players:GetPlayers()) do
-                        if targetPlayer ~= LocalPlayer and targetPlayer.Character then
-                            createHighlightForPlayer(targetPlayer, targetPlayer.Character)
-                        end
+                        if targetPlayer ~= LocalPlayer and targetPlayer.Character then createHighlightForPlayer(targetPlayer, targetPlayer.Character) end
                     end
                 end
             end,
         })
-
-        VisualTab:CreateColorPicker({
-            Name = "Enemy Color",
-            Color = Color3.fromRGB(255, 0, 0),
-            Flag = "HighlightsColor",
-            Callback = function(v)
-                ESPSettings.Highlights.Color = v
-            end,
-        })
-
-        VisualTab:CreateSlider({
-            Name = "Fill Transparency",
-            Range = {0, 1},
-            Increment = 0.1,
-            CurrentValue = 0.5,
-            Flag = "HighlightsTransparency",
-            Callback = function(v)
-                ESPSettings.Highlights.Transparency = v
-            end,
-        })
-
+        VisualTab:CreateColorPicker({ Name = "Enemy Color", Color = Color3.fromRGB(255, 0, 0), Flag = "HighlightsColor", Callback = function(v) ESPSettings.Highlights.Color = v end, })
+        VisualTab:CreateSlider({ Name = "Fill Transparency", Range = {0, 1}, Increment = 0.1, CurrentValue = 0.5, Flag = "HighlightsTransparency", Callback = function(v) ESPSettings.Highlights.Transparency = v end, })
         VisualTab:CreateSection("Teammates")
-        
         VisualTab:CreateToggle({
             Name = "Enable ESP Teammates",
             CurrentValue = false,
@@ -3409,31 +2788,16 @@ function createMainWindow()
             Callback = function(v)
                 ESPSettings.Highlights.TeammatesEnabled = v
                 if not v and not ESPSettings.Highlights.Enabled then
-                    for player, highlight in pairs(highlights) do
-                        if highlight then
-                            highlight:Destroy()
-                        end
-                    end
+                    for player, highlight in pairs(highlights) do if highlight then highlight:Destroy() end end
                     highlights = {}
                 else
                     for _, targetPlayer in pairs(Players:GetPlayers()) do
-                        if targetPlayer ~= LocalPlayer and targetPlayer.Character then
-                            createHighlightForPlayer(targetPlayer, targetPlayer.Character)
-                        end
+                        if targetPlayer ~= LocalPlayer and targetPlayer.Character then createHighlightForPlayer(targetPlayer, targetPlayer.Character) end
                     end
                 end
             end,
         })
-
-        VisualTab:CreateColorPicker({
-            Name = "Teammates Color",
-            Color = Color3.fromRGB(135, 206, 235),
-            Flag = "TeammatesColor",
-            Callback = function(v)
-                ESPSettings.Highlights.TeammatesColor = v
-            end,
-        })
-
+        VisualTab:CreateColorPicker({ Name = "Teammates Color", Color = Color3.fromRGB(135, 206, 235), Flag = "TeammatesColor", Callback = function(v) ESPSettings.Highlights.TeammatesColor = v end, })
         VisualTab:CreateKeybind({
             Name = "Toggle All ESP",
             CurrentKeybind = "P",
@@ -3446,21 +2810,12 @@ function createMainWindow()
         })
 
         TPTab:CreateSection("Teleports")
-
         TPTab:CreateToggle({
             Name = "Auto Farm Wins",
             CurrentValue = false,
             Flag = "AutoFarm",
-            Callback = function(v)
-                autoFarmEnabled = v
-                if v then
-                    startAutoFarm()
-                else
-                    stopAutoFarm()
-                end
-            end,
+            Callback = function(v) autoFarmEnabled = v; if v then startAutoFarm() else stopAutoFarm() end end,
         })
-
         TPTab:CreateToggle({
             Name = "Auto Farm Kills",
             CurrentValue = false,
@@ -3468,53 +2823,29 @@ function createMainWindow()
             Callback = function(v)
                 autoFarmKillsEnabled = v
                 if v then
-                    if not autoFarmKillsThread then
-                        autoFarmKillsThread = task.spawn(mainLoop)
-                    end
+                    if not autoFarmKillsThread then autoFarmKillsThread = task.spawn(mainLoop) end
                 else
-                    if autoFarmKillsThread then
-                        task.cancel(autoFarmKillsThread)
-                        autoFarmKillsThread = nil
-                    end
+                    if autoFarmKillsThread then task.cancel(autoFarmKillsThread); autoFarmKillsThread = nil end
                     StopKillSpam()
                 end
             end,
         })
-
         TPTab:CreateToggle({
             Name = "Anti AFK",
             CurrentValue = false,
             Flag = "AntiAFK",
-            Callback = function(v)
-                if v then
-                    startAntiAFK()
-                else
-                    stopAntiAFK()
-                end
-            end,
+            Callback = function(v) if v then startAntiAFK() else stopAntiAFK() end end,
         })
 
         TPTab:CreateSection("Left Side")
-
-        local tpFlags = {}
         local function createTPToggle(name, flag, cf)
-            table.insert(tpFlags, flag)
             TPTab:CreateToggle({
                 Name = name,
                 CurrentValue = false,
                 Flag = flag,
                 Callback = function(v)
-                    if v then
-                        for _, otherFlag in ipairs(tpFlags) do
-                            if otherFlag ~= flag then
-                                Rayfield:SetToggle({Flag = otherFlag, Value = false})
-                            end
-                        end
-                        activeTPTarget = cf
-                    else
-                        if activeTPTarget == cf then
-                            activeTPTarget = nil
-                        end
+                    if v then activeTPTarget = cf else
+                        if activeTPTarget == cf then activeTPTarget = nil end
                     end
                 end,
             })
@@ -3530,7 +2861,6 @@ function createMainWindow()
         createTPToggle("4v4", "TP_Left4v4_2", CFrame.new(-229, 241, 2))
 
         TPTab:CreateSection("Right Side")
-
         createTPToggle("1v1", "TP_Right1v1_1", CFrame.new(-300, 241, 34))
         createTPToggle("1v1", "TP_Right1v1_2", CFrame.new(-292, 241, 34))
         createTPToggle("2v2", "TP_Right2v2_1", CFrame.new(-279, 241, 34))
@@ -3541,192 +2871,62 @@ function createMainWindow()
         createTPToggle("4v4", "TP_Right4v4_2", CFrame.new(-243, 69, 33))
 
         ExtraTab:CreateSection("Spectate Perimeter")
-
         ExtraTab:CreateToggle({
             Name = "Spectate Perimeter",
             CurrentValue = false,
             Flag = "PerimeterSpectate",
-            Callback = function(v)
-                perimeterEnabled = v
-                if v then
-                    startPerimeter()
-                else
-                    stopPerimeter()
-                end
-            end,
+            Callback = function(v) perimeterEnabled = v; if v then startPerimeter() else stopPerimeter() end end,
         })
-
         ExtraTab:CreateSection("Boxes")
-
         local selectedBox = nil
         ExtraTab:CreateDropdown({
             Name = "Select Box",
-            Options = {
-                "Knife Box #1",
-                "Knife Box #2",
-                "Gun Box #1",
-                "Gun Box #2",
-                "Mythic Box #1",
-                "Mythic Box #2",
-                "Mythic Box #3",
-                "Mythic Box #4"
-            },
+            Options = { "Knife Box #1", "Knife Box #2", "Gun Box #1", "Gun Box #2", "Mythic Box #1", "Mythic Box #2", "Mythic Box #3", "Mythic Box #4" },
             CurrentOption = "",
             Flag = "BoxDropdown",
-            Callback = function(v)
-                selectedBox = v
-            end,
+            Callback = function(v) selectedBox = v end,
         })
-
         ExtraTab:CreateButton({
             Name = "Open Selected Box",
-            Callback = function()
-                if selectedBox then
-                    local buyCase = ReplicatedStorage:FindFirstChild("BuyCase")
-                    if buyCase then
-                        buyCase:InvokeServer(selectedBox)
-                    end
-                end
-            end,
+            Callback = function() if selectedBox then local buyCase = ReplicatedStorage:FindFirstChild("BuyCase"); if buyCase then buyCase:InvokeServer(selectedBox) end end end,
         })
-
         ExtraTab:CreateSection("Auto Shoot")
-
-        ExtraTab:CreateToggle({
-            Name = "Auto Shoot",
-            CurrentValue = false,
-            Flag = "AutoShoot",
-            Callback = function(v)
-                SetAutoShootState(v)
-            end,
-        })
-
-        ExtraTab:CreateDropdown({
-            Name = "Auto Shoot Mode",
-            Options = {"Pantalla Completa", "FOV"},
-            CurrentOption = "Pantalla Completa",
-            Flag = "AutoShootMode",
-            Callback = function(v)
-                autoShootConfig.mode = v
-            end,
-        })
-
-        ExtraTab:CreateToggle({
-            Name = "Mostrar FOV",
-            CurrentValue = true,
-            Flag = "AutoShootShowFOV",
-            Callback = function(v)
-                autoShootConfig.showFOV = v
-            end,
-        })
-
-        ExtraTab:CreateSlider({
-            Name = "FOV Size",
-            Range = {50, 500},
-            Increment = 10,
-            CurrentValue = 100,
-            Flag = "AutoShootFOVSize",
-            Callback = function(v)
-                autoShootConfig.fovSize = v
-            end,
-        })
-
-        ExtraTab:CreateColorPicker({
-            Name = "FOV Color",
-            Color = Color3.fromRGB(255, 255, 255),
-            Flag = "AutoShootFOVColor",
-            Callback = function(v)
-                autoShootConfig.fovColor = v
-            end,
-        })
-
-        ExtraTab:CreateSlider({
-            Name = "Shoot Delay",
-            Range = {0.01, 3},
-            Increment = 0.01,
-            CurrentValue = 0.08,
-            Flag = "ShootDelay",
-            Callback = function(v)
-                autoShootDelay = v
-            end,
-        })
-
+        ExtraTab:CreateToggle({ Name = "Auto Shoot", CurrentValue = false, Flag = "AutoShoot", Callback = function(v) SetAutoShootState(v) end, })
+        ExtraTab:CreateDropdown({ Name = "Auto Shoot Mode", Options = {"Pantalla Completa", "FOV"}, CurrentOption = "Pantalla Completa", Flag = "AutoShootMode", Callback = function(v) autoShootConfig.mode = v end, })
+        ExtraTab:CreateToggle({ Name = "Mostrar FOV", CurrentValue = true, Flag = "AutoShootShowFOV", Callback = function(v) autoShootConfig.showFOV = v end, })
+        ExtraTab:CreateSlider({ Name = "FOV Size", Range = {50, 500}, Increment = 10, CurrentValue = 100, Flag = "AutoShootFOVSize", Callback = function(v) autoShootConfig.fovSize = v end, })
+        ExtraTab:CreateColorPicker({ Name = "FOV Color", Color = Color3.fromRGB(255, 255, 255), Flag = "AutoShootFOVColor", Callback = function(v) autoShootConfig.fovColor = v end, })
+        ExtraTab:CreateSlider({ Name = "Shoot Delay", Range = {0.01, 3}, Increment = 0.01, CurrentValue = 0.08, Flag = "ShootDelay", Callback = function(v) autoShootDelay = v end, })
         ExtraTab:CreateSection("Invisibility")
-
-        ExtraTab:CreateToggle({
-            Name = "Auto-Give Cloak",
-            CurrentValue = false,
-            Flag = "AutoGiveCloak",
-            Callback = function(v)
-                AutoGiveCloak = v
-            end,
-        })
-
-        ExtraTab:CreateButton({
-            Name = "Get Cloak",
-            Callback = function()
-                GiveCloakTool()
-            end,
-        })
-
+        ExtraTab:CreateToggle({ Name = "Auto-Give Cloak", CurrentValue = false, Flag = "AutoGiveCloak", Callback = function(v) AutoGiveCloak = v end, })
+        ExtraTab:CreateButton({ Name = "Get Cloak", Callback = function() GiveCloakTool() end, })
         ExtraTab:CreateButton({
             Name = "Remove Cloak",
             Callback = function()
-                local removed = false
-                for _, t in pairs(LocalPlayer.Backpack:GetChildren()) do
-                    if t.Name == 'Invisibility Cloak' then t:Destroy(); removed = true end
-                end
-                if LocalPlayer.Character then
-                    local t = LocalPlayer.Character:FindFirstChild('Invisibility Cloak')
-                    if t then t:Destroy(); removed = true end
-                end
+                for _, t in pairs(LocalPlayer.Backpack:GetChildren()) do if t.Name == 'Invisibility Cloak' then t:Destroy() end end
+                if LocalPlayer.Character then local t = LocalPlayer.Character:FindFirstChild('Invisibility Cloak'); if t then t:Destroy() end end
             end,
         })
-
         ExtraTab:CreateSection("Inventory Viewer")
-
         local selectedInvPlayer = nil
         local function getPlayerNames()
             local list = {}
-            for _, p in pairs(Players:GetPlayers()) do
-                table.insert(list, p.Name)
-            end
+            for _, p in pairs(Players:GetPlayers()) do table.insert(list, p.Name) end
             return list
         end
-
         local invDropdown = ExtraTab:CreateDropdown({
             Name = "Select Player",
             Options = getPlayerNames(),
             CurrentOption = "",
             Flag = "InvPlayerDropdown",
-            Callback = function(v)
-                selectedInvPlayer = v
-            end,
+            Callback = function(v) selectedInvPlayer = v end,
         })
+        ExtraTab:CreateButton({ Name = "Refresh Player List", Callback = function() invDropdown:SetOptions(getPlayerNames()) end, })
+        ExtraTab:CreateButton({ Name = "View Inventory", Callback = function() if selectedInvPlayer then OpenInventoryViewer(selectedInvPlayer) end end, })
 
-        ExtraTab:CreateButton({
-            Name = "Refresh Player List",
-            Callback = function()
-                invDropdown:SetOptions(getPlayerNames())
-            end,
-        })
-
-        ExtraTab:CreateButton({
-            Name = "View Inventory",
-            Callback = function()
-                if selectedInvPlayer then
-                    OpenInventoryViewer(selectedInvPlayer)
-                end
-            end,
-        })
-
-        if InfoTab then
-            InfoTab:Select()
-        end
+        if InfoTab then InfoTab:Select() end
     end)
-    if not success then
-        warn("Error al crear la ventana principal:", err)
-    end
+    if not success then warn("Error al crear la ventana principal:", err) end
 end
 
 createMainWindow()
