@@ -839,7 +839,8 @@ local aimbotState = {
     targetPart = "Head",
     visibilityCheck = true,
     showFOV = true,
-    fovType = "Limited FOV"
+    fovType = "Limited FOV",
+    onlyGun = false
 }
 
 local FOVring = Drawing.new("Circle")
@@ -1098,46 +1099,76 @@ local function updateESP()
     for _, targetPlayer in pairs(Players:GetPlayers()) do
         if targetPlayer ~= LocalPlayer then
             if targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                if not highlights[targetPlayer] or not highlights[targetPlayer].Parent then
-                    createHighlightForPlayer(targetPlayer, targetPlayer.Character)
-                end
-                if highlights[targetPlayer] and highlights[targetPlayer].Adornee ~= targetPlayer.Character then
-                     highlights[targetPlayer].Adornee = targetPlayer.Character
-                end
-                if targetPlayer.Character:FindFirstChild("Head") and not targetPlayer.Character.Head:FindFirstChild("NameTagESP") then
-                    createNameTagForPlayer(targetPlayer, targetPlayer.Character)
-                end
-                local isTeammate = IsTeammateGlobal(targetPlayer)
-                local nameTag = targetPlayer.Character:FindFirstChild("Head") and targetPlayer.Character.Head:FindFirstChild("NameTagESP")
-                if nameTag then
-                    local showName = ESPSettings.Names and not isTeammate
-                    nameTag.NameLabel.TextTransparency = showName and 0 or 1
-                end
-                pcall(function()
-                    local shouldHighlight = false
-                    local useColor = ESPSettings.Highlights.Color
-                    if isTeammate then
-                        if ESPSettings.Highlights.TeammatesEnabled then
-                            shouldHighlight = true
-                            useColor = ESPSettings.Highlights.TeammatesColor
-                        end
-                    else
-                        if ESPSettings.Highlights.Enabled then
-                            shouldHighlight = true
-                            useColor = ESPSettings.Highlights.Color
+                local humanoid = targetPlayer.Character:FindFirstChildOfClass("Humanoid")
+                if humanoid and humanoid.Health <= 0 then
+                    local head = targetPlayer.Character:FindFirstChild("Head")
+                    if head then
+                        local nameTag = head:FindFirstChild("NameTagESP")
+                        if nameTag then
+                            nameTag:Destroy()
                         end
                     end
                     if highlights[targetPlayer] then
-                        if shouldHighlight then
-                            highlights[targetPlayer].Enabled = true
-                            highlights[targetPlayer].FillColor = useColor
-                            highlights[targetPlayer].FillTransparency = ESPSettings.Highlights.Transparency
-                            highlights[targetPlayer].OutlineColor = useColor
-                        else
+                        highlights[targetPlayer].Enabled = false
+                    end
+                else
+                    local inRange = false
+                    local localRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    if localRoot then
+                        local dist = (localRoot.Position - targetPlayer.Character.HumanoidRootPart.Position).Magnitude
+                        inRange = dist <= 150
+                    end
+                    if not inRange then
+                        local nameTag = targetPlayer.Character:FindFirstChild("Head") and targetPlayer.Character.Head:FindFirstChild("NameTagESP")
+                        if nameTag then
+                            nameTag.NameLabel.TextTransparency = 1
+                        end
+                        if highlights[targetPlayer] then
                             highlights[targetPlayer].Enabled = false
                         end
+                    else
+                        if not highlights[targetPlayer] or not highlights[targetPlayer].Parent then
+                            createHighlightForPlayer(targetPlayer, targetPlayer.Character)
+                        end
+                        if highlights[targetPlayer] and highlights[targetPlayer].Adornee ~= targetPlayer.Character then
+                            highlights[targetPlayer].Adornee = targetPlayer.Character
+                        end
+                        if targetPlayer.Character:FindFirstChild("Head") and not targetPlayer.Character.Head:FindFirstChild("NameTagESP") then
+                            createNameTagForPlayer(targetPlayer, targetPlayer.Character)
+                        end
+                        local isTeammate = IsTeammateGlobal(targetPlayer)
+                        local nameTag = targetPlayer.Character:FindFirstChild("Head") and targetPlayer.Character.Head:FindFirstChild("NameTagESP")
+                        if nameTag then
+                            local showName = ESPSettings.Names and not isTeammate
+                            nameTag.NameLabel.TextTransparency = showName and 0 or 1
+                        end
+                        pcall(function()
+                            local shouldHighlight = false
+                            local useColor = ESPSettings.Highlights.Color
+                            if isTeammate then
+                                if ESPSettings.Highlights.TeammatesEnabled then
+                                    shouldHighlight = true
+                                    useColor = ESPSettings.Highlights.TeammatesColor
+                                end
+                            else
+                                if ESPSettings.Highlights.Enabled then
+                                    shouldHighlight = true
+                                    useColor = ESPSettings.Highlights.Color
+                                end
+                            end
+                            if highlights[targetPlayer] then
+                                if shouldHighlight then
+                                    highlights[targetPlayer].Enabled = true
+                                    highlights[targetPlayer].FillColor = useColor
+                                    highlights[targetPlayer].FillTransparency = ESPSettings.Highlights.Transparency
+                                    highlights[targetPlayer].OutlineColor = useColor
+                                else
+                                    highlights[targetPlayer].Enabled = false
+                                end
+                            end
+                        end)
                     end
-                end)
+                end
             else
                 if highlights[targetPlayer] then
                     highlights[targetPlayer]:Destroy()
@@ -2117,12 +2148,22 @@ local function startSilentAimMobileDisimulado()
                 local indicator = GetESPIndicator(player.UserId)
                 if IsValidTarget(player) then
                     local root = player.Character.HumanoidRootPart
-                    local pos, onScreen = Camera:WorldToViewportPoint(root.Position)
-                    if onScreen then
-                        indicator.Visible = true
-                        indicator.Position = UDim2.new(0, pos.X, 0, pos.Y)
-                    else
+                    local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    local inRange = false
+                    if myRoot then
+                        local dist = (myRoot.Position - root.Position).Magnitude
+                        inRange = dist <= 150
+                    end
+                    if not inRange then
                         indicator.Visible = false
+                    else
+                        local pos, onScreen = Camera:WorldToViewportPoint(root.Position)
+                        if onScreen then
+                            indicator.Visible = true
+                            indicator.Position = UDim2.new(0, pos.X, 0, pos.Y)
+                        else
+                            indicator.Visible = false
+                        end
                     end
                 else
                     indicator.Visible = false
@@ -2526,10 +2567,25 @@ function createMainWindow()
         aimbotConnection = RunService.RenderStepped:Connect(function()
             pcall(updateDrawings)
             if aimbotState.enabled then
-                FOVring.Visible = aimbotState.showFOV and aimbotState.enabled and aimbotState.fovType == "Limited FOV" or false
-                local closest = getTargetPlayer(aimbotState.targetPart, aimbotState.fovSize, aimbotState.visibilityCheck)
-                if closest and closest.Character and closest.Character:FindFirstChild(aimbotState.targetPart) then
-                    pcall(function() lookAt(closest.Character[aimbotState.targetPart].Position, aimbotState.smoothness) end)
+                local canAim = true
+                if aimbotState.onlyGun then
+                    local char = LocalPlayer.Character
+                    if char then
+                        local tool = char:FindFirstChildOfClass("Tool")
+                        local isGun = tool and tool:FindFirstChild("showBeam") and tool.showBeam:IsA("RemoteEvent")
+                        canAim = isGun
+                    else
+                        canAim = false
+                    end
+                end
+                if canAim then
+                    FOVring.Visible = aimbotState.showFOV and aimbotState.enabled and aimbotState.fovType == "Limited FOV" or false
+                    local closest = getTargetPlayer(aimbotState.targetPart, aimbotState.fovSize, aimbotState.visibilityCheck)
+                    if closest and closest.Character and closest.Character:FindFirstChild(aimbotState.targetPart) then
+                        pcall(function() lookAt(closest.Character[aimbotState.targetPart].Position, aimbotState.smoothness) end)
+                    end
+                else
+                    FOVring.Visible = false
                 end
             end
             SilentAimFOV.Visible = silentAimSettings.showFOV and clickShootEnabled
@@ -2544,6 +2600,12 @@ function createMainWindow()
             CurrentValue = false,
             Flag = "AimbotEnabled",
             Callback = function(v) aimbotState.enabled = v end,
+        })
+        AimbotTab:CreateToggle({
+            Name = "Only Gun",
+            CurrentValue = false,
+            Flag = "AimbotOnlyGun",
+            Callback = function(v) aimbotState.onlyGun = v end,
         })
         AimbotTab:CreateToggle({
             Name = "Show FOV",
@@ -2745,7 +2807,7 @@ function createMainWindow()
                                     end
                                 end
                             end)
-                            wait(1)
+                            task.wait(0.3)
                         end
                     end)
                 else
