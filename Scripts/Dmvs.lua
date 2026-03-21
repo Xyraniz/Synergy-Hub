@@ -1286,7 +1286,7 @@ local originalHitboxProperties = {}
 
 local function restoreHitbox(targetPlayer)
     if targetPlayer.Character then
-        local bodyParts = {"RightUpperLeg", "LeftUpperLeg", "HeadHB", "HumanoidRootPart", "LeftUpperArm", "RightUpperArm", "UpperTorso"}
+        local bodyParts = {"HumanoidRootPart"}
         for _, partName in pairs(bodyParts) do
             local part = targetPlayer.Character:FindFirstChild(partName)
             if part and originalHitboxProperties[targetPlayer] and originalHitboxProperties[targetPlayer][partName] then
@@ -1554,7 +1554,7 @@ local clickShootEnabled = false; local blockShootEnabled = false; local activeWe
 local lastShotTime = 0; local shotDelay = 2.15; local maxDistance = 200; local weaponTracking = {}
 local instanceCache = {}; local cacheDuration = 0.5; local raycastBudget = 100; local raycastCost = 0
 local silentAimConfig = { aimAssistStrength = 0.7, predictionStrength = 0.8, cameraThreshold = 0.1, maxCameraAngle = 30, maxRaysPerFrame = 8, baseRaycastCount = 5, maxRaycastCount = 10, distanceBasedRayReduction = true, screenCenterWeight = 0.4, distanceWeight = 0.3, visibilityWeight = 0.3 }
-local aimParts = { 'HumanoidRootPart', 'Head', 'UpperTorso', 'LowerTorso', 'LeftUpperArm', 'RightUpperArm', 'LeftUpperLeg', 'RightUpperLeg' }
+local aimParts = { 'HumanoidRootPart', 'Head', 'UpperTorso', 'LowerTorso' }
 local silentAimTargetPart = "Head"
 
 local function AdjustForMobile()
@@ -2264,7 +2264,7 @@ local function createMainWindow()
     AimbotTab:CreateSlider({Name = "Smoothness", Range = {0.1, 1}, Increment = 0.05, CurrentValue = 1, Flag = "AimbotSmoothness", Callback = function(v) aimbotState.smoothness = v end})
     AimbotTab:CreateColorPicker({Name = "FOV Color", Color = Color3.fromRGB(128, 0, 128), Flag = "AimbotFOVColor", Callback = function(v) aimbotState.fovColor = v; if FOVring then FOVring.Color = v end end})
     AimbotTab:CreateSlider({Name = "FOV Size", Range = {50, 500}, Increment = 10, CurrentValue = 100, Flag = "AimbotFOVSize", Callback = function(v) aimbotState.fovSize = v; if FOVring then FOVring.Radius = v end end})
-    AimbotTab:CreateDropdown({Name = "Target Part", Options = {"Head", "HumanoidRootPart", "UpperTorso", "LowerTorso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"}, CurrentOption = "Head", Flag = "AimbotTargetPart", Callback = function(v) aimbotState.targetPart = v end})
+    AimbotTab:CreateDropdown({Name = "Target Part", Options = {"Head", "HumanoidRootPart", "UpperTorso", "LowerTorso"}, CurrentOption = "Head", Flag = "AimbotTargetPart", Callback = function(v) aimbotState.targetPart = v end})
     AimbotTab:CreateToggle({Name = "Wall Check", Flag = "AimbotVisibilityCheck", CurrentValue = false, Callback = function(v) aimbotState.visibilityCheck = v end})
 
     SilentAimTab:CreateSection("Silent Aim Settings")
@@ -2274,11 +2274,11 @@ local function createMainWindow()
     SilentAimTab:CreateToggle({Name = "Mostrar FOV", Flag = "SilentAimShowFOV", CurrentValue = true, Callback = function(v) silentAimSettings.showFOV = v end})
     SilentAimTab:CreateToggle({Name = "Hide ESP Squares", Flag = "ShowESPIndicators", CurrentValue = true, Callback = function(v) showESPIndicators = v end})
     SilentAimTab:CreateColorPicker({Name = "FOV Color", Color = Color3.fromRGB(255, 255, 255), Flag = "SilentAimFOVColor", Callback = function(v) silentAimSettings.fovColor = v; SilentAimFOV.Color = v end})
+    SilentAimTab:CreateDropdown({Name = "Target Part", Options = {"Head", "HumanoidRootPart", "UpperTorso", "LowerTorso"}, CurrentOption = "Head", Flag = "SilentAimTargetPart", Callback = function(v) silentAimTargetPart = v end})
     SilentAimTab:CreateSlider({Name = "FOV Size", Range = {50, 500}, Increment = 10, CurrentValue = 100, Flag = "SilentAimFOVSize", Callback = function(v) silentAimSettings.fovSize = v; SilentAimFOV.Radius = v end})
     SilentAimTab:CreateSlider({Name = "Aim Assist Strength", Range = {1, 100}, Increment = 1, CurrentValue = 70, Flag = "AimAssistStrength", Callback = function(v) silentAimConfig.aimAssistStrength = v / 100 end})
     SilentAimTab:CreateSlider({Name = "Prediction", Range = {1, 100}, Increment = 1, CurrentValue = 80, Flag = "ClickShootPrediction", Callback = function(v) silentAimConfig.predictionStrength = v / 100; silentAimSettings.prediction = v end})
     SilentAimTab:CreateToggle({Name = "Wall Check", Flag = "SilentAimWallCheck", CurrentValue = false, Callback = function(v) silentAimSettings.wallCheck = v end})
-    SilentAimTab:CreateDropdown({Name = "Target Part", Options = {"Head", "HumanoidRootPart", "UpperTorso", "LowerTorso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"}, CurrentOption = "Head", Flag = "SilentAimTargetPart", Callback = function(v) silentAimTargetPart = v end})
 
     HitboxTab:CreateSection("Hitbox Expansion")
     HitboxTab:CreateToggle({Name = "Enable Hitbox", Flag = "HitboxEnabled", CurrentValue = false, Callback = function(v)
@@ -2300,7 +2300,7 @@ local function createMainWindow()
                                     if HitboxSettings.AntiWall and not CheckVisibility(targetPlayer.Character.HumanoidRootPart) then
                                         restoreHitbox(targetPlayer)
                                     else
-                                        local bodyParts = {"RightUpperLeg", "LeftUpperLeg", "HeadHB", "HumanoidRootPart", "LeftUpperArm", "RightUpperArm", "UpperTorso"}
+                                        local bodyParts = {"HumanoidRootPart"}
                                         for _, partName in pairs(bodyParts) do
                                             local part = targetPlayer.Character:FindFirstChild(partName)
                                             if part then
